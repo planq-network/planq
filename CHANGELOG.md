@@ -408,7 +408,7 @@ corresponding Ethereum API namespace:
 
 ### API Breaking
 
-* (types) [\#503](https://github.com/cosmos/ethermint/pull/503) The `types.DenomDefault` constant for `"aphoton"` has been renamed to `types.AttoPhoton`.
+* (types) [\#503](https://github.com/cosmos/ethermint/pull/503) The `types.DenomDefault` constant for `"aplanq"` has been renamed to `types.AttoPhoton`.
 
 ### Improvements
 
@@ -419,13 +419,13 @@ corresponding Ethereum API namespace:
 * (app) [\#471](https://github.com/cosmos/ethermint/pull/471) Add `x/upgrade` module for managing software updates.
 * (`x/evm`) [\#458](https://github.com/cosmos/ethermint/pull/458) Define parameter for token denomination used for the EVM module.
 * (`x/evm`) [\#443](https://github.com/cosmos/ethermint/issues/443) Support custom Ethereum `ChainConfig` params.
-* (types) [\#434](https://github.com/cosmos/ethermint/issues/434) Update default denomination to Atto Photon (`aphoton`).
+* (types) [\#434](https://github.com/cosmos/ethermint/issues/434) Update default denomination to Atto Photon (`aplanq`).
 * (types) [\#515](https://github.com/cosmos/ethermint/pull/515) Update minimum gas price to be 1.
 
 ### Bug Fixes
 
 * (ante) [\#525](https://github.com/cosmos/ethermint/pull/525) Add message validation decorator to `AnteHandler` for `MsgEthereumTx`.
-* (types) [\#507](https://github.com/cosmos/ethermint/pull/507) Fix hardcoded `aphoton` on `EthAccount` balance getter and setter.
+* (types) [\#507](https://github.com/cosmos/ethermint/pull/507) Fix hardcoded `aplanq` on `EthAccount` balance getter and setter.
 * (types) [\#501](https://github.com/cosmos/ethermint/pull/501) Fix bech32 encoding error by using the compressed ethereum secp256k1 public key.
 * (`x/evm`) [\#496](https://github.com/cosmos/ethermint/pull/496) Fix bugs on `journal.revert` and `CommitStateDB.Copy`.
 * (types) [\#480](https://github.com/cosmos/ethermint/pull/480) Update [BIP44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki) coin type to `60` to satisfy [EIP84](https://github.com/ethereum/EIPs/issues/84).

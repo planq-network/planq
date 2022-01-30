@@ -17,10 +17,10 @@ RPC_PORT="854"
 IP_ADDR="0.0.0.0"
 
 KEY="mykey"
-CHAINID="ethermint_9000-1"
+CHAINID="planq_7000-1"
 MONIKER="mymoniker"
 
-## default port prefixes for ethermintd
+## default port prefixes for planqd
 NODE_P2P_PORT="2660"
 NODE_PORT="2663"
 NODE_RPC_PORT="2666"
@@ -67,14 +67,14 @@ make build
 arr=()
 
 init_func() {
-    "$PWD"/build/ethermintd keys add $KEY"$i" --keyring-backend test --home "$DATA_DIR$i" --no-backup --algo "eth_secp256k1"
-    "$PWD"/build/ethermintd init $MONIKER --chain-id $CHAINID --home "$DATA_DIR$i"
-    "$PWD"/build/ethermintd add-genesis-account \
-    "$("$PWD"/build/ethermintd keys show "$KEY$i" --keyring-backend test -a --home "$DATA_DIR$i")" 1000000000000000000aphoton,1000000000000000000stake \
+    "$PWD"/build/planqd keys add $KEY"$i" --keyring-backend test --home "$DATA_DIR$i" --no-backup --algo "eth_secp256k1"
+    "$PWD"/build/planqd init $MONIKER --chain-id $CHAINID --home "$DATA_DIR$i"
+    "$PWD"/build/planqd add-genesis-account \
+    "$("$PWD"/build/planqd keys show "$KEY$i" --keyring-backend test -a --home "$DATA_DIR$i")" 1000000000000000000aplanq,1000000000000000000stake \
     --keyring-backend test --home "$DATA_DIR$i"
-    "$PWD"/build/ethermintd gentx "$KEY$i" 1000000000000000000stake --chain-id $CHAINID --keyring-backend test --home "$DATA_DIR$i"
-    "$PWD"/build/ethermintd collect-gentxs --home "$DATA_DIR$i"
-    "$PWD"/build/ethermintd validate-genesis --home "$DATA_DIR$i"
+    "$PWD"/build/planqd gentx "$KEY$i" 1000000000000000000stake --chain-id $CHAINID --keyring-backend test --home "$DATA_DIR$i"
+    "$PWD"/build/planqd collect-gentxs --home "$DATA_DIR$i"
+    "$PWD"/build/planqd validate-genesis --home "$DATA_DIR$i"
 
     if [[ $MODE == "pending" ]]; then
       ls $DATA_DIR$i
@@ -104,7 +104,7 @@ init_func() {
 
 start_func() {
     echo "starting ethermint node $i in background ..."
-    "$PWD"/build/ethermintd start --pruning=nothing --rpc.unsafe \
+    "$PWD"/build/planqd start --pruning=nothing --rpc.unsafe \
     --p2p.laddr tcp://$IP_ADDR:$NODE_P2P_PORT"$i" --address tcp://$IP_ADDR:$NODE_PORT"$i" --rpc.laddr tcp://$IP_ADDR:$NODE_RPC_PORT"$i" \
     --json-rpc.address=$IP_ADDR:$RPC_PORT"$i" \
     --json-rpc.api="eth,txpool,personal,net,debug,web3" \

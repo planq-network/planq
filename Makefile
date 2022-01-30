@@ -7,11 +7,11 @@ TMVERSION := $(shell go list -m github.com/tendermint/tendermint | sed 's:.* ::'
 COMMIT := $(shell git log -1 --format='%H')
 LEDGER_ENABLED ?= true
 BINDIR ?= $(GOPATH)/bin
-ETHERMINT_BINARY = ethermintd
-ETHERMINT_DIR = ethermint
+ETHERMINT_BINARY = planqd
+ETHERMINT_DIR = planq
 BUILDDIR ?= $(CURDIR)/build
 SIMAPP = ./app
-HTTPS_GIT := https://github.com/tharsis/ethermint.git
+HTTPS_GIT := https://github.com/Planq-Network/planq.git
 DOCKER := $(shell which docker)
 DOCKER_BUF := $(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace bufbuild/buf
 
@@ -61,7 +61,7 @@ build_tags_comma_sep := $(subst $(whitespace),$(comma),$(build_tags))
 
 # process linker flags
 
-ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=ethermint \
+ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=planq \
 		  -X github.com/cosmos/cosmos-sdk/version.AppName=$(ETHERMINT_BINARY) \
 		  -X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
 		  -X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
@@ -124,12 +124,12 @@ docker-build:
 	docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:latest
 	# docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:${COMMIT_HASH}
 	# update old container
-	docker rm ethermint || true
+	docker rm planq || true
 	# create a new container from the latest image
-	docker create --name ethermint -t -i tharsis/ethermint:latest ethermint
+	docker create --name planq -t -i tharsis/planq:latest planq
 	# move the binaries to the ./build directory
 	mkdir -p ./build/
-	docker cp ethermint:/usr/bin/ethermintd ./build/
+	docker cp planq:/usr/bin/planqd ./build/
 
 $(MOCKS_DIR):
 	mkdir -p $(MOCKS_DIR)
@@ -491,13 +491,13 @@ ifeq ($(OS),Windows_NT)
 	mkdir localnet-setup &
 	@$(MAKE) localnet-build
 
-	IF not exist "build/node0/$(ETHERMINT_BINARY)/config/genesis.json" docker run --rm -v $(CURDIR)/build\ethermint\Z ethermintd/node "./ethermintd testnet --v 4 -o /ethermint --keyring-backend=test --ip-addresses ethermintdnode0,ethermintdnode1,ethermintdnode2,ethermintdnode3"
+	IF not exist "build/node0/$(ETHERMINT_BINARY)/config/genesis.json" docker run --rm -v $(CURDIR)/build\planq\Z planqd/node "./planqd testnet --v 4 -o /planq --keyring-backend=test --ip-addresses planqdnode0,planqdnode1,planqdnode2,planqdnode3"
 	docker-compose up -d
 else
 	mkdir -p localnet-setup
 	@$(MAKE) localnet-build
 
-	if ! [ -f localnet-setup/node0/$(ETHERMINT_BINARY)/config/genesis.json ]; then docker run --rm -v $(CURDIR)/localnet-setup:/ethermint:Z ethermintd/node "./ethermintd testnet --v 4 -o /ethermint --keyring-backend=test --ip-addresses ethermintdnode0,ethermintdnode1,ethermintdnode2,ethermintdnode3"; fi
+	if ! [ -f localnet-setup/node0/$(ETHERMINT_BINARY)/config/genesis.json ]; then docker run --rm -v $(CURDIR)/localnet-setup:/planq:Z planqd/node "./planqd testnet --v 4 -o /planq --keyring-backend=test --ip-addresses planqdnode0,planqdnode1,planqdnode2,planqdnode3"; fi
 	docker-compose up -d
 endif
 
@@ -514,15 +514,15 @@ localnet-clean:
 localnet-unsafe-reset:
 	docker-compose down
 ifeq ($(OS),Windows_NT)
-	@docker run --rm -v $(CURDIR)\localnet-setup\node0\ethermitd:ethermint\Z ethermintd/node "./ethermintd unsafe-reset-all --home=/ethermint"
-	@docker run --rm -v $(CURDIR)\localnet-setup\node1\ethermitd:ethermint\Z ethermintd/node "./ethermintd unsafe-reset-all --home=/ethermint"
-	@docker run --rm -v $(CURDIR)\localnet-setup\node2\ethermitd:ethermint\Z ethermintd/node "./ethermintd unsafe-reset-all --home=/ethermint"
-	@docker run --rm -v $(CURDIR)\localnet-setup\node3\ethermitd:ethermint\Z ethermintd/node "./ethermintd unsafe-reset-all --home=/ethermint"
+	@docker run --rm -v $(CURDIR)\localnet-setup\node0\ethermitd:planq\Z planqd/node "./planqd unsafe-reset-all --home=/planq"
+	@docker run --rm -v $(CURDIR)\localnet-setup\node1\ethermitd:planq\Z planqd/node "./planqd unsafe-reset-all --home=/planq"
+	@docker run --rm -v $(CURDIR)\localnet-setup\node2\ethermitd:planq\Z planqd/node "./planqd unsafe-reset-all --home=/planq"
+	@docker run --rm -v $(CURDIR)\localnet-setup\node3\ethermitd:planq\Z planqd/node "./planqd unsafe-reset-all --home=/planq"
 else
-	@docker run --rm -v $(CURDIR)/localnet-setup/node0/ethermitd:/ethermint:Z ethermintd/node "./ethermintd unsafe-reset-all --home=/ethermint"
-	@docker run --rm -v $(CURDIR)/localnet-setup/node1/ethermitd:/ethermint:Z ethermintd/node "./ethermintd unsafe-reset-all --home=/ethermint"
-	@docker run --rm -v $(CURDIR)/localnet-setup/node2/ethermitd:/ethermint:Z ethermintd/node "./ethermintd unsafe-reset-all --home=/ethermint"
-	@docker run --rm -v $(CURDIR)/localnet-setup/node3/ethermitd:/ethermint:Z ethermintd/node "./ethermintd unsafe-reset-all --home=/ethermint"
+	@docker run --rm -v $(CURDIR)/localnet-setup/node0/ethermitd:/planq:Z planqd/node "./planqd unsafe-reset-all --home=/planq"
+	@docker run --rm -v $(CURDIR)/localnet-setup/node1/ethermitd:/planq:Z planqd/node "./planqd unsafe-reset-all --home=/planq"
+	@docker run --rm -v $(CURDIR)/localnet-setup/node2/ethermitd:/planq:Z planqd/node "./planqd unsafe-reset-all --home=/planq"
+	@docker run --rm -v $(CURDIR)/localnet-setup/node3/ethermitd:/planq:Z planqd/node "./planqd unsafe-reset-all --home=/planq"
 endif
 
 # Clean testnet

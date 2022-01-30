@@ -66,7 +66,7 @@ func (suite *ImporterTestSuite) DoSetupTest(t require.TestingT) {
 	consAddress := sdk.ConsAddress(priv.PubKey().Address())
 	suite.ctx = suite.app.BaseApp.NewContext(checkTx, tmproto.Header{
 		Height:          1,
-		ChainID:         "ethermint_9000-1",
+		ChainID:         "planq_7000-1",
 		Time:            time.Now().UTC(),
 		ProposerAddress: consAddress.Bytes(),
 		Version: tmversion.Consensus{

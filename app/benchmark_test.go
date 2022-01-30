@@ -25,7 +25,7 @@ func BenchmarkEthermintApp_ExportAppStateAndValidators(b *testing.B) {
 	// Initialize the chain
 	app.InitChain(
 		abci.RequestInitChain{
-			ChainId:       "ethermint_9000-1",
+			ChainId:       "planq_7000-1",
 			Validators:    []abci.ValidatorUpdate{},
 			AppStateBytes: stateBytes,
 		},

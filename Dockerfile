@@ -24,7 +24,7 @@ RUN apk add --update ca-certificates jq
 WORKDIR /
 
 # Copy over binaries from the build-env
-COPY --from=build-env /go/src/github.com/tharsis/ethermint/build/ethermintd /usr/bin/ethermintd
+COPY --from=build-env /go/src/github.com/tharsis/ethermint/build/planqd /usr/bin/planqd
 
-# Run ethermintd by default
-CMD ["ethermintd"]
+# Run planqd by default
+CMD ["planqd"]
