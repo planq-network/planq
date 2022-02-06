@@ -3,7 +3,7 @@ package config
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	ethermint "github.com/tharsis/ethermint/types"
+	ethermint "github.com/planq-network/planq/types"
 )
 
 const (

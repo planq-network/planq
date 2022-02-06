@@ -5,10 +5,10 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/tharsis/ethermint/app/ante"
-	"github.com/tharsis/ethermint/tests"
-	"github.com/tharsis/ethermint/x/evm/statedb"
-	evmtypes "github.com/tharsis/ethermint/x/evm/types"
+	"github.com/planq-network/planq/app/ante"
+	"github.com/planq-network/planq/tests"
+	"github.com/planq-network/planq/x/evm/statedb"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
 
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 )

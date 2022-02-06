@@ -12,7 +12,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 
-	"github.com/tharsis/ethermint/crypto/ethsecp256k1"
+	"github.com/planq-network/planq/crypto/ethsecp256k1"
 )
 
 const (

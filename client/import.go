@@ -11,9 +11,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/tharsis/ethermint/crypto/ethsecp256k1"
+	"github.com/planq-network/planq/crypto/ethsecp256k1"
 
-	"github.com/tharsis/ethermint/crypto/hd"
+	"github.com/planq-network/planq/crypto/hd"
 )
 
 // UnsafeImportKeyCommand imports private keys from a keyfile.

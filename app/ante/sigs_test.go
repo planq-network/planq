@@ -3,9 +3,9 @@ package ante_test
 import (
 	"math/big"
 
-	"github.com/tharsis/ethermint/tests"
-	"github.com/tharsis/ethermint/x/evm/statedb"
-	evmtypes "github.com/tharsis/ethermint/x/evm/types"
+	"github.com/planq-network/planq/tests"
+	"github.com/planq-network/planq/x/evm/statedb"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
 )
 
 func (suite AnteTestSuite) TestSignatures() {

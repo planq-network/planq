@@ -22,13 +22,13 @@ import (
 	authtx "github.com/cosmos/cosmos-sdk/x/auth/tx"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 
-	"github.com/tharsis/ethermint/app"
-	ante "github.com/tharsis/ethermint/app/ante"
-	"github.com/tharsis/ethermint/encoding"
-	"github.com/tharsis/ethermint/tests"
-	"github.com/tharsis/ethermint/x/evm/statedb"
-	evmtypes "github.com/tharsis/ethermint/x/evm/types"
-	feemarkettypes "github.com/tharsis/ethermint/x/feemarket/types"
+	"github.com/planq-network/planq/app"
+	ante "github.com/planq-network/planq/app/ante"
+	"github.com/planq-network/planq/encoding"
+	"github.com/planq-network/planq/tests"
+	"github.com/planq-network/planq/x/evm/statedb"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
+	feemarkettypes "github.com/planq-network/planq/x/feemarket/types"
 
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 )

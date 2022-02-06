@@ -19,10 +19,10 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 
-	"github.com/tharsis/ethermint/x/evm/client/cli"
-	"github.com/tharsis/ethermint/x/evm/keeper"
-	"github.com/tharsis/ethermint/x/evm/simulation"
-	"github.com/tharsis/ethermint/x/evm/types"
+	"github.com/planq-network/planq/x/evm/client/cli"
+	"github.com/planq-network/planq/x/evm/keeper"
+	"github.com/planq-network/planq/x/evm/simulation"
+	"github.com/planq-network/planq/x/evm/types"
 )
 
 var (

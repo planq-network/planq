@@ -94,18 +94,18 @@ import (
 	ibckeeper "github.com/cosmos/ibc-go/v3/modules/core/keeper"
 
 	// unnamed import of statik for swagger UI support
-	_ "github.com/tharsis/ethermint/client/docs/statik"
+	_ "github.com/planq-network/planq/client/docs/statik"
 
-	"github.com/tharsis/ethermint/app/ante"
-	srvflags "github.com/tharsis/ethermint/server/flags"
-	ethermint "github.com/tharsis/ethermint/types"
-	"github.com/tharsis/ethermint/x/evm"
-	evmrest "github.com/tharsis/ethermint/x/evm/client/rest"
-	evmkeeper "github.com/tharsis/ethermint/x/evm/keeper"
-	evmtypes "github.com/tharsis/ethermint/x/evm/types"
-	"github.com/tharsis/ethermint/x/feemarket"
-	feemarketkeeper "github.com/tharsis/ethermint/x/feemarket/keeper"
-	feemarkettypes "github.com/tharsis/ethermint/x/feemarket/types"
+	"github.com/planq-network/planq/app/ante"
+	srvflags "github.com/planq-network/planq/server/flags"
+	ethermint "github.com/planq-network/planq/types"
+	"github.com/planq-network/planq/x/evm"
+	evmrest "github.com/planq-network/planq/x/evm/client/rest"
+	evmkeeper "github.com/planq-network/planq/x/evm/keeper"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/x/feemarket"
+	feemarketkeeper "github.com/planq-network/planq/x/feemarket/keeper"
+	feemarkettypes "github.com/planq-network/planq/x/feemarket/types"
 )
 
 func init() {

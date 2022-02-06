@@ -1,7 +1,7 @@
 package web3
 
 import (
-	"github.com/tharsis/ethermint/version"
+	"github.com/planq-network/planq/version"
 
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto"

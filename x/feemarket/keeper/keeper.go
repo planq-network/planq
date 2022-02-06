@@ -8,7 +8,7 @@ import (
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 	"github.com/tendermint/tendermint/libs/log"
 
-	"github.com/tharsis/ethermint/x/feemarket/types"
+	"github.com/planq-network/planq/x/feemarket/types"
 )
 
 // Keeper grants access to the Fee Market module state.

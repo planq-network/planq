@@ -37,13 +37,13 @@ import (
 	mintypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/tharsis/ethermint/crypto/hd"
-	"github.com/tharsis/ethermint/server/config"
-	srvflags "github.com/tharsis/ethermint/server/flags"
-	ethermint "github.com/tharsis/ethermint/types"
-	evmtypes "github.com/tharsis/ethermint/x/evm/types"
+	"github.com/planq-network/planq/crypto/hd"
+	"github.com/planq-network/planq/server/config"
+	srvflags "github.com/planq-network/planq/server/flags"
+	ethermint "github.com/planq-network/planq/types"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
 
-	"github.com/tharsis/ethermint/testutil/network"
+	"github.com/planq-network/planq/testutil/network"
 )
 
 var (

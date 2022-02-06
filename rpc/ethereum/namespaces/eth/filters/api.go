@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/tharsis/ethermint/rpc/ethereum/types"
+	"github.com/planq-network/planq/rpc/ethereum/types"
 
 	"github.com/tendermint/tendermint/libs/log"
 
@@ -19,7 +19,7 @@ import (
 	"github.com/ethereum/go-ethereum/eth/filters"
 	"github.com/ethereum/go-ethereum/rpc"
 
-	evmtypes "github.com/tharsis/ethermint/x/evm/types"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
 )
 
 // Backend defines the methods requided by the PublicFilterAPI backend

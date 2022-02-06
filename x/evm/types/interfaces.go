@@ -9,7 +9,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	feemarkettypes "github.com/tharsis/ethermint/x/feemarket/types"
+	feemarkettypes "github.com/planq-network/planq/x/feemarket/types"
 )
 
 // AccountKeeper defines the expected account keeper interface

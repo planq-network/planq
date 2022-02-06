@@ -11,9 +11,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/server"
 	"github.com/cosmos/cosmos-sdk/server/types"
 	ethrpc "github.com/ethereum/go-ethereum/rpc"
-	"github.com/tharsis/ethermint/rpc"
+	"github.com/planq-network/planq/rpc"
 
-	"github.com/tharsis/ethermint/server/config"
+	"github.com/planq-network/planq/server/config"
 )
 
 // StartJSONRPC starts the JSON-RPC server

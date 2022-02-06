@@ -5,7 +5,7 @@ import (
 	"context"
 	"fmt"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	evmtypes "github.com/tharsis/ethermint/x/evm/types"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
 	"math/big"
 	"testing"
 
@@ -22,9 +22,9 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient/gethclient"
 	"github.com/ethereum/go-ethereum/rpc"
 
-	"github.com/tharsis/ethermint/server/config"
-	"github.com/tharsis/ethermint/testutil/network"
-	ethermint "github.com/tharsis/ethermint/types"
+	"github.com/planq-network/planq/server/config"
+	"github.com/planq-network/planq/testutil/network"
+	ethermint "github.com/planq-network/planq/types"
 )
 
 // var _ = Describe("E2e", func() {

@@ -9,9 +9,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtx "github.com/cosmos/cosmos-sdk/x/auth/tx"
 	proto "github.com/gogo/protobuf/proto"
-	"github.com/tharsis/ethermint/app"
-	"github.com/tharsis/ethermint/encoding"
-	evmtypes "github.com/tharsis/ethermint/x/evm/types"
+	"github.com/planq-network/planq/app"
+	"github.com/planq-network/planq/encoding"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
 
 	"github.com/stretchr/testify/require"
 

@@ -11,16 +11,16 @@ import (
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/tharsis/ethermint/crypto/ethsecp256k1"
-	"github.com/tharsis/ethermint/tests"
+	"github.com/planq-network/planq/crypto/ethsecp256k1"
+	"github.com/planq-network/planq/tests"
 
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
 
-	"github.com/tharsis/ethermint/app"
-	"github.com/tharsis/ethermint/encoding"
-	"github.com/tharsis/ethermint/x/evm/types"
+	"github.com/planq-network/planq/app"
+	"github.com/planq-network/planq/encoding"
+	"github.com/planq-network/planq/x/evm/types"
 )
 
 const invalidFromAddress = "0x0000"

@@ -7,7 +7,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/tharsis/ethermint/x/feemarket/types"
+	"github.com/planq-network/planq/x/feemarket/types"
 )
 
 // RandomizedGenState generates a random GenesisState for nft

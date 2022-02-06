@@ -12,8 +12,8 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	rpctypes "github.com/tharsis/ethermint/rpc/ethereum/types"
-	"github.com/tharsis/ethermint/x/evm/types"
+	rpctypes "github.com/planq-network/planq/rpc/ethereum/types"
+	"github.com/planq-network/planq/x/evm/types"
 )
 
 // GetTxCmd returns the transaction commands for this module

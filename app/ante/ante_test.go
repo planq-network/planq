@@ -8,8 +8,8 @@ import (
 
 	"github.com/ethereum/go-ethereum/core/types"
 	ethparams "github.com/ethereum/go-ethereum/params"
-	"github.com/tharsis/ethermint/tests"
-	evmtypes "github.com/tharsis/ethermint/x/evm/types"
+	"github.com/planq-network/planq/tests"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
 )
 
 func (suite AnteTestSuite) TestAnteHandler() {

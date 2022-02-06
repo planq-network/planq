@@ -27,10 +27,10 @@ import (
 	rpcclient "github.com/tendermint/tendermint/rpc/jsonrpc/client"
 	tmtypes "github.com/tendermint/tendermint/types"
 
-	rpcfilters "github.com/tharsis/ethermint/rpc/ethereum/namespaces/eth/filters"
-	"github.com/tharsis/ethermint/rpc/ethereum/types"
-	"github.com/tharsis/ethermint/server/config"
-	evmtypes "github.com/tharsis/ethermint/x/evm/types"
+	rpcfilters "github.com/planq-network/planq/rpc/ethereum/namespaces/eth/filters"
+	"github.com/planq-network/planq/rpc/ethereum/types"
+	"github.com/planq-network/planq/server/config"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
 )
 
 type WebsocketsServer interface {

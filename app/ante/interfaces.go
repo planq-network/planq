@@ -9,8 +9,8 @@ import (
 	"github.com/ethereum/go-ethereum/core"
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/ethereum/go-ethereum/params"
-	"github.com/tharsis/ethermint/x/evm/statedb"
-	evmtypes "github.com/tharsis/ethermint/x/evm/types"
+	"github.com/planq-network/planq/x/evm/statedb"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
 )
 
 // EVMKeeper defines the expected keeper interface used on the Eth AnteHandler

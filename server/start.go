@@ -41,9 +41,9 @@ import (
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	ethdebug "github.com/tharsis/ethermint/rpc/ethereum/namespaces/debug"
-	"github.com/tharsis/ethermint/server/config"
-	srvflags "github.com/tharsis/ethermint/server/flags"
+	ethdebug "github.com/planq-network/planq/rpc/ethereum/namespaces/debug"
+	"github.com/planq-network/planq/server/config"
+	srvflags "github.com/planq-network/planq/server/flags"
 )
 
 // StartCmd runs the service passed in, either stand-alone or in-process with

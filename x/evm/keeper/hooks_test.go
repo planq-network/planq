@@ -8,9 +8,9 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 
-	"github.com/tharsis/ethermint/x/evm/keeper"
-	"github.com/tharsis/ethermint/x/evm/statedb"
-	"github.com/tharsis/ethermint/x/evm/types"
+	"github.com/planq-network/planq/x/evm/keeper"
+	"github.com/planq-network/planq/x/evm/statedb"
+	"github.com/planq-network/planq/x/evm/types"
 )
 
 // LogRecordHook records all the logs

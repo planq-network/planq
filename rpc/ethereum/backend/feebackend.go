@@ -7,9 +7,9 @@ import (
 
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/rpc"
+	rpctypes "github.com/planq-network/planq/rpc/ethereum/types"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
 	tmrpctypes "github.com/tendermint/tendermint/rpc/core/types"
-	rpctypes "github.com/tharsis/ethermint/rpc/ethereum/types"
-	evmtypes "github.com/tharsis/ethermint/x/evm/types"
 )
 
 type (

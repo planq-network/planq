@@ -39,255 +39,255 @@ Ref: https://keepachangelog.com/en/1.0.0/
 
 ### API Breaking
 
-* (ante) [\#866](https://github.com/tharsis/ethermint/pull/866) `NewAnteHandler` constructor now receives a `HandlerOptions` field.
-* (evm) [\#849](https://github.com/tharsis/ethermint/pull/849) `PostTxProcessing` hook now takes an Ethereum tx `Receipt` and a `from` `Address` as arguments.
-* (ante) [#916](https://github.com/tharsis/ethermint/pull/916) don't check min-gas-price for eth tx if london hardfork enabled and feemarket enabled.
+* (ante) [\#866](https://github.com/planq-network/planq/pull/866) `NewAnteHandler` constructor now receives a `HandlerOptions` field.
+* (evm) [\#849](https://github.com/planq-network/planq/pull/849) `PostTxProcessing` hook now takes an Ethereum tx `Receipt` and a `from` `Address` as arguments.
+* (ante) [#916](https://github.com/planq-network/planq/pull/916) don't check min-gas-price for eth tx if london hardfork enabled and feemarket enabled.
 
 ### State Machine Breaking
 
-* (deps) [tharis#912](https://github.com/tharsis/ethermint/pull/912) Bump Cosmos SDK version to [`v0.45.0`](https://github.com/cosmos/cosmos-sdk/releases/tag/v0.45.0)
-* (evm) [tharsis#840](https://github.com/tharsis/ethermint/pull/840) Store empty topics as empty array rather than nil.
-* (feemarket) [tharsis#822](https://github.com/tharsis/ethermint/pull/822) Update EIP1559 base fee in `BeginBlock`.
-* (evm) [tharsis#817](https://github.com/tharsis/ethermint/pull/817) Use `effectiveGasPrice` in ante handler, add `effectiveGasPrice` to tx receipt.
-* (evm) [tharsis#808](https://github.com/tharsis/ethermint/issues/808) increase nonce in ante handler for contract creation transaction.
-* (evm) [tharsis#851](https://github.com/tharsis/ethermint/pull/851) fix contract address used in EVM, this issue is caused by [tharsis#808](https://github.com/tharsis/ethermint/issues/808).
+* (deps) [tharis#912](https://github.com/planq-network/planq/pull/912) Bump Cosmos SDK version to [`v0.45.0`](https://github.com/cosmos/cosmos-sdk/releases/tag/v0.45.0)
+* (evm) [tharsis#840](https://github.com/planq-network/planq/pull/840) Store empty topics as empty array rather than nil.
+* (feemarket) [tharsis#822](https://github.com/planq-network/planq/pull/822) Update EIP1559 base fee in `BeginBlock`.
+* (evm) [tharsis#817](https://github.com/planq-network/planq/pull/817) Use `effectiveGasPrice` in ante handler, add `effectiveGasPrice` to tx receipt.
+* (evm) [tharsis#808](https://github.com/planq-network/planq/issues/808) increase nonce in ante handler for contract creation transaction.
+* (evm) [tharsis#851](https://github.com/planq-network/planq/pull/851) fix contract address used in EVM, this issue is caused by [tharsis#808](https://github.com/planq-network/planq/issues/808).
 * (evm)  Reject invalid `MsgEthereumTx` wrapping tx
 * (evm)  Fix `SelfDestruct` opcode by deleting account code and state.
-* (feemarket) [tharsis#855](https://github.com/tharsis/ethermint/pull/855) consistent `BaseFee` check logic.
-* (evm) [tharsis#729](https://github.com/tharsis/ethermint/pull/729) Refactor EVM StateDB implementation.
+* (feemarket) [tharsis#855](https://github.com/planq-network/planq/pull/855) consistent `BaseFee` check logic.
+* (evm) [tharsis#729](https://github.com/planq-network/planq/pull/729) Refactor EVM StateDB implementation.
 
 ### Improvements
 
-* (types) [tharsis#884](https://github.com/tharsis/ethermint/pull/884) Introduce a new `EthAccountI` interface for EVM-compatible account types.
-* (types) [tharsis#849](https://github.com/tharsis/ethermint/pull/849) Add `Type` function to distinguish EOAs from Contract accounts.
-* (evm) [tharsis#826](https://github.com/tharsis/ethermint/issues/826) Improve allocation of bytes of `tx.To` address.
-* (evm) [tharsis#827](https://github.com/tharsis/ethermint/issues/827) Speed up creation of event logs by using the slice insertion idiom with indices.
-* (ante) [tharsis#819](https://github.com/tharsis/ethermint/pull/819) remove redundant ante handlers
-* (app) [tharsis#873](https://github.com/tharsis/ethermint/pull/873) Validate code hash in GenesisAccount
-* (evm) [tharsis#901](https://github.com/tharsis/ethermint/pull/901) Support multiple MsgEthereumTx in single tx.
-* (config) [tharsis#908](https://github.com/tharsis/ethermint/pull/908) Add api.enable flag for Cosmos SDK Rest server
-* (feemarket) [tharsis#919](https://github.com/tharsis/ethermint/pull/919) Initialize baseFee in default genesis state.
+* (types) [tharsis#884](https://github.com/planq-network/planq/pull/884) Introduce a new `EthAccountI` interface for EVM-compatible account types.
+* (types) [tharsis#849](https://github.com/planq-network/planq/pull/849) Add `Type` function to distinguish EOAs from Contract accounts.
+* (evm) [tharsis#826](https://github.com/planq-network/planq/issues/826) Improve allocation of bytes of `tx.To` address.
+* (evm) [tharsis#827](https://github.com/planq-network/planq/issues/827) Speed up creation of event logs by using the slice insertion idiom with indices.
+* (ante) [tharsis#819](https://github.com/planq-network/planq/pull/819) remove redundant ante handlers
+* (app) [tharsis#873](https://github.com/planq-network/planq/pull/873) Validate code hash in GenesisAccount
+* (evm) [tharsis#901](https://github.com/planq-network/planq/pull/901) Support multiple MsgEthereumTx in single tx.
+* (config) [tharsis#908](https://github.com/planq-network/planq/pull/908) Add api.enable flag for Cosmos SDK Rest server
+* (feemarket) [tharsis#919](https://github.com/planq-network/planq/pull/919) Initialize baseFee in default genesis state.
 
 ### Bug Fixes
 
-* (evm) [tharsis#884](https://github.com/tharsis/ethermint/pull/884) Support multiple account types on the EVM `StateDB`.
-* (rpc) [tharsis#831](https://github.com/tharsis/ethermint/pull/831) Fix BaseFee value when height is specified.
-* (evm) [tharsis#838](https://github.com/tharsis/ethermint/pull/838) Fix splitting of trace.Memory into 32 chunks.
-* (rpc) [tharsis#860](https://github.com/tharsis/ethermint/pull/860) Fix `eth_getLogs` when specify blockHash without address/topics, and limit the response size.
-* (rpc) [tharsis#865](https://github.com/tharsis/ethermint/pull/865) Fix RPC Filter parameters being ignored
-* (evm) [tharsis#871](https://github.com/tharsis/ethermint/pull/871) Set correct nonce in `EthCall` and `EstimateGas` grpc query.
-* (rpc) [tharsis#878](https://github.com/tharsis/ethermint/pull/878) Workaround to make GetBlock RPC api report correct block gas used.
-* (rpc) [tharsis#900](https://github.com/tharsis/ethermint/pull/900) newPendingTransactions filter return ethereum tx hash.
+* (evm) [tharsis#884](https://github.com/planq-network/planq/pull/884) Support multiple account types on the EVM `StateDB`.
+* (rpc) [tharsis#831](https://github.com/planq-network/planq/pull/831) Fix BaseFee value when height is specified.
+* (evm) [tharsis#838](https://github.com/planq-network/planq/pull/838) Fix splitting of trace.Memory into 32 chunks.
+* (rpc) [tharsis#860](https://github.com/planq-network/planq/pull/860) Fix `eth_getLogs` when specify blockHash without address/topics, and limit the response size.
+* (rpc) [tharsis#865](https://github.com/planq-network/planq/pull/865) Fix RPC Filter parameters being ignored
+* (evm) [tharsis#871](https://github.com/planq-network/planq/pull/871) Set correct nonce in `EthCall` and `EstimateGas` grpc query.
+* (rpc) [tharsis#878](https://github.com/planq-network/planq/pull/878) Workaround to make GetBlock RPC api report correct block gas used.
+* (rpc) [tharsis#900](https://github.com/planq-network/planq/pull/900) newPendingTransactions filter return ethereum tx hash.
 
 ## [v0.9.0] - 2021-12-01
 
 ### State Machine Breaking
 
-* (evm) [tharsis#802](https://github.com/tharsis/ethermint/pull/802) Clear access list for each transaction
+* (evm) [tharsis#802](https://github.com/planq-network/planq/pull/802) Clear access list for each transaction
 
 ### Improvements
 
-* (app) [tharsis#794](https://github.com/tharsis/ethermint/pull/794) Setup in-place store migrators.
-* (ci) [tharsis#784](https://github.com/tharsis/ethermint/pull/784) Enable automatic backport of PRs.
-* (rpc) [tharsis#786](https://github.com/tharsis/ethermint/pull/786) Improve error message of `SendTransaction`/`SendRawTransaction` JSON-RPC APIs.
-* (rpc) [tharsis#810](https://github.com/tharsis/ethermint/pull/810) Optimize tx index lookup in web3 rpc
+* (app) [tharsis#794](https://github.com/planq-network/planq/pull/794) Setup in-place store migrators.
+* (ci) [tharsis#784](https://github.com/planq-network/planq/pull/784) Enable automatic backport of PRs.
+* (rpc) [tharsis#786](https://github.com/planq-network/planq/pull/786) Improve error message of `SendTransaction`/`SendRawTransaction` JSON-RPC APIs.
+* (rpc) [tharsis#810](https://github.com/planq-network/planq/pull/810) Optimize tx index lookup in web3 rpc
 
 ### Bug Fixes
 
-* (license) [tharsis#800](https://github.com/tharsis/ethermint/pull/800) Re-license project to [LGPLv3](https://choosealicense.com/licenses/lgpl-3.0/#) to comply with go-ethereum.
-* (evm) [tharsis#794](https://github.com/tharsis/ethermint/pull/794) Register EVM gRPC `Msg` server.
-* (rpc) [tharsis#781](https://github.com/tharsis/ethermint/pull/781) Fix get block invalid transactions filter.
-* (rpc) [tharsis#782](https://github.com/tharsis/ethermint/pull/782) Fix wrong block gas limit returned by JSON-RPC.
-* (evm) [tharsis#798](https://github.com/tharsis/ethermint/pull/798) Fix the semantic of `ForEachStorage` callback's return value
+* (license) [tharsis#800](https://github.com/planq-network/planq/pull/800) Re-license project to [LGPLv3](https://choosealicense.com/licenses/lgpl-3.0/#) to comply with go-ethereum.
+* (evm) [tharsis#794](https://github.com/planq-network/planq/pull/794) Register EVM gRPC `Msg` server.
+* (rpc) [tharsis#781](https://github.com/planq-network/planq/pull/781) Fix get block invalid transactions filter.
+* (rpc) [tharsis#782](https://github.com/planq-network/planq/pull/782) Fix wrong block gas limit returned by JSON-RPC.
+* (evm) [tharsis#798](https://github.com/planq-network/planq/pull/798) Fix the semantic of `ForEachStorage` callback's return value
 
 ## [v0.8.1] - 2021-11-23
 
 ### Bug Fixes
 
-* (feemarket) [tharsis#770](https://github.com/tharsis/ethermint/pull/770) Enable fee market (EIP1559) by default.
-* (rpc) [tharsis#769](https://github.com/tharsis/ethermint/pull/769) Fix default Ethereum signer for JSON-RPC.
+* (feemarket) [tharsis#770](https://github.com/planq-network/planq/pull/770) Enable fee market (EIP1559) by default.
+* (rpc) [tharsis#769](https://github.com/planq-network/planq/pull/769) Fix default Ethereum signer for JSON-RPC.
 
 ## [v0.8.0] - 2021-11-17
 
 ### State Machine Breaking
 
-* (evm, ante) [tharsis#620](https://github.com/tharsis/ethermint/pull/620) Add fee market field to EVM `Keeper` and `AnteHandler`.
-* (all) [tharsis#231](https://github.com/tharsis/ethermint/pull/231) Bump go-ethereum version to [`v1.10.9`](https://github.com/ethereum/go-ethereum/releases/tag/v1.10.9)
-* (ante) [tharsis#703](https://github.com/tharsis/ethermint/pull/703) Fix some fields in transaction are not authenticated by signature.
-* (evm) [tharsis#751](https://github.com/tharsis/ethermint/pull/751) don't revert gas refund logic when transaction reverted
+* (evm, ante) [tharsis#620](https://github.com/planq-network/planq/pull/620) Add fee market field to EVM `Keeper` and `AnteHandler`.
+* (all) [tharsis#231](https://github.com/planq-network/planq/pull/231) Bump go-ethereum version to [`v1.10.9`](https://github.com/ethereum/go-ethereum/releases/tag/v1.10.9)
+* (ante) [tharsis#703](https://github.com/planq-network/planq/pull/703) Fix some fields in transaction are not authenticated by signature.
+* (evm) [tharsis#751](https://github.com/planq-network/planq/pull/751) don't revert gas refund logic when transaction reverted
 
 ### Features
 
-* (rpc, evm) [tharsis#673](https://github.com/tharsis/ethermint/pull/673) Use tendermint events to store fee market basefee.
-* (rpc) [tharsis#624](https://github.com/tharsis/ethermint/pull/624) Implement new JSON-RPC endpoints from latest geth version
-* (evm) [tharsis#662](https://github.com/tharsis/ethermint/pull/662) Disable basefee for non london blocks
-* (cmd) [tharsis#712](https://github.com/tharsis/ethermint/pull/712) add tx cli to build evm transaction
-* (rpc) [tharsis#733](https://github.com/tharsis/ethermint/pull/733) add JSON_RPC endpoint `personal_unpair`
-* (rpc) [tharsis#734](https://github.com/tharsis/ethermint/pull/734) add JSON_RPC endpoint `eth_feeHistory`
-* (rpc) [tharsis#740](https://github.com/tharsis/ethermint/pull/740) add JSON_RPC endpoint `personal_initializeWallet`
-* (rpc) [tharsis#743](https://github.com/tharsis/ethermint/pull/743) add JSON_RPC endpoint `debug_traceBlockByHash`
-* (rpc) [tharsis#748](https://github.com/tharsis/ethermint/pull/748) add JSON_RPC endpoint `personal_listWallets`
-* (rpc) [tharsis#754](https://github.com/tharsis/ethermint/pull/754) add JSON_RPC endpoint `debug_intermediateRoots`
+* (rpc, evm) [tharsis#673](https://github.com/planq-network/planq/pull/673) Use tendermint events to store fee market basefee.
+* (rpc) [tharsis#624](https://github.com/planq-network/planq/pull/624) Implement new JSON-RPC endpoints from latest geth version
+* (evm) [tharsis#662](https://github.com/planq-network/planq/pull/662) Disable basefee for non london blocks
+* (cmd) [tharsis#712](https://github.com/planq-network/planq/pull/712) add tx cli to build evm transaction
+* (rpc) [tharsis#733](https://github.com/planq-network/planq/pull/733) add JSON_RPC endpoint `personal_unpair`
+* (rpc) [tharsis#734](https://github.com/planq-network/planq/pull/734) add JSON_RPC endpoint `eth_feeHistory`
+* (rpc) [tharsis#740](https://github.com/planq-network/planq/pull/740) add JSON_RPC endpoint `personal_initializeWallet`
+* (rpc) [tharsis#743](https://github.com/planq-network/planq/pull/743) add JSON_RPC endpoint `debug_traceBlockByHash`
+* (rpc) [tharsis#748](https://github.com/planq-network/planq/pull/748) add JSON_RPC endpoint `personal_listWallets`
+* (rpc) [tharsis#754](https://github.com/planq-network/planq/pull/754) add JSON_RPC endpoint `debug_intermediateRoots`
 
 ### Bug Fixes
 
-* (evm) [tharsis#746](https://github.com/tharsis/ethermint/pull/746) Set EVM debugging based on tracer configuration.
-* (app,cli) [tharsis#725](https://github.com/tharsis/ethermint/pull/725) Fix cli-config for  `keys` command.
-* (rpc) [tharsis#727](https://github.com/tharsis/ethermint/pull/727) Decode raw transaction using RLP.
-* (rpc) [tharsis#661](https://github.com/tharsis/ethermint/pull/661) Fix OOM bug when creating too many filters using JSON-RPC.
-* (evm) [tharsis#660](https://github.com/tharsis/ethermint/pull/660) Fix `nil` pointer panic in `ApplyNativeMessage`.
-* (evm, test) [tharsis#649](https://github.com/tharsis/ethermint/pull/649) Test DynamicFeeTx.
-* (evm) [tharsis#702](https://github.com/tharsis/ethermint/pull/702) Fix panic in web3 RPC handlers
-* (rpc) [tharsis#720](https://github.com/tharsis/ethermint/pull/720) Fix `debug_traceTransaction` failure
-* (rpc) [tharsis#741](https://github.com/tharsis/ethermint/pull/741) Fix `eth_getBlockByNumberAndHash` return with non eth txs 
-* (rpc) [tharsis#743](https://github.com/tharsis/ethermint/pull/743) Fix debug JSON RPC handler crash on non-existing block
+* (evm) [tharsis#746](https://github.com/planq-network/planq/pull/746) Set EVM debugging based on tracer configuration.
+* (app,cli) [tharsis#725](https://github.com/planq-network/planq/pull/725) Fix cli-config for  `keys` command.
+* (rpc) [tharsis#727](https://github.com/planq-network/planq/pull/727) Decode raw transaction using RLP.
+* (rpc) [tharsis#661](https://github.com/planq-network/planq/pull/661) Fix OOM bug when creating too many filters using JSON-RPC.
+* (evm) [tharsis#660](https://github.com/planq-network/planq/pull/660) Fix `nil` pointer panic in `ApplyNativeMessage`.
+* (evm, test) [tharsis#649](https://github.com/planq-network/planq/pull/649) Test DynamicFeeTx.
+* (evm) [tharsis#702](https://github.com/planq-network/planq/pull/702) Fix panic in web3 RPC handlers
+* (rpc) [tharsis#720](https://github.com/planq-network/planq/pull/720) Fix `debug_traceTransaction` failure
+* (rpc) [tharsis#741](https://github.com/planq-network/planq/pull/741) Fix `eth_getBlockByNumberAndHash` return with non eth txs 
+* (rpc) [tharsis#743](https://github.com/planq-network/planq/pull/743) Fix debug JSON RPC handler crash on non-existing block
 
 ### Improvements
 
-* (tests) [tharsis#704](https://github.com/tharsis/ethermint/pull/704) Introduce E2E testing framework for clients
-* (deps) [tharsis#737](https://github.com/tharsis/ethermint/pull/737) Bump ibc-go to [`v2.0.0`](https://github.com/cosmos/ibc-go/releases/tag/v2.0.0)
-* (rpc) [tharsis#671](https://github.com/tharsis/ethermint/pull/671) Don't pass base fee externally for `EthCall`/`EthEstimateGas` apis.
-* (evm) [tharsis#674](https://github.com/tharsis/ethermint/pull/674) Refactor `ApplyMessage`, remove
+* (tests) [tharsis#704](https://github.com/planq-network/planq/pull/704) Introduce E2E testing framework for clients
+* (deps) [tharsis#737](https://github.com/planq-network/planq/pull/737) Bump ibc-go to [`v2.0.0`](https://github.com/cosmos/ibc-go/releases/tag/v2.0.0)
+* (rpc) [tharsis#671](https://github.com/planq-network/planq/pull/671) Don't pass base fee externally for `EthCall`/`EthEstimateGas` apis.
+* (evm) [tharsis#674](https://github.com/planq-network/planq/pull/674) Refactor `ApplyMessage`, remove
   `ApplyNativeMessage`.
-* (rpc) [tharsis#714](https://github.com/tharsis/ethermint/pull/714) remove `MsgEthereumTx` support in `TxConfig`
+* (rpc) [tharsis#714](https://github.com/planq-network/planq/pull/714) remove `MsgEthereumTx` support in `TxConfig`
 
 ## [v0.7.2] - 2021-10-24
 
 ### Improvements
 
-* (deps) [tharsis#692](https://github.com/tharsis/ethermint/pull/692) Bump Cosmos SDK version to [`v0.44.3`](https://github.com/cosmos/cosmos-sdk/releases/tag/v0.44.3).
-* (rpc) [tharsis#679](https://github.com/tharsis/ethermint/pull/679) Fix file close handle.
-* (deps) [tharsis#668](https://github.com/tharsis/ethermint/pull/668) Bump Tendermint version to [`v0.34.14`](https://github.com/tendermint/tendermint/releases/tag/v0.34.14).
+* (deps) [tharsis#692](https://github.com/planq-network/planq/pull/692) Bump Cosmos SDK version to [`v0.44.3`](https://github.com/cosmos/cosmos-sdk/releases/tag/v0.44.3).
+* (rpc) [tharsis#679](https://github.com/planq-network/planq/pull/679) Fix file close handle.
+* (deps) [tharsis#668](https://github.com/planq-network/planq/pull/668) Bump Tendermint version to [`v0.34.14`](https://github.com/tendermint/tendermint/releases/tag/v0.34.14).
 
 ### Bug Fixes
 
-* (rpc) [tharsis#667](https://github.com/tharsis/ethermint/issues/667) Fix `ExpandHome` restrictions bypass
+* (rpc) [tharsis#667](https://github.com/planq-network/planq/issues/667) Fix `ExpandHome` restrictions bypass
 
 ## [v0.7.1] - 2021-10-08
 
 ### Bug Fixes
 
-* (evm) [tharsis#650](https://github.com/tharsis/ethermint/pull/650) Fix panic when flattening the cache context in case transaction is reverted.
-* (rpc, test) [tharsis#608](https://github.com/tharsis/ethermint/pull/608) Fix rpc test.
+* (evm) [tharsis#650](https://github.com/planq-network/planq/pull/650) Fix panic when flattening the cache context in case transaction is reverted.
+* (rpc, test) [tharsis#608](https://github.com/planq-network/planq/pull/608) Fix rpc test.
 
 ## [v0.7.0] - 2021-10-07
 
 ### API Breaking
 
-* (rpc) [tharsis#400](https://github.com/tharsis/ethermint/issues/400) Restructure JSON-RPC directory and rename server config
+* (rpc) [tharsis#400](https://github.com/planq-network/planq/issues/400) Restructure JSON-RPC directory and rename server config
 
 ### Improvements
 
-* (deps) [tharsis#621](https://github.com/tharsis/ethermint/pull/621) Bump IBC-go to [`v1.2.1`](https://github.com/cosmos/ibc-go/releases/tag/v1.2.1)
-* (evm) [tharsis#613](https://github.com/tharsis/ethermint/pull/613) Refactor `traceTx`
-* (deps) [tharsis#610](https://github.com/tharsis/ethermint/pull/610) Bump Cosmos SDK to [v0.44.1](https://github.com/cosmos/cosmos-sdk/releases/tag/v0.44.1).
+* (deps) [tharsis#621](https://github.com/planq-network/planq/pull/621) Bump IBC-go to [`v1.2.1`](https://github.com/cosmos/ibc-go/releases/tag/v1.2.1)
+* (evm) [tharsis#613](https://github.com/planq-network/planq/pull/613) Refactor `traceTx`
+* (deps) [tharsis#610](https://github.com/planq-network/planq/pull/610) Bump Cosmos SDK to [v0.44.1](https://github.com/cosmos/cosmos-sdk/releases/tag/v0.44.1).
 
 ### Bug Fixes
 
-* (rpc) [tharsis#642](https://github.com/tharsis/ethermint/issues/642) Fix `eth_getLogs` when string is specified in filter's from or to fields
-* (evm) [tharsis#616](https://github.com/tharsis/ethermint/issues/616) Fix halt on deeply nested stack of cache context. Stack is now flattened before iterating over the tx logs.
-* (rpc, evm) [tharsis#614](https://github.com/tharsis/ethermint/issues/614) Use JSON for (un)marshaling tx `Log`s from events.
-* (rpc) [tharsis#611](https://github.com/tharsis/ethermint/pull/611) Fix panic on JSON-RPC when querying for an invalid block height.
-* (cmd) [tharsis#483](https://github.com/tharsis/ethermint/pull/483) Use config values on genesis accounts.
+* (rpc) [tharsis#642](https://github.com/planq-network/planq/issues/642) Fix `eth_getLogs` when string is specified in filter's from or to fields
+* (evm) [tharsis#616](https://github.com/planq-network/planq/issues/616) Fix halt on deeply nested stack of cache context. Stack is now flattened before iterating over the tx logs.
+* (rpc, evm) [tharsis#614](https://github.com/planq-network/planq/issues/614) Use JSON for (un)marshaling tx `Log`s from events.
+* (rpc) [tharsis#611](https://github.com/planq-network/planq/pull/611) Fix panic on JSON-RPC when querying for an invalid block height.
+* (cmd) [tharsis#483](https://github.com/planq-network/planq/pull/483) Use config values on genesis accounts.
 
 ## [v0.6.0] - 2021-09-29
 
 ### State Machine Breaking
 
-* (app) [tharsis#476](https://github.com/tharsis/ethermint/pull/476) Update Bech32 HRP to `ethm`.
-* (evm) [tharsis#556](https://github.com/tharsis/ethermint/pull/556) Remove tx logs and block bloom from chain state
-* (evm) [tharsis#590](https://github.com/tharsis/ethermint/pull/590) Contract storage key is not hashed anymore
+* (app) [tharsis#476](https://github.com/planq-network/planq/pull/476) Update Bech32 HRP to `ethm`.
+* (evm) [tharsis#556](https://github.com/planq-network/planq/pull/556) Remove tx logs and block bloom from chain state
+* (evm) [tharsis#590](https://github.com/planq-network/planq/pull/590) Contract storage key is not hashed anymore
 
 ### API Breaking
 
-* (evm) [tharsis#469](https://github.com/tharsis/ethermint/pull/469) Deprecate `YoloV3Block` and `EWASMBlock` from `ChainConfig`
+* (evm) [tharsis#469](https://github.com/planq-network/planq/pull/469) Deprecate `YoloV3Block` and `EWASMBlock` from `ChainConfig`
 
 ### Features
 
-* (evm) [tharsis#469](https://github.com/tharsis/ethermint/pull/469) Support [EIP-1559](https://eips.ethereum.org/EIPS/eip-1559)
-* (evm) [tharsis#417](https://github.com/tharsis/ethermint/pull/417) Add `EvmHooks` for tx post-processing
-* (rpc) [tharsis#506](https://github.com/tharsis/ethermint/pull/506) Support for `debug_traceTransaction` RPC endpoint
-* (rpc) [tharsis#555](https://github.com/tharsis/ethermint/pull/555) Support for `debug_traceBlockByNumber` RPC endpoint
+* (evm) [tharsis#469](https://github.com/planq-network/planq/pull/469) Support [EIP-1559](https://eips.ethereum.org/EIPS/eip-1559)
+* (evm) [tharsis#417](https://github.com/planq-network/planq/pull/417) Add `EvmHooks` for tx post-processing
+* (rpc) [tharsis#506](https://github.com/planq-network/planq/pull/506) Support for `debug_traceTransaction` RPC endpoint
+* (rpc) [tharsis#555](https://github.com/planq-network/planq/pull/555) Support for `debug_traceBlockByNumber` RPC endpoint
 
 ### Bug Fixes
 
-* (rpc, server) [tharsis#600](https://github.com/tharsis/ethermint/pull/600) Add TLS configuration for websocket API
-* (rpc) [tharsis#598](https://github.com/tharsis/ethermint/pull/598) Check truncation when creating a `BlockNumber` from `big.Int`
-* (evm) [tharsis#597](https://github.com/tharsis/ethermint/pull/597) Check for `uint64` -> `int64` block height overflow on `GetHashFn`
-* (evm) [tharsis#579](https://github.com/tharsis/ethermint/pull/579) Update `DeriveChainID` function to handle `v` signature values `< 35`.
-* (encoding) [tharsis#478](https://github.com/tharsis/ethermint/pull/478) Register `Evidence` to amino codec.
-* (rpc) [tharsis#478](https://github.com/tharsis/ethermint/pull/481) Getting the node configuration when calling the `miner` rpc methods.
-* (cli) [tharsis#561](https://github.com/tharsis/ethermint/pull/561) `Export` and `Start` commands now use the same home directory.
+* (rpc, server) [tharsis#600](https://github.com/planq-network/planq/pull/600) Add TLS configuration for websocket API
+* (rpc) [tharsis#598](https://github.com/planq-network/planq/pull/598) Check truncation when creating a `BlockNumber` from `big.Int`
+* (evm) [tharsis#597](https://github.com/planq-network/planq/pull/597) Check for `uint64` -> `int64` block height overflow on `GetHashFn`
+* (evm) [tharsis#579](https://github.com/planq-network/planq/pull/579) Update `DeriveChainID` function to handle `v` signature values `< 35`.
+* (encoding) [tharsis#478](https://github.com/planq-network/planq/pull/478) Register `Evidence` to amino codec.
+* (rpc) [tharsis#478](https://github.com/planq-network/planq/pull/481) Getting the node configuration when calling the `miner` rpc methods.
+* (cli) [tharsis#561](https://github.com/planq-network/planq/pull/561) `Export` and `Start` commands now use the same home directory.
 
 ### Improvements
 
-* (evm) [tharsis#461](https://github.com/tharsis/ethermint/pull/461) Increase performance of `StateDB` transaction log storage (r/w).
-* (evm) [tharsis#566](https://github.com/tharsis/ethermint/pull/566) Introduce `stateErr` store in `StateDB` to avoid meaningless operations if any error happened before
-* (rpc, evm) [tharsis#587](https://github.com/tharsis/ethermint/pull/587) Apply bloom filter when query ethlogs with range of blocks
-* (evm) [tharsis#586](https://github.com/tharsis/ethermint/pull/586) Benchmark evm keeper
+* (evm) [tharsis#461](https://github.com/planq-network/planq/pull/461) Increase performance of `StateDB` transaction log storage (r/w).
+* (evm) [tharsis#566](https://github.com/planq-network/planq/pull/566) Introduce `stateErr` store in `StateDB` to avoid meaningless operations if any error happened before
+* (rpc, evm) [tharsis#587](https://github.com/planq-network/planq/pull/587) Apply bloom filter when query ethlogs with range of blocks
+* (evm) [tharsis#586](https://github.com/planq-network/planq/pull/586) Benchmark evm keeper
 
 
 ## [v0.5.0] - 2021-08-20
 
 ### State Machine Breaking
 
-* (app, rpc) [tharsis#447](https://github.com/tharsis/ethermint/pull/447) Chain ID format has been changed from `<identifier>-<epoch>` to `<identifier>_<EIP155_number>-<epoch>`
+* (app, rpc) [tharsis#447](https://github.com/planq-network/planq/pull/447) Chain ID format has been changed from `<identifier>-<epoch>` to `<identifier>_<EIP155_number>-<epoch>`
 in order to clearly distinguish permanent vs impermanent components.
-* (app, evm) [tharsis#434](https://github.com/tharsis/ethermint/pull/434) EVM `Keeper` struct and `NewEVM` function now have a new `trace` field to define
+* (app, evm) [tharsis#434](https://github.com/planq-network/planq/pull/434) EVM `Keeper` struct and `NewEVM` function now have a new `trace` field to define
 the Tracer type used to collect execution traces from the EVM transaction execution.
-* (evm) [tharsis#175](https://github.com/tharsis/ethermint/issues/175) The msg `TxData` field is now represented as a `*proto.Any`.
-* (evm) [tharsis#84](https://github.com/tharsis/ethermint/pull/84) Remove `journal`, `CommitStateDB` and `stateObjects`.
-* (rpc, evm) [tharsis#81](https://github.com/tharsis/ethermint/pull/81) Remove tx `Receipt` from store and replace it with fields obtained from the Tendermint RPC client.
-* (evm) [tharsis#72](https://github.com/tharsis/ethermint/issues/72) Update `AccessList` to use `TransientStore` instead of map.
-* (evm) [tharsis#68](https://github.com/tharsis/ethermint/issues/68) Replace block hash storage map to use staking `HistoricalInfo`.
-* (evm) [tharsis#276](https://github.com/tharsis/ethermint/pull/276) Vm errors don't result in cosmos tx failure, just
+* (evm) [tharsis#175](https://github.com/planq-network/planq/issues/175) The msg `TxData` field is now represented as a `*proto.Any`.
+* (evm) [tharsis#84](https://github.com/planq-network/planq/pull/84) Remove `journal`, `CommitStateDB` and `stateObjects`.
+* (rpc, evm) [tharsis#81](https://github.com/planq-network/planq/pull/81) Remove tx `Receipt` from store and replace it with fields obtained from the Tendermint RPC client.
+* (evm) [tharsis#72](https://github.com/planq-network/planq/issues/72) Update `AccessList` to use `TransientStore` instead of map.
+* (evm) [tharsis#68](https://github.com/planq-network/planq/issues/68) Replace block hash storage map to use staking `HistoricalInfo`.
+* (evm) [tharsis#276](https://github.com/planq-network/planq/pull/276) Vm errors don't result in cosmos tx failure, just
   different tx state and events.
-* (evm) [tharsis#342](https://github.com/tharsis/ethermint/issues/342) Don't clear balance when resetting the account.
-* (evm) [tharsis#334](https://github.com/tharsis/ethermint/pull/334) Log index changed to the index in block rather than
+* (evm) [tharsis#342](https://github.com/planq-network/planq/issues/342) Don't clear balance when resetting the account.
+* (evm) [tharsis#334](https://github.com/planq-network/planq/pull/334) Log index changed to the index in block rather than
   tx.
-* (evm) [tharsis#399](https://github.com/tharsis/ethermint/pull/399) Exception in sub-message call reverts the call if it's not propagated.
+* (evm) [tharsis#399](https://github.com/planq-network/planq/pull/399) Exception in sub-message call reverts the call if it's not propagated.
 
 ### API Breaking
 
-* (proto) [tharsis#448](https://github.com/tharsis/ethermint/pull/448) Bump version for all Ethermint messages to `v1`
-* (server) [tharsis#434](https://github.com/tharsis/ethermint/pull/434) `evm-rpc` flags and app config have been renamed to `json-rpc`.
-* (proto, evm) [tharsis#207](https://github.com/tharsis/ethermint/issues/207) Replace `big.Int` in favor of `sdk.Int` for `TxData` fields
-* (proto, evm) [tharsis#81](https://github.com/tharsis/ethermint/pull/81) gRPC Query and Tx service changes:
+* (proto) [tharsis#448](https://github.com/planq-network/planq/pull/448) Bump version for all Ethermint messages to `v1`
+* (server) [tharsis#434](https://github.com/planq-network/planq/pull/434) `evm-rpc` flags and app config have been renamed to `json-rpc`.
+* (proto, evm) [tharsis#207](https://github.com/planq-network/planq/issues/207) Replace `big.Int` in favor of `sdk.Int` for `TxData` fields
+* (proto, evm) [tharsis#81](https://github.com/planq-network/planq/pull/81) gRPC Query and Tx service changes:
   * The `TxReceipt`, `TxReceiptsByBlockHeight` endpoints have been removed from the Query service.
   * The `ContractAddress`, `Bloom` have been removed from the `MsgEthereumTxResponse` and the
     response now contains the ethereum-formatted `Hash` in hex format.
 * (eth) [\#845](https://github.com/cosmos/ethermint/pull/845) The `eth` namespace must be included in the list of API's as default to run the rpc server without error.
-* (evm) [#202](https://github.com/tharsis/ethermint/pull/202) Web3 api `SendTransaction`/`SendRawTransaction` returns ethereum compatible transaction hash, and query api `GetTransaction*` also accept that.
-* (rpc) [tharsis#258](https://github.com/tharsis/ethermint/pull/258) Return empty `BloomFilter` instead of throwing an error when it cannot be found (`nil` or empty).
-* (rpc) [tharsis#277](https://github.com/tharsis/ethermint/pull/321) Fix `BloomFilter` response.
+* (evm) [#202](https://github.com/planq-network/planq/pull/202) Web3 api `SendTransaction`/`SendRawTransaction` returns ethereum compatible transaction hash, and query api `GetTransaction*` also accept that.
+* (rpc) [tharsis#258](https://github.com/planq-network/planq/pull/258) Return empty `BloomFilter` instead of throwing an error when it cannot be found (`nil` or empty).
+* (rpc) [tharsis#277](https://github.com/planq-network/planq/pull/321) Fix `BloomFilter` response.
 
 ### Improvements
 
-* (client) [tharsis#450](https://github.com/tharsis/ethermint/issues/450) Add EIP55 hex address support on `debug addr` command.
-* (server) [tharsis#343](https://github.com/tharsis/ethermint/pull/343) Define a wrap tendermint logger `Handler` go-ethereum's `root` logger.
-* (rpc) [tharsis#457](https://github.com/tharsis/ethermint/pull/457) Configure RPC gas cap through app config.
-* (evm) [tharsis#434](https://github.com/tharsis/ethermint/pull/434) Support different `Tracer` types for the EVM.
-* (deps) [tharsis#427](https://github.com/tharsis/ethermint/pull/427) Bump ibc-go to [`v1.0.0`](https://github.com/cosmos/ibc-go/releases/tag/v1.0.0)
-* (gRPC) [tharsis#239](https://github.com/tharsis/ethermint/pull/239) Query `ChainConfig` via gRPC.
-* (rpc) [tharsis#181](https://github.com/tharsis/ethermint/pull/181) Use evm denomination for params on tx fee.
-* (deps) [tharsis#423](https://github.com/tharsis/ethermint/pull/423) Bump Cosmos SDK and Tendermint versions to [v0.43.0](https://github.com/cosmos/cosmos-sdk/releases/tag/v0.43.0) and [v0.34.11](https://github.com/tendermint/tendermint/releases/tag/v0.34.11), respectively.
-* (evm) [tharsis#66](https://github.com/tharsis/ethermint/issues/66) Support legacy transaction types for signing.
-* (evm) [tharsis#24](https://github.com/tharsis/ethermint/pull/24) Implement metrics for `MsgEthereumTx`, state transitions, `BeginBlock` and `EndBlock`.
-* (rpc)  [#124](https://github.com/tharsis/ethermint/issues/124) Implement `txpool_content`, `txpool_inspect` and `txpool_status` RPC methods
-* (rpc) [tharsis#112](https://github.com/tharsis/ethermint/pull/153) Fix `eth_coinbase` to return the ethereum address of the validator
-* (rpc) [tharsis#176](https://github.com/tharsis/ethermint/issues/176) Support fetching pending nonce
-* (rpc) [tharsis#272](https://github.com/tharsis/ethermint/pull/272) do binary search to estimate gas accurately
-* (rpc) [#313](https://github.com/tharsis/ethermint/pull/313) Implement internal debug namespace (Not including logger functions nor traces).
-* (rpc) [#349](https://github.com/tharsis/ethermint/pull/349) Implement configurable JSON-RPC APIs to manage enabled namespaces.
-* (rpc) [#377](https://github.com/tharsis/ethermint/pull/377) Implement `miner_` namespace. `miner_setEtherbase` and `miner_setGasPrice` are working as intended. All the other calls are not applicable and return `unsupported`.
-* (eth) [tharsis#460](https://github.com/tharsis/ethermint/issues/460) Add support for EIP-1898.
+* (client) [tharsis#450](https://github.com/planq-network/planq/issues/450) Add EIP55 hex address support on `debug addr` command.
+* (server) [tharsis#343](https://github.com/planq-network/planq/pull/343) Define a wrap tendermint logger `Handler` go-ethereum's `root` logger.
+* (rpc) [tharsis#457](https://github.com/planq-network/planq/pull/457) Configure RPC gas cap through app config.
+* (evm) [tharsis#434](https://github.com/planq-network/planq/pull/434) Support different `Tracer` types for the EVM.
+* (deps) [tharsis#427](https://github.com/planq-network/planq/pull/427) Bump ibc-go to [`v1.0.0`](https://github.com/cosmos/ibc-go/releases/tag/v1.0.0)
+* (gRPC) [tharsis#239](https://github.com/planq-network/planq/pull/239) Query `ChainConfig` via gRPC.
+* (rpc) [tharsis#181](https://github.com/planq-network/planq/pull/181) Use evm denomination for params on tx fee.
+* (deps) [tharsis#423](https://github.com/planq-network/planq/pull/423) Bump Cosmos SDK and Tendermint versions to [v0.43.0](https://github.com/cosmos/cosmos-sdk/releases/tag/v0.43.0) and [v0.34.11](https://github.com/tendermint/tendermint/releases/tag/v0.34.11), respectively.
+* (evm) [tharsis#66](https://github.com/planq-network/planq/issues/66) Support legacy transaction types for signing.
+* (evm) [tharsis#24](https://github.com/planq-network/planq/pull/24) Implement metrics for `MsgEthereumTx`, state transitions, `BeginBlock` and `EndBlock`.
+* (rpc)  [#124](https://github.com/planq-network/planq/issues/124) Implement `txpool_content`, `txpool_inspect` and `txpool_status` RPC methods
+* (rpc) [tharsis#112](https://github.com/planq-network/planq/pull/153) Fix `eth_coinbase` to return the ethereum address of the validator
+* (rpc) [tharsis#176](https://github.com/planq-network/planq/issues/176) Support fetching pending nonce
+* (rpc) [tharsis#272](https://github.com/planq-network/planq/pull/272) do binary search to estimate gas accurately
+* (rpc) [#313](https://github.com/planq-network/planq/pull/313) Implement internal debug namespace (Not including logger functions nor traces).
+* (rpc) [#349](https://github.com/planq-network/planq/pull/349) Implement configurable JSON-RPC APIs to manage enabled namespaces.
+* (rpc) [#377](https://github.com/planq-network/planq/pull/377) Implement `miner_` namespace. `miner_setEtherbase` and `miner_setGasPrice` are working as intended. All the other calls are not applicable and return `unsupported`.
+* (eth) [tharsis#460](https://github.com/planq-network/planq/issues/460) Add support for EIP-1898.
 
 ### Bug Fixes
 
-* (keys) [tharsis#346](https://github.com/tharsis/ethermint/pull/346) Fix `keys add` command with `--ledger` flag for the `secp256k1` signing algorithm.
-* (evm) [tharsis#291](https://github.com/tharsis/ethermint/pull/291) Use block proposer address (validator operator) for `COINBASE` opcode.
-* (rpc) [tharsis#81](https://github.com/tharsis/ethermint/pull/81) Fix transaction hashing and decoding on `eth_sendTransaction`.
-* (rpc) [tharsis#45](https://github.com/tharsis/ethermint/pull/45) Use `EmptyUncleHash` and `EmptyRootHash` for empty ethereum `Header` fields.
+* (keys) [tharsis#346](https://github.com/planq-network/planq/pull/346) Fix `keys add` command with `--ledger` flag for the `secp256k1` signing algorithm.
+* (evm) [tharsis#291](https://github.com/planq-network/planq/pull/291) Use block proposer address (validator operator) for `COINBASE` opcode.
+* (rpc) [tharsis#81](https://github.com/planq-network/planq/pull/81) Fix transaction hashing and decoding on `eth_sendTransaction`.
+* (rpc) [tharsis#45](https://github.com/planq-network/planq/pull/45) Use `EmptyUncleHash` and `EmptyRootHash` for empty ethereum `Header` fields.
 
 ## [v0.4.1] - 2021-03-01
 

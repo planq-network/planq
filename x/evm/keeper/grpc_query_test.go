@@ -9,14 +9,14 @@ import (
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/tharsis/ethermint/x/evm/statedb"
+	"github.com/planq-network/planq/x/evm/statedb"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/tharsis/ethermint/crypto/ethsecp256k1"
-	"github.com/tharsis/ethermint/server/config"
-	ethermint "github.com/tharsis/ethermint/types"
-	"github.com/tharsis/ethermint/x/evm/types"
+	"github.com/planq-network/planq/crypto/ethsecp256k1"
+	"github.com/planq-network/planq/server/config"
+	ethermint "github.com/planq-network/planq/types"
+	"github.com/planq-network/planq/x/evm/types"
 )
 
 // Not valid Ethereum address

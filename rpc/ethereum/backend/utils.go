@@ -15,8 +15,8 @@ import (
 	"github.com/tendermint/tendermint/libs/log"
 
 	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/tharsis/ethermint/rpc/ethereum/types"
-	evmtypes "github.com/tharsis/ethermint/x/evm/types"
+	"github.com/planq-network/planq/rpc/ethereum/types"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
 )
 
 // SetTxDefaults populates tx message with default values in case they are not

@@ -22,9 +22,9 @@ import (
 	"github.com/ethereum/go-ethereum/core/vm"
 	ethparams "github.com/ethereum/go-ethereum/params"
 
-	ethermint "github.com/tharsis/ethermint/types"
-	"github.com/tharsis/ethermint/x/evm/statedb"
-	"github.com/tharsis/ethermint/x/evm/types"
+	ethermint "github.com/planq-network/planq/types"
+	"github.com/planq-network/planq/x/evm/statedb"
+	"github.com/planq-network/planq/x/evm/types"
 )
 
 var _ types.QueryServer = Keeper{}

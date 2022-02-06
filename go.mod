@@ -1,4 +1,4 @@
-module github.com/tharsis/ethermint
+module github.com/planq-network/planq
 
 go 1.17
 

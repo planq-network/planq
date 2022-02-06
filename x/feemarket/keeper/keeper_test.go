@@ -17,12 +17,12 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/tharsis/ethermint/app"
-	"github.com/tharsis/ethermint/crypto/ethsecp256k1"
-	"github.com/tharsis/ethermint/encoding"
-	"github.com/tharsis/ethermint/tests"
-	ethermint "github.com/tharsis/ethermint/types"
-	"github.com/tharsis/ethermint/x/feemarket/types"
+	"github.com/planq-network/planq/app"
+	"github.com/planq-network/planq/crypto/ethsecp256k1"
+	"github.com/planq-network/planq/encoding"
+	"github.com/planq-network/planq/tests"
+	ethermint "github.com/planq-network/planq/types"
+	"github.com/planq-network/planq/x/feemarket/types"
 
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
