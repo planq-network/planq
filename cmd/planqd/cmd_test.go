@@ -10,12 +10,12 @@ import (
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
 	"github.com/cosmos/cosmos-sdk/x/genutil/client/cli"
 
+	planqd "github.com/planq-network/planq/cmd/planqd"
 	"github.com/tharsis/ethermint/app"
-	ethermintd "github.com/tharsis/ethermint/cmd/ethermintd"
 )
 
 func TestInitCmd(t *testing.T) {
-	rootCmd, _ := ethermintd.NewRootCmd()
+	rootCmd, _ := planqd.NewRootCmd()
 	rootCmd.SetArgs([]string{
 		"init",          // Test the init cmd
 		"etherminttest", // Moniker
