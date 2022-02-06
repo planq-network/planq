@@ -3,7 +3,7 @@ name: Bug Report
 about: create a bug report
 ---
 
-__System info:__ [Include Ethermint commit, operating system name, and other relevant details]
+__System info:__ [Include Planq commit, operating system name, and other relevant details]
 
 __Steps to reproduce:__
 
