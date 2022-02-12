@@ -392,6 +392,7 @@ func (s *IntegrationTestSuite) TestGetLogs() {
 		common.HexToHash("0x000000000000000000000000" + fmt.Sprintf("%x", common.BytesToAddress(s.network.Validators[0].Address))),
 		common.HexToHash("0x000000000000000000000000378c50d9264c63f3f92b806d4ee56e9d86ffb3ec"),
 	}
+
 	s.Require().Equal(expectedTopics, logs[0].Topics)
 }
 
