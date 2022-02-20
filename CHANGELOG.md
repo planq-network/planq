@@ -37,6 +37,12 @@ Ref: https://keepachangelog.com/en/1.0.0/
 
 ## Unreleased
 
+### Improvements
+
+- (log) [#948](https://github.com/planq-network/planq/pull/948) redirect go-ethereum's logs to cosmos-sdk logger.
+
+## [v0.10.0-beta1] - 2022-02-15
+
 ### API Breaking
 
 * (ante) [\#866](https://github.com/planq-network/planq/pull/866) `NewAnteHandler` constructor now receives a `HandlerOptions` field.
@@ -55,6 +61,7 @@ Ref: https://keepachangelog.com/en/1.0.0/
 * (evm)  Fix `SelfDestruct` opcode by deleting account code and state.
 * (feemarket) [tharsis#855](https://github.com/planq-network/planq/pull/855) consistent `BaseFee` check logic.
 * (evm) [tharsis#729](https://github.com/planq-network/planq/pull/729) Refactor EVM StateDB implementation.
+* (evm) [tharsis#945](https://github.com/planq-network/planq/pull/945) Bumb Go-ethereum version to [`v1.10.16`](https://github.com/ethereum/go-ethereum/releases/tag/v1.10.16)
 
 ### Improvements
 
@@ -79,7 +86,8 @@ Ref: https://keepachangelog.com/en/1.0.0/
 * (rpc) [tharsis#878](https://github.com/planq-network/planq/pull/878) Workaround to make GetBlock RPC api report correct block gas used.
 * (rpc) [tharsis#900](https://github.com/planq-network/planq/pull/900) newPendingTransactions filter return ethereum tx hash.
 * (rpc) [tharsis#933](https://github.com/planq-network/planq/pull/933) Fix newPendingTransactions subscription deadlock when a Websocket client exits without unsubscribing and the node errors.
-* 
+* (evm) [tharsis#932](https://github.com/planq-network/planq/pull/932) Fix base fee check logic in state transition.
+
 ## [v0.9.0] - 2021-12-01
 
 ### State Machine Breaking
