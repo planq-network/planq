@@ -7,7 +7,7 @@ import (
 	"math"
 	"math/big"
 
-	"github.com/tharsis/ethermint/ethereum/eip712"
+	"github.com/planq-network/planq/ethereum/eip712"
 
 	"github.com/ethereum/go-ethereum/signer/core/apitypes"
 

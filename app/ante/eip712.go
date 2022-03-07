@@ -15,10 +15,10 @@ import (
 
 	ethcrypto "github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/crypto/secp256k1"
-	"github.com/tharsis/ethermint/crypto/ethsecp256k1"
-	"github.com/tharsis/ethermint/ethereum/eip712"
-	ethermint "github.com/tharsis/ethermint/types"
-	evmtypes "github.com/tharsis/ethermint/x/evm/types"
+	"github.com/planq-network/planq/crypto/ethsecp256k1"
+	"github.com/planq-network/planq/ethereum/eip712"
+	ethermint "github.com/planq-network/planq/types"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
 )
 
 var ethermintCodec codec.ProtoCodecMarshaler
