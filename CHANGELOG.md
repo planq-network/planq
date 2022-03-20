@@ -37,6 +37,13 @@ Ref: https://keepachangelog.com/en/1.0.0/
 
 ## Unreleased
 
+### Bug Fixes
+
+* (rpc) [tharsis#990](https://github.com/tharsis/ethermint/pull/990) Calculate reward values from all `MsgEthereumTx` from a block in `eth_feeHistory`.
+* (ante) [tharsis#991](https://github.com/tharsis/ethermint/pull/991) Set an upper bound to gasWanted to prevent DoS attack.
+
+## [v0.11.0] - 2022-03-06
+
 ### State Machine Breaking
 
 * (ante) [tharsis#964](https://github.com/tharsis/ethermint/pull/964) add NewInfiniteGasMeterWithLimit for storing the user provided gas limit. Fixes block's consumed gas calculation in the block creation phase.
@@ -44,6 +51,11 @@ Ref: https://keepachangelog.com/en/1.0.0/
 ### Bug Fixes
 
 * (rpc) [tharsis#975](https://github.com/tharsis/ethermint/pull/975) Fix unexpected `nil` values for `reward`, returned by `EffectiveGasTipValue(blockBaseFee)` in the `eth_feeHistory` RPC method.
+
+### Improvements
+
+- (rpc) [tharsis#979](https://github.com/tharsis/ethermint/pull/979) Add configurable timeouts to http server
+- (rpc) [tharsis#988](https://github.com/tharsis/ethermint/pull/988) json-rpc server always use local rpc client
 
 ## [v0.10.1] - 2022-03-04
 
