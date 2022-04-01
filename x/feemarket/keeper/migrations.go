@@ -3,7 +3,7 @@ package keeper
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	v010 "github.com/tharsis/ethermint/x/feemarket/migrations/v010"
+	v010 "github.com/planq-network/planq/x/feemarket/migrations/v010"
 )
 
 // Migrator is a struct for handling in-place store migrations.

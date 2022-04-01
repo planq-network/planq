@@ -10,13 +10,13 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 
-	"github.com/tharsis/ethermint/encoding"
+	"github.com/planq-network/planq/encoding"
 
-	"github.com/tharsis/ethermint/app"
-	feemarketkeeper "github.com/tharsis/ethermint/x/feemarket/keeper"
-	v010 "github.com/tharsis/ethermint/x/feemarket/migrations/v010"
-	"github.com/tharsis/ethermint/x/feemarket/types"
-	feemarkettypes "github.com/tharsis/ethermint/x/feemarket/types"
+	"github.com/planq-network/planq/app"
+	feemarketkeeper "github.com/planq-network/planq/x/feemarket/keeper"
+	v010 "github.com/planq-network/planq/x/feemarket/migrations/v010"
+	"github.com/planq-network/planq/x/feemarket/types"
+	feemarkettypes "github.com/planq-network/planq/x/feemarket/types"
 )
 
 func TestMigrateStore(t *testing.T) {
