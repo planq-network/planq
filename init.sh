@@ -33,9 +33,6 @@ cat $HOME/.planqd/config/genesis.json | jq '.app_state["crisis"]["constant_fee"]
 cat $HOME/.planqd/config/genesis.json | jq '.app_state["gov"]["deposit_params"]["min_deposit"][0]["denom"]="aplanq"' > $HOME/.planqd/config/tmp_genesis.json && mv $HOME/.planqd/config/tmp_genesis.json $HOME/.planqd/config/genesis.json
 cat $HOME/.planqd/config/genesis.json | jq '.app_state["mint"]["params"]["mint_denom"]="aplanq"' > $HOME/.planqd/config/tmp_genesis.json && mv $HOME/.planqd/config/tmp_genesis.json $HOME/.planqd/config/genesis.json
 
-# increase block time (?)
-cat $HOME/.planqd/config/genesis.json | jq '.consensus_params["block"]["time_iota_ms"]="1000"' > $HOME/.planqd/config/tmp_genesis.json && mv $HOME/.planqd/config/tmp_genesis.json $HOME/.planqd/config/genesis.json
-
 # Set gas limit in genesis
 cat $HOME/.planqd/config/genesis.json | jq '.consensus_params["block"]["max_gas"]="10000000"' > $HOME/.planqd/config/tmp_genesis.json && mv $HOME/.planqd/config/tmp_genesis.json $HOME/.planqd/config/genesis.json
 

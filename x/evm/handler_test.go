@@ -18,6 +18,7 @@ import (
 
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/core"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/stretchr/testify/require"
@@ -86,7 +87,7 @@ func (suite *EvmTestSuite) DoSetupTest(t require.TestingT) {
 	})
 
 	coins := sdk.NewCoins(sdk.NewCoin(types.DefaultEVMDenom, sdk.NewInt(100000000000000)))
-	genesisState := app.ModuleBasics.DefaultGenesis(suite.app.AppCodec())
+	genesisState := app.NewTestGenesisState(suite.app.AppCodec())
 	b32address := sdk.MustBech32ifyAddressBytes(sdk.GetConfig().GetBech32AccountAddrPrefix(), priv.PubKey().Address().Bytes())
 	balances := []banktypes.Balance{
 		{
@@ -98,9 +99,12 @@ func (suite *EvmTestSuite) DoSetupTest(t require.TestingT) {
 			Coins:   coins,
 		},
 	}
-	// update total supply
-	bankGenesis := banktypes.NewGenesisState(banktypes.DefaultGenesisState().Params, balances, sdk.NewCoins(sdk.NewCoin(types.DefaultEVMDenom, sdk.NewInt(200000000000000))), []banktypes.Metadata{})
-	genesisState[banktypes.ModuleName] = suite.app.AppCodec().MustMarshalJSON(bankGenesis)
+	var bankGenesis banktypes.GenesisState
+	suite.app.AppCodec().MustUnmarshalJSON(genesisState[banktypes.ModuleName], &bankGenesis)
+	// Update balances and total supply
+	bankGenesis.Balances = append(bankGenesis.Balances, balances...)
+	bankGenesis.Supply = bankGenesis.Supply.Add(coins...).Add(coins...)
+	genesisState[banktypes.ModuleName] = suite.app.AppCodec().MustMarshalJSON(&bankGenesis)
 
 	stateBytes, err := tmjson.MarshalIndent(genesisState, "", " ")
 	require.NoError(t, err)
@@ -110,7 +114,7 @@ func (suite *EvmTestSuite) DoSetupTest(t require.TestingT) {
 		abci.RequestInitChain{
 			ChainId:         "planq_7000-1",
 			Validators:      []abci.ValidatorUpdate{},
-			ConsensusParams: simapp.DefaultConsensusParams,
+			ConsensusParams: app.DefaultConsensusParams,
 			AppStateBytes:   stateBytes,
 		},
 	)
@@ -598,6 +602,7 @@ func (suite *EvmTestSuite) TestERC20TransferReverted() {
 
 			suite.Require().True(res.Failed())
 			suite.Require().Equal(tc.expErr, res.VmError)
+			suite.Require().Empty(res.Logs)
 
 			after := k.GetBalance(suite.ctx, suite.from)
 
@@ -679,13 +684,13 @@ func (suite *EvmTestSuite) TestContractDeploymentRevert() {
 // DummyHook implements EvmHooks interface
 type DummyHook struct{}
 
-func (dh *DummyHook) PostTxProcessing(ctx sdk.Context, from common.Address, to *common.Address, receipt *ethtypes.Receipt) error {
+func (dh *DummyHook) PostTxProcessing(ctx sdk.Context, msg core.Message, receipt *ethtypes.Receipt) error {
 	return nil
 }
 
 // FailureHook implements EvmHooks interface
 type FailureHook struct{}
 
-func (dh *FailureHook) PostTxProcessing(ctx sdk.Context, from common.Address, to *common.Address, receipt *ethtypes.Receipt) error {
+func (dh *FailureHook) PostTxProcessing(ctx sdk.Context, msg core.Message, receipt *ethtypes.Receipt) error {
 	return errors.New("mock error")
 }

@@ -1,7 +1,7 @@
 package cli
 
 import (
-	rpctypes "github.com/planq-network/planq/rpc/ethereum/types"
+	rpctypes "github.com/planq-network/planq/rpc/types"
 	"github.com/spf13/cobra"
 
 	"github.com/cosmos/cosmos-sdk/client"
@@ -23,6 +23,7 @@ func GetQueryCmd() *cobra.Command {
 	cmd.AddCommand(
 		GetStorageCmd(),
 		GetCodeCmd(),
+		GetParamsCmd(),
 	)
 	return cmd
 }
@@ -92,6 +93,34 @@ func GetCodeCmd() *cobra.Command {
 			}
 
 			res, err := queryClient.Code(rpctypes.ContextWithHeight(clientCtx.Height), req)
+			if err != nil {
+				return err
+			}
+
+			return clientCtx.PrintProto(res)
+		},
+	}
+
+	flags.AddQueryFlagsToCmd(cmd)
+	return cmd
+}
+
+// GetParamsCmd queries the fee market params
+func GetParamsCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "params",
+		Short: "Get the evm params",
+		Long:  "Get the evm parameter values.",
+		Args:  cobra.NoArgs,
+		RunE: func(cmd *cobra.Command, _ []string) error {
+			clientCtx, err := client.GetClientQueryContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			queryClient := types.NewQueryClient(clientCtx)
+
+			res, err := queryClient.Params(cmd.Context(), &types.QueryParamsRequest{})
 			if err != nil {
 				return err
 			}

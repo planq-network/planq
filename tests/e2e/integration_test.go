@@ -9,7 +9,15 @@ import (
 	"math/big"
 	"testing"
 
-	// . "github.com/onsi/ginkgo"
+	"github.com/cosmos/cosmos-sdk/client/flags"
+	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
+	authtx "github.com/cosmos/cosmos-sdk/x/auth/tx"
+	"github.com/planq-network/planq/rpc/types"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
+
+	// . "github.com/onsi/ginkgo/v2"
 	// . "github.com/onsi/gomega"
 
 	"github.com/stretchr/testify/suite"
@@ -131,7 +139,6 @@ func (s *IntegrationTestSuite) TestBlock() {
 	s.Require().NotNil(blockByNum)
 
 	// compare the ethereum header with the tendermint header
-	s.Require().Equal(len(block.Block.Txs), len(blockByNum.Body().Transactions))
 	s.Require().Equal(block.Block.LastBlockID.Hash.Bytes(), blockByNum.Header().ParentHash.Bytes())
 
 	hash := common.BytesToHash(block.Block.Hash())
@@ -142,7 +149,12 @@ func (s *IntegrationTestSuite) TestBlock() {
 	blockByHash, err := s.network.Validators[0].JSONRPCClient.BlockByHash(s.ctx, hash)
 	s.Require().NoError(err)
 	s.Require().NotNil(blockByHash)
-	s.Require().Equal(blockByNum, blockByHash)
+
+	// Compare blockByNumber and blockByHash results
+	s.Require().Equal(blockByNum.Hash(), blockByHash.Hash())
+	s.Require().Equal(blockByNum.Transactions().Len(), blockByHash.Transactions().Len())
+	s.Require().Equal(blockByNum.ParentHash(), blockByHash.ParentHash())
+	s.Require().Equal(blockByNum.Root(), blockByHash.Root())
 
 	// TODO: parse Tm block to Ethereum and compare
 }
@@ -373,7 +385,7 @@ func (s *IntegrationTestSuite) TestGetBalance() {
 }
 
 func (s *IntegrationTestSuite) TestGetLogs() {
-	//TODO create tests to cover different filterQuery params
+	// TODO create tests to cover different filterQuery params
 	_, contractAddr := s.deployERC20Contract()
 
 	blockNum, err := s.network.Validators[0].JSONRPCClient.BlockNumber(s.ctx)
@@ -399,7 +411,7 @@ func (s *IntegrationTestSuite) TestGetLogs() {
 }
 
 func (s *IntegrationTestSuite) TestTransactionReceiptERC20Transfer() {
-	//start with clean block
+	// start with clean block
 	err := s.network.WaitForNextBlock()
 	s.Require().NoError(err)
 	// deploy erc20 contract
@@ -632,7 +644,6 @@ func (s *IntegrationTestSuite) transferERC20Transaction(contractAddr, to common.
 	receipt := s.expectSuccessReceipt(ercTransferTx.AsTransaction().Hash())
 	s.Require().NotEmpty(receipt.Logs)
 	return ercTransferTx.AsTransaction().Hash()
-
 }
 
 func (s *IntegrationTestSuite) storeValueStorageContract(contractAddr common.Address, amount *big.Int) common.Hash {
@@ -745,4 +756,141 @@ func (s *IntegrationTestSuite) TestPendingTransactionFilter() {
 	err = s.rpcClient.Call(&filterResult, "eth_getFilterChanges", filterID)
 	s.Require().NoError(err)
 	s.Require().Equal([]common.Hash{signedTx.Hash()}, filterResult)
+}
+
+// TODO: add transactionIndex tests once we have OpenRPC interfaces
+func (s *IntegrationTestSuite) TestBatchETHTransactions() {
+	const ethTxs = 2
+	txBuilder := s.network.Validators[0].ClientCtx.TxConfig.NewTxBuilder()
+	builder, ok := txBuilder.(authtx.ExtensionOptionsTxBuilder)
+	s.Require().True(ok)
+
+	recipient := common.HexToAddress("0x378c50D9264C63F3F92B806d4ee56E9D86FfB3Ec")
+	accountNonce := s.getAccountNonce(recipient)
+	feeAmount := sdk.ZeroInt()
+
+	var gasLimit uint64
+	var msgs []sdk.Msg
+
+	for i := 0; i < ethTxs; i++ {
+		chainId, err := s.network.Validators[0].JSONRPCClient.ChainID(s.ctx)
+		s.Require().NoError(err)
+
+		gasPrice := s.getGasPrice()
+		from := common.BytesToAddress(s.network.Validators[0].Address)
+		nonce := accountNonce + uint64(i) + 1
+
+		msgTx := evmtypes.NewTx(
+			chainId,
+			nonce,
+			&recipient,
+			big.NewInt(10),
+			100000,
+			gasPrice,
+			big.NewInt(200),
+			nil,
+			nil,
+			nil,
+		)
+		msgTx.From = from.Hex()
+		err = msgTx.Sign(s.ethSigner, s.network.Validators[0].ClientCtx.Keyring)
+		s.Require().NoError(err)
+
+		msgs = append(msgs, msgTx.GetMsgs()...)
+		txData, err := evmtypes.UnpackTxData(msgTx.Data)
+		s.Require().NoError(err)
+		feeAmount = feeAmount.Add(sdk.NewIntFromBigInt(txData.Fee()))
+		gasLimit = gasLimit + txData.GetGas()
+	}
+
+	option, err := codectypes.NewAnyWithValue(&evmtypes.ExtensionOptionsEthereumTx{})
+	s.Require().NoError(err)
+
+	queryClient := types.NewQueryClient(s.network.Validators[0].ClientCtx)
+	res, err := queryClient.Params(s.ctx, &evmtypes.QueryParamsRequest{})
+
+	fees := make(sdk.Coins, 0)
+	if feeAmount.Sign() > 0 {
+		fees = fees.Add(sdk.Coin{Denom: res.Params.EvmDenom, Amount: feeAmount})
+	}
+
+	builder.SetExtensionOptions(option)
+	err = builder.SetMsgs(msgs...)
+	s.Require().NoError(err)
+	builder.SetFeeAmount(fees)
+	builder.SetGasLimit(gasLimit)
+
+	tx := builder.GetTx()
+	txEncoder := s.network.Validators[0].ClientCtx.TxConfig.TxEncoder()
+	txBytes, err := txEncoder(tx)
+	s.Require().NoError(err)
+
+	syncCtx := s.network.Validators[0].ClientCtx.WithBroadcastMode(flags.BroadcastBlock)
+	txResponse, err := syncCtx.BroadcastTx(txBytes)
+	s.Require().NoError(err)
+	s.Require().Equal(uint32(0), txResponse.Code)
+
+	block, err := s.network.Validators[0].JSONRPCClient.BlockByNumber(s.ctx, big.NewInt(txResponse.Height))
+	s.Require().NoError(err)
+
+	txs := block.Transactions()
+	s.Require().Len(txs, ethTxs)
+	for i, tx := range txs {
+		s.Require().Equal(accountNonce+uint64(i)+1, tx.Nonce())
+	}
+}
+
+func (s *IntegrationTestSuite) TestGasConsumptionOnNormalTransfer() {
+	testCases := []struct {
+		name            string
+		gasLimit        uint64
+		expectedGasUsed uint64
+	}{
+		{
+			"gas used is the same as gas limit",
+			21000,
+			21000,
+		},
+		{
+			"gas used is half of Gas limit",
+			70000,
+			35000,
+		},
+		{
+			"gas used is less than half of gasLimit",
+			30000,
+			21000,
+		},
+	}
+
+	recipient := common.HexToAddress("0x378c50D9264C63F3F92B806d4ee56E9D86FfB3Ec")
+	chainID, err := s.network.Validators[0].JSONRPCClient.ChainID(s.ctx)
+	s.Require().NoError(err)
+	from := common.BytesToAddress(s.network.Validators[0].Address)
+	for _, tc := range testCases {
+		s.Run(tc.name, func() {
+			nonce := s.getAccountNonce(from)
+			s.Require().NoError(err)
+			gasPrice := s.getGasPrice()
+			msgTx := evmtypes.NewTx(
+				chainID,
+				nonce,
+				&recipient,
+				nil,
+				tc.gasLimit,
+				gasPrice,
+				nil, nil,
+				nil,
+				nil,
+			)
+			msgTx.From = from.Hex()
+			err = msgTx.Sign(s.ethSigner, s.network.Validators[0].ClientCtx.Keyring)
+			s.Require().NoError(err)
+			err := s.network.Validators[0].JSONRPCClient.SendTransaction(s.ctx, msgTx.AsTransaction())
+			s.Require().NoError(err)
+			s.waitForTransaction()
+			receipt := s.expectSuccessReceipt(msgTx.AsTransaction().Hash())
+			s.Equal(receipt.GasUsed, tc.expectedGasUsed)
+		})
+	}
 }

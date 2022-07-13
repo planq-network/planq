@@ -2,6 +2,7 @@ package ante_test
 
 import (
 	"math"
+	"math/big"
 	"testing"
 	"time"
 
@@ -51,7 +52,10 @@ type AnteTestSuite struct {
 	ethSigner       ethtypes.Signer
 	enableFeemarket bool
 	enableLondonHF  bool
+	evmParamsOption func(*evmtypes.Params)
 }
+
+const TestGasLimit uint64 = 100000
 
 func (suite *AnteTestSuite) StateDB() *statedb.StateDB {
 	return statedb.New(suite.ctx, suite.app.EvmKeeper, statedb.NewEmptyTxConfig(common.BytesToHash(suite.ctx.HeaderHash().Bytes())))
@@ -71,14 +75,19 @@ func (suite *AnteTestSuite) SetupTest() {
 			suite.Require().NoError(err)
 			genesis[feemarkettypes.ModuleName] = app.AppCodec().MustMarshalJSON(feemarketGenesis)
 		}
+		evmGenesis := evmtypes.DefaultGenesisState()
+		evmGenesis.Params.AllowUnprotectedTxs = false
 		if !suite.enableLondonHF {
-			evmGenesis := evmtypes.DefaultGenesisState()
 			maxInt := sdk.NewInt(math.MaxInt64)
 			evmGenesis.Params.ChainConfig.LondonBlock = &maxInt
 			evmGenesis.Params.ChainConfig.ArrowGlacierBlock = &maxInt
-			evmGenesis.Params.ChainConfig.MergeForkBlock = &maxInt
-			genesis[evmtypes.ModuleName] = app.AppCodec().MustMarshalJSON(evmGenesis)
+			evmGenesis.Params.ChainConfig.GrayGlacierBlock = &maxInt
+			evmGenesis.Params.ChainConfig.MergeNetsplitBlock = &maxInt
 		}
+		if suite.evmParamsOption != nil {
+			suite.evmParamsOption(&evmGenesis.Params)
+		}
+		genesis[evmtypes.ModuleName] = app.AppCodec().MustMarshalJSON(evmGenesis)
 		return genesis
 	})
 
@@ -117,6 +126,38 @@ func TestAnteTestSuite(t *testing.T) {
 	suite.Run(t, &AnteTestSuite{
 		enableLondonHF: true,
 	})
+}
+
+func (s *AnteTestSuite) BuildTestEthTx(
+	from common.Address,
+	to common.Address,
+	amount *big.Int,
+	input []byte,
+	gasPrice *big.Int,
+	gasFeeCap *big.Int,
+	gasTipCap *big.Int,
+	accesses *ethtypes.AccessList,
+) *evmtypes.MsgEthereumTx {
+	chainID := s.app.EvmKeeper.ChainID()
+	nonce := s.app.EvmKeeper.GetNonce(
+		s.ctx,
+		common.BytesToAddress(from.Bytes()),
+	)
+
+	msgEthereumTx := evmtypes.NewTx(
+		chainID,
+		nonce,
+		&to,
+		amount,
+		TestGasLimit,
+		gasPrice,
+		gasFeeCap,
+		gasTipCap,
+		input,
+		accesses,
+	)
+	msgEthereumTx.From = from.String()
+	return msgEthereumTx
 }
 
 // CreateTestTx is a helper function to create a tx given multiple inputs.
@@ -196,6 +237,17 @@ func (suite *AnteTestSuite) CreateTestTxBuilder(
 		suite.Require().NoError(err)
 	}
 
+	return txBuilder
+}
+
+func (suite *AnteTestSuite) CreateTestCosmosTxBuilder(gasPrice sdk.Int, denom string, msgs ...sdk.Msg) client.TxBuilder {
+	txBuilder := suite.clientCtx.TxConfig.NewTxBuilder()
+
+	txBuilder.SetGasLimit(TestGasLimit)
+	fees := &sdk.Coins{{Denom: denom, Amount: gasPrice.MulRaw(int64(TestGasLimit))}}
+	txBuilder.SetFeeAmount(*fees)
+	err := txBuilder.SetMsgs(msgs...)
+	suite.Require().NoError(err)
 	return txBuilder
 }
 
@@ -279,6 +331,10 @@ func (suite *AnteTestSuite) CreateTestEIP712CosmosTxBuilder(
 	suite.Require().NoError(err)
 
 	return builder
+}
+
+func NextFn(ctx sdk.Context, _ sdk.Tx, _ bool) (sdk.Context, error) {
+	return ctx, nil
 }
 
 var _ sdk.Tx = &invalidTx{}

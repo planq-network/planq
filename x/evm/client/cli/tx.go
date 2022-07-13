@@ -12,7 +12,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	rpctypes "github.com/planq-network/planq/rpc/ethereum/types"
+	rpctypes "github.com/planq-network/planq/rpc/types"
 	"github.com/planq-network/planq/x/evm/types"
 )
 

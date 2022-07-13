@@ -16,7 +16,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/rest"
 	authrest "github.com/cosmos/cosmos-sdk/x/auth/client/rest"
 
-	rpctypes "github.com/planq-network/planq/rpc/ethereum/types"
+	rpctypes "github.com/planq-network/planq/rpc/types"
 	feemarkettypes "github.com/planq-network/planq/x/feemarket/types"
 
 	"github.com/ethereum/go-ethereum/common"

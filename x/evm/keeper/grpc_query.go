@@ -362,8 +362,15 @@ func (k Keeper) TraceTx(c context.Context, req *types.QueryTraceTxRequest) (*typ
 		return nil, status.Errorf(codes.InvalidArgument, "output limit cannot be negative, got %d", req.TraceConfig.Limit)
 	}
 
+	// minus one to get the context of block beginning
+	contextHeight := req.BlockNumber - 1
+	if contextHeight < 1 {
+		// 0 is a special value in `ContextWithHeight`
+		contextHeight = 1
+	}
+
 	ctx := sdk.UnwrapSDKContext(c)
-	ctx = ctx.WithBlockHeight(req.BlockNumber)
+	ctx = ctx.WithBlockHeight(contextHeight)
 	ctx = ctx.WithBlockTime(req.BlockTime)
 	ctx = ctx.WithHeaderHash(common.Hex2Bytes(req.BlockHash))
 
@@ -420,8 +427,15 @@ func (k Keeper) TraceBlock(c context.Context, req *types.QueryTraceBlockRequest)
 		return nil, status.Errorf(codes.InvalidArgument, "output limit cannot be negative, got %d", req.TraceConfig.Limit)
 	}
 
+	// minus one to get the context of block beginning
+	contextHeight := req.BlockNumber - 1
+	if contextHeight < 1 {
+		// 0 is a special value in `ContextWithHeight`
+		contextHeight = 1
+	}
+
 	ctx := sdk.UnwrapSDKContext(c)
-	ctx = ctx.WithBlockHeight(req.BlockNumber)
+	ctx = ctx.WithBlockHeight(contextHeight)
 	ctx = ctx.WithBlockTime(req.BlockTime)
 	ctx = ctx.WithHeaderHash(common.Hex2Bytes(req.BlockHash))
 
@@ -471,68 +485,65 @@ func (k *Keeper) traceTx(
 ) (*interface{}, uint, error) {
 	// Assemble the structured logger or the JavaScript tracer
 	var (
-		tracer    vm.EVMLogger
+		tracer    tracers.Tracer
 		overrides *ethparams.ChainConfig
 		err       error
+		timeout   = defaultTraceTimeout
 	)
-
 	msg, err := tx.AsMessage(signer, cfg.BaseFee)
 	if err != nil {
 		return nil, 0, status.Error(codes.Internal, err.Error())
 	}
 
-	if traceConfig != nil && traceConfig.Overrides != nil {
+	if traceConfig == nil {
+		traceConfig = &types.TraceConfig{}
+	}
+
+	if traceConfig.Overrides != nil {
 		overrides = traceConfig.Overrides.EthereumConfig(cfg.ChainConfig.ChainID)
 	}
 
-	switch {
-	case traceConfig != nil && traceConfig.Tracer != "":
-		timeout := defaultTraceTimeout
-		// TODO: change timeout to time.duration
-		// Used string to comply with go ethereum
-		if traceConfig.Timeout != "" {
-			timeout, err = time.ParseDuration(traceConfig.Timeout)
-			if err != nil {
-				return nil, 0, status.Errorf(codes.InvalidArgument, "timeout value: %s", err.Error())
-			}
-		}
+	logConfig := logger.Config{
+		EnableMemory:     traceConfig.EnableMemory,
+		DisableStorage:   traceConfig.DisableStorage,
+		DisableStack:     traceConfig.DisableStack,
+		EnableReturnData: traceConfig.EnableReturnData,
+		Debug:            traceConfig.Debug,
+		Limit:            int(traceConfig.Limit),
+		Overrides:        overrides,
+	}
 
-		tCtx := &tracers.Context{
-			BlockHash: txConfig.BlockHash,
-			TxIndex:   int(txConfig.TxIndex),
-			TxHash:    txConfig.TxHash,
-		}
+	tracer = logger.NewStructLogger(&logConfig)
 
-		// Construct the JavaScript tracer to execute with
+	tCtx := &tracers.Context{
+		BlockHash: txConfig.BlockHash,
+		TxIndex:   int(txConfig.TxIndex),
+		TxHash:    txConfig.TxHash,
+	}
+
+	if traceConfig.Tracer != "" {
 		if tracer, err = tracers.New(traceConfig.Tracer, tCtx); err != nil {
 			return nil, 0, status.Error(codes.Internal, err.Error())
 		}
-
-		// Handle timeouts and RPC cancellations
-		deadlineCtx, cancel := context.WithTimeout(ctx.Context(), timeout)
-		defer cancel()
-
-		go func() {
-			<-deadlineCtx.Done()
-			if errors.Is(deadlineCtx.Err(), context.DeadlineExceeded) {
-				tracer.(tracers.Tracer).Stop(errors.New("execution timeout"))
-			}
-		}()
-
-	case traceConfig != nil:
-		logConfig := logger.Config{
-			EnableMemory:     traceConfig.EnableMemory,
-			DisableStorage:   traceConfig.DisableStorage,
-			DisableStack:     traceConfig.DisableStack,
-			EnableReturnData: traceConfig.EnableReturnData,
-			Debug:            traceConfig.Debug,
-			Limit:            int(traceConfig.Limit),
-			Overrides:        overrides,
-		}
-		tracer = logger.NewStructLogger(&logConfig)
-	default:
-		tracer = types.NewTracer(types.TracerStruct, msg, cfg.ChainConfig, ctx.BlockHeight())
 	}
+
+	// Define a meaningful timeout of a single transaction trace
+	if traceConfig.Timeout != "" {
+		if timeout, err = time.ParseDuration(traceConfig.Timeout); err != nil {
+			return nil, 0, status.Errorf(codes.InvalidArgument, "timeout value: %s", err.Error())
+		}
+	}
+
+	// Handle timeouts and RPC cancellations
+	deadlineCtx, cancel := context.WithTimeout(ctx.Context(), timeout)
+	defer cancel()
+
+	go func() {
+		<-deadlineCtx.Done()
+		if errors.Is(deadlineCtx.Err(), context.DeadlineExceeded) {
+			tracer.Stop(errors.New("execution timeout"))
+		}
+	}()
 
 	res, err := k.ApplyMessageWithConfig(ctx, msg, tracer, commitMessage, cfg, txConfig)
 	if err != nil {
@@ -540,32 +551,27 @@ func (k *Keeper) traceTx(
 	}
 
 	var result interface{}
-
-	// Depending on the tracer type, format and return the trace result data.
-	switch tracer := tracer.(type) {
-	case *logger.StructLogger:
-		returnVal := ""
-		revert := res.Revert()
-		if len(revert) > 0 {
-			returnVal = fmt.Sprintf("%x", revert)
-		} else {
-			returnVal = fmt.Sprintf("%x", res.Return())
-		}
-		result = types.ExecutionResult{
-			Gas:         res.GasUsed,
-			Failed:      res.Failed(),
-			ReturnValue: returnVal,
-			StructLogs:  types.FormatLogs(tracer.StructLogs()),
-		}
-	case tracers.Tracer:
-		result, err = tracer.GetResult()
-		if err != nil {
-			return nil, 0, status.Error(codes.Internal, err.Error())
-		}
-
-	default:
-		return nil, 0, status.Errorf(codes.InvalidArgument, "invalid tracer type %T", tracer)
+	result, err = tracer.GetResult()
+	if err != nil {
+		return nil, 0, status.Error(codes.Internal, err.Error())
 	}
 
 	return &result, txConfig.LogIndex + uint(len(res.Logs)), nil
+}
+
+// BaseFee implements the Query/BaseFee gRPC method
+func (k Keeper) BaseFee(c context.Context, _ *types.QueryBaseFeeRequest) (*types.QueryBaseFeeResponse, error) {
+	ctx := sdk.UnwrapSDKContext(c)
+
+	params := k.GetParams(ctx)
+	ethCfg := params.ChainConfig.EthereumConfig(k.eip155ChainID)
+	baseFee := k.GetBaseFee(ctx, ethCfg)
+
+	res := &types.QueryBaseFeeResponse{}
+	if baseFee != nil {
+		aux := sdk.NewIntFromBigInt(baseFee)
+		res.BaseFee = &aux
+	}
+
+	return res, nil
 }

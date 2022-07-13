@@ -100,7 +100,8 @@ func (suite *KeeperTestSuite) DoSetupTest(t require.TestingT) {
 			maxInt := sdk.NewInt(math.MaxInt64)
 			evmGenesis.Params.ChainConfig.LondonBlock = &maxInt
 			evmGenesis.Params.ChainConfig.ArrowGlacierBlock = &maxInt
-			evmGenesis.Params.ChainConfig.MergeForkBlock = &maxInt
+			evmGenesis.Params.ChainConfig.GrayGlacierBlock = &maxInt
+			evmGenesis.Params.ChainConfig.MergeNetsplitBlock = &maxInt
 			genesis[types.ModuleName] = app.AppCodec().MustMarshalJSON(evmGenesis)
 		}
 		return genesis
@@ -109,18 +110,19 @@ func (suite *KeeperTestSuite) DoSetupTest(t require.TestingT) {
 	if suite.mintFeeCollector {
 		// mint some coin to fee collector
 		coins := sdk.NewCoins(sdk.NewCoin(types.DefaultEVMDenom, sdk.NewInt(int64(params.TxGas)-1)))
-		genesisState := app.ModuleBasics.DefaultGenesis(suite.app.AppCodec())
+		genesisState := app.NewTestGenesisState(suite.app.AppCodec())
 		balances := []banktypes.Balance{
 			{
 				Address: suite.app.AccountKeeper.GetModuleAddress(authtypes.FeeCollectorName).String(),
 				Coins:   coins,
 			},
 		}
-		// update total supply
-		bankGenesis := banktypes.NewGenesisState(banktypes.DefaultGenesisState().Params, balances, sdk.NewCoins(sdk.NewCoin(types.DefaultEVMDenom, sdk.NewInt((int64(params.TxGas)-1)))), []banktypes.Metadata{})
-		bz := suite.app.AppCodec().MustMarshalJSON(bankGenesis)
-		require.NotNil(t, bz)
-		genesisState[banktypes.ModuleName] = suite.app.AppCodec().MustMarshalJSON(bankGenesis)
+		var bankGenesis banktypes.GenesisState
+		suite.app.AppCodec().MustUnmarshalJSON(genesisState[banktypes.ModuleName], &bankGenesis)
+		// Update balances and total supply
+		bankGenesis.Balances = append(bankGenesis.Balances, balances...)
+		bankGenesis.Supply = bankGenesis.Supply.Add(coins...)
+		genesisState[banktypes.ModuleName] = suite.app.AppCodec().MustMarshalJSON(&bankGenesis)
 
 		// we marshal the genesisState of all module to a byte array
 		stateBytes, err := tmjson.MarshalIndent(genesisState, "", " ")
@@ -131,7 +133,7 @@ func (suite *KeeperTestSuite) DoSetupTest(t require.TestingT) {
 			abci.RequestInitChain{
 				ChainId:         "planq_7000-1",
 				Validators:      []abci.ValidatorUpdate{},
-				ConsensusParams: simapp.DefaultConsensusParams,
+				ConsensusParams: app.DefaultConsensusParams,
 				AppStateBytes:   stateBytes,
 			},
 		)
@@ -404,7 +406,7 @@ func (suite *KeeperTestSuite) TestBaseFee() {
 			suite.app.EvmKeeper.BeginBlock(suite.ctx, abci.RequestBeginBlock{})
 			params := suite.app.EvmKeeper.GetParams(suite.ctx)
 			ethCfg := params.ChainConfig.EthereumConfig(suite.app.EvmKeeper.ChainID())
-			baseFee := suite.app.EvmKeeper.BaseFee(suite.ctx, ethCfg)
+			baseFee := suite.app.EvmKeeper.GetBaseFee(suite.ctx, ethCfg)
 			suite.Require().Equal(tc.expectBaseFee, baseFee)
 		})
 	}

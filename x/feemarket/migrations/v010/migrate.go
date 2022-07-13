@@ -6,8 +6,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
+	"github.com/planq-network/planq/x/feemarket/migrations/v010/types"
 	v09types "github.com/planq-network/planq/x/feemarket/migrations/v09/types"
-	"github.com/planq-network/planq/x/feemarket/types"
 )
 
 // KeyPrefixBaseFeeV1 is the base fee key prefix used in version 1

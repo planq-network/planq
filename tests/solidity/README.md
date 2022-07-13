@@ -38,7 +38,7 @@ Keep the terminal window open, go into any of the tests and run `yarn test-ether
 - `planqd query tx <cosmos-sdk tx>`
 - `curl localhost:8545 -H "Content-Type:application/json" -X POST --data '{"jsonrpc":"2.0","method":"eth_getTransactionByHash","params":["<ethereum tx>"],"id":1}'`
 
-From here, in your other available terminal, 
+From here, in your other available terminal,
 And obviously more, via the Ethereum JSON-RPC API).
 
 When in doubt, you can also run the tests against a Ganache instance via `yarn test-ganache`, to make sure they are behaving correctly.
@@ -48,11 +48,11 @@ When in doubt, you can also run the tests against a Ganache instance via `yarn t
 The [`init-test-node.sh`](./init-test-node.sh) script sets up ethermint with the following accounts:
 
 - `ethm10jmp6sgh4cc6zt3e8gw05wavvejgr5pwtu750w` (Validator)
-  - `0x7cB61D4117AE31a12E393a1Cfa3BaC666481D02E`
+    - `0x7cB61D4117AE31a12E393a1Cfa3BaC666481D02E`
 - `ethm1cml96vmptgw99syqrrz8az79xer2pcgp767p9e` (User 1)
-  - `0xC6Fe5D33615a1C52c08018c47E8Bc53646A0E101`
+    - `0xC6Fe5D33615a1C52c08018c47E8Bc53646A0E101`
 - `ethm1jcltmuhplrdcwp7stlr4hlhlhgd4htqhgjpff2` (user 2)
-  - `0x963EBDf2e1f8DB8707D05FC75bfeFFBa1B5BaC17`
+    - `0x963EBDf2e1f8DB8707D05FC75bfeFFBa1B5BaC17`
 
 Each with roughly 100 ETH available (1e18 photon).
 
