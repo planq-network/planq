@@ -36,8 +36,8 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 
 	"github.com/planq-network/planq/crypto/hd"
-	"github.com/planq-network/planq/rpc/ethereum/backend"
-	rpctypes "github.com/planq-network/planq/rpc/ethereum/types"
+	"github.com/planq-network/planq/rpc/backend"
+	rpctypes "github.com/planq-network/planq/rpc/types"
 	ethermint "github.com/planq-network/planq/types"
 	evmtypes "github.com/planq-network/planq/x/evm/types"
 )

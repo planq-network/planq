@@ -27,8 +27,8 @@ import (
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/consensus/ethash"
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/planq-network/planq/rpc/ethereum/backend"
-	rpctypes "github.com/planq-network/planq/rpc/ethereum/types"
+	"github.com/planq-network/planq/rpc/backend"
+	rpctypes "github.com/planq-network/planq/rpc/types"
 	"github.com/tendermint/tendermint/libs/log"
 )
 

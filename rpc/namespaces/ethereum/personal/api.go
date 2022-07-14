@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/planq-network/planq/rpc/ethereum/backend"
+	"github.com/planq-network/planq/rpc/backend"
 
 	"github.com/cosmos/cosmos-sdk/client"
 

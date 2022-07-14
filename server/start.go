@@ -41,7 +41,7 @@ import (
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	ethdebug "github.com/planq-network/planq/rpc/namespaces/debug"
+	ethdebug "github.com/planq-network/planq/rpc/namespaces/ethereum/debug"
 	"github.com/planq-network/planq/server/config"
 	srvflags "github.com/planq-network/planq/server/flags"
 )

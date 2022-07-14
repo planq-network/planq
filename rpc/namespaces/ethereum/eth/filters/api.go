@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/cosmos/cosmos-sdk/client"
-	"github.com/planq-network/planq/rpc/ethereum/types"
+	"github.com/planq-network/planq/rpc/types"
 
 	"github.com/tendermint/tendermint/libs/log"
 

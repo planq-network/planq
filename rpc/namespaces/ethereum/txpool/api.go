@@ -5,7 +5,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/common/hexutil"
 
-	"github.com/planq-network/planq/rpc/ethereum/types"
+	"github.com/planq-network/planq/rpc/types"
 )
 
 // PublicAPI offers and API for the transaction pool. It only operates on data that is non-confidential.

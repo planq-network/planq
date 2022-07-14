@@ -2,7 +2,7 @@ package v3_test
 
 import (
 	"fmt"
-	v3 "github.com/evmos/ethermint/x/evm/migrations/v3"
+	v3 "github.com/planq-network/planq/x/evm/migrations/v3"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -11,11 +11,11 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 
-	"github.com/evmos/ethermint/encoding"
+	"github.com/planq-network/planq/encoding"
 
-	"github.com/evmos/ethermint/app"
-	v3types "github.com/evmos/ethermint/x/evm/migrations/v3/types"
-	"github.com/evmos/ethermint/x/evm/types"
+	"github.com/planq-network/planq/app"
+	v3types "github.com/planq-network/planq/x/evm/migrations/v3/types"
+	"github.com/planq-network/planq/x/evm/types"
 )
 
 func TestMigrateStore(t *testing.T) {

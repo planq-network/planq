@@ -21,8 +21,8 @@ import (
 	"github.com/tendermint/tendermint/libs/log"
 	tmtypes "github.com/tendermint/tendermint/types"
 
-	"github.com/planq-network/planq/rpc/ethereum/backend"
-	rpctypes "github.com/planq-network/planq/rpc/ethereum/types"
+	"github.com/planq-network/planq/rpc/backend"
+	rpctypes "github.com/planq-network/planq/rpc/types"
 	"github.com/planq-network/planq/server/config"
 )
 

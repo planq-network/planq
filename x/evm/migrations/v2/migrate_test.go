@@ -10,12 +10,12 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 
-	"github.com/evmos/ethermint/encoding"
+	"github.com/planq-network/planq/encoding"
 
-	"github.com/evmos/ethermint/app"
-	v2 "github.com/evmos/ethermint/x/evm/migrations/v2"
-	v2types "github.com/evmos/ethermint/x/evm/migrations/v2/types"
-	"github.com/evmos/ethermint/x/evm/types"
+	"github.com/planq-network/planq/app"
+	v2 "github.com/planq-network/planq/x/evm/migrations/v2"
+	v2types "github.com/planq-network/planq/x/evm/migrations/v2/types"
+	"github.com/planq-network/planq/x/evm/types"
 )
 
 func TestMigrateStore(t *testing.T) {

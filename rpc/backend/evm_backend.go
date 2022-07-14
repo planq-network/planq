@@ -26,10 +26,10 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	grpctypes "github.com/cosmos/cosmos-sdk/types/grpc"
 
-	"github.com/evmos/ethermint/rpc/types"
-	ethermint "github.com/evmos/ethermint/types"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
-	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
+	"github.com/planq-network/planq/rpc/types"
+	ethermint "github.com/planq-network/planq/types"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
+	feemarkettypes "github.com/planq-network/planq/x/feemarket/types"
 )
 
 var bAttributeKeyEthereumBloom = []byte(evmtypes.AttributeKeyEthereumBloom)
