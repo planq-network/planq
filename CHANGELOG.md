@@ -637,7 +637,7 @@ corresponding Ethereum API namespace:
 
 ### API Breaking
 
-* (types) [tharsis#503](https://github.com/cosmos/ethermint/pull/503) The `types.DenomDefault` constant for `"aphoton"` has been renamed to `types.AttoPhoton`.
+* (types) [tharsis#503](https://github.com/cosmos/ethermint/pull/503) The `types.DenomDefault` constant for `"aplanq"` has been renamed to `types.AttoPhoton`.
 
 ### Improvements
 

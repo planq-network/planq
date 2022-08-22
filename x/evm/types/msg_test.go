@@ -96,7 +96,7 @@ func (suite *MsgsTestSuite) TestMsgEthereumTx_BuildTx() {
 			tc.msg.Data = nil
 		}
 
-		tx, err := tc.msg.BuildTx(suite.clientCtx.TxConfig.NewTxBuilder(), "aphoton")
+		tx, err := tc.msg.BuildTx(suite.clientCtx.TxConfig.NewTxBuilder(), "aplanq")
 		if tc.expError {
 			suite.Require().Error(err)
 		} else {

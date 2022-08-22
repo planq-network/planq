@@ -43,7 +43,7 @@ planq_7000-1:
         deposit_params:
           max_deposit_period: "10s"
           min_deposit:
-            - denom: "aphoton"
+            - denom: "aplanq"
               amount: "1"
       transfer:
         params:

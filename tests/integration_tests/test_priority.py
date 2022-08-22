@@ -161,7 +161,7 @@ def test_native_tx_priority(ethermint: Ethermint):
                 tx, tc["from"], max_priority_price=tc.get("max_priority_price")
             )
         )
-        gas_price = int(tc["gas_prices"].removesuffix("aphoton"))
+        gas_price = int(tc["gas_prices"].removesuffix("aplanq"))
         expect_priorities.append(
             min(
                 get_max_priority_price(tc.get("max_priority_price")),
