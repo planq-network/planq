@@ -113,7 +113,7 @@ def test_pruned_node(pruned):
             "value": 0,
             "type": "0x2",
             "accessList": [],
-            "chainId": "0x2328",
+            "chainId": "0x1b58",
         }
     )
     assert tx1 == tx2
