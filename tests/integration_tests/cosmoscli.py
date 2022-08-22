@@ -5,7 +5,7 @@ import requests
 from dateutil.parser import isoparse
 from pystarport.utils import build_cli_args_safe, interact
 
-DEFAULT_GAS_PRICE = "5000000000000aphoton"
+DEFAULT_GAS_PRICE = "5000000000000aplanq"
 
 
 class ChainCommand:

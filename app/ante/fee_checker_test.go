@@ -99,7 +99,7 @@ func TestSDKTxFeeChecker(t *testing.T) {
 				txBuilder.SetFeeAmount(sdk.NewCoins(sdk.NewCoin("aplanq", sdk.NewInt(10))))
 				return txBuilder.GetTx()
 			},
-			"10aphoton",
+			"10aplanq",
 			0,
 			true,
 		},
@@ -141,7 +141,7 @@ func TestSDKTxFeeChecker(t *testing.T) {
 				txBuilder.SetFeeAmount(sdk.NewCoins(sdk.NewCoin("aplanq", sdk.NewInt(10))))
 				return txBuilder.GetTx()
 			},
-			"10aphoton",
+			"10aplanq",
 			0,
 			true,
 		},
@@ -157,7 +157,7 @@ func TestSDKTxFeeChecker(t *testing.T) {
 				txBuilder.SetFeeAmount(sdk.NewCoins(sdk.NewCoin("aplanq", sdk.NewInt(10).Mul(types.DefaultPriorityReduction).Add(sdk.NewInt(10)))))
 				return txBuilder.GetTx()
 			},
-			"10000010aphoton",
+			"10000010aplanq",
 			10,
 			true,
 		},
@@ -177,7 +177,7 @@ func TestSDKTxFeeChecker(t *testing.T) {
 				txBuilder.SetExtensionOptions(option)
 				return txBuilder.GetTx()
 			},
-			"10aphoton",
+			"10aplanq",
 			0,
 			true,
 		},
@@ -199,7 +199,7 @@ func TestSDKTxFeeChecker(t *testing.T) {
 				txBuilder.SetExtensionOptions(option)
 				return txBuilder.GetTx()
 			},
-			"5000010aphoton",
+			"5000010aplanq",
 			5,
 			true,
 		},
