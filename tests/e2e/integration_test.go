@@ -14,9 +14,6 @@ import (
 	authtx "github.com/cosmos/cosmos-sdk/x/auth/tx"
 	"github.com/planq-network/planq/rpc/types"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
-
 	// . "github.com/onsi/ginkgo/v2"
 	// . "github.com/onsi/gomega"
 

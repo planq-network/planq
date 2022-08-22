@@ -4,8 +4,6 @@ import (
 	"context"
 	"math/big"
 
-	"github.com/planq-network/planq/ethereum/eip712"
-
 	"github.com/ethereum/go-ethereum/signer/core/apitypes"
 
 	"github.com/ethereum/go-ethereum/rpc"

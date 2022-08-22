@@ -19,13 +19,13 @@ import (
 	"github.com/stretchr/testify/suite"
 	tmrpctypes "github.com/tendermint/tendermint/rpc/core/types"
 
-	"github.com/evmos/ethermint/app"
-	"github.com/evmos/ethermint/crypto/hd"
-	"github.com/evmos/ethermint/encoding"
-	"github.com/evmos/ethermint/indexer"
-	"github.com/evmos/ethermint/rpc/backend/mocks"
-	rpctypes "github.com/evmos/ethermint/rpc/types"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
+	"github.com/planq-network/planq/app"
+	"github.com/planq-network/planq/crypto/hd"
+	"github.com/planq-network/planq/encoding"
+	"github.com/planq-network/planq/indexer"
+	"github.com/planq-network/planq/rpc/backend/mocks"
+	rpctypes "github.com/planq-network/planq/rpc/types"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
 )
 
 type BackendTestSuite struct {

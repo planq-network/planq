@@ -18,11 +18,11 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/evmos/ethermint/crypto/ethsecp256k1"
-	rpctypes "github.com/evmos/ethermint/rpc/types"
-	"github.com/evmos/ethermint/server/config"
-	ethermint "github.com/evmos/ethermint/types"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
+	"github.com/planq-network/planq/crypto/ethsecp256k1"
+	rpctypes "github.com/planq-network/planq/rpc/types"
+	"github.com/planq-network/planq/server/config"
+	ethermint "github.com/planq-network/planq/types"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
 	tmtypes "github.com/tendermint/tendermint/types"
 )
 

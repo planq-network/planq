@@ -5,9 +5,9 @@ import (
 	"fmt"
 
 	"github.com/ethereum/go-ethereum/common"
-	rpctypes "github.com/evmos/ethermint/rpc/types"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
 	"github.com/pkg/errors"
+	rpctypes "github.com/planq-network/planq/rpc/types"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
 	tmrpctypes "github.com/tendermint/tendermint/rpc/core/types"
 )
 

@@ -13,11 +13,11 @@ import (
 	tmtypes "github.com/tendermint/tendermint/types"
 	"google.golang.org/grpc/metadata"
 
-	"github.com/evmos/ethermint/rpc/backend/mocks"
-	ethrpc "github.com/evmos/ethermint/rpc/types"
-	"github.com/evmos/ethermint/tests"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
-	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
+	"github.com/planq-network/planq/rpc/backend/mocks"
+	ethrpc "github.com/planq-network/planq/rpc/types"
+	"github.com/planq-network/planq/tests"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
+	feemarkettypes "github.com/planq-network/planq/x/feemarket/types"
 )
 
 func (suite *BackendTestSuite) TestBlockNumber() {

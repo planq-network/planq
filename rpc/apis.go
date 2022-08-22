@@ -19,7 +19,7 @@ import (
 	"github.com/planq-network/planq/rpc/namespaces/ethereum/personal"
 	"github.com/planq-network/planq/rpc/namespaces/ethereum/txpool"
 	"github.com/planq-network/planq/rpc/namespaces/ethereum/web3"
-	ethermint "github.com/planq-network/planq/ethermint/types"
+	ethermint "github.com/planq-network/planq/types"
 
 	rpcclient "github.com/tendermint/tendermint/rpc/jsonrpc/client"
 )
