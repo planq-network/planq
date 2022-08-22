@@ -1,7 +1,7 @@
 {
   dotenv: '../../../scripts/.env',
   'planq_7000-1': {
-    cmd: 'ethermintd',
+    cmd: 'planqd',
     'start-flags': '--trace',
     config: {
       consensus: {

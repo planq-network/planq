@@ -55,7 +55,7 @@ class Ethermint:
         self._use_websockets = use
 
     def cosmos_cli(self, i=0):
-        return CosmosCLI(self.base_dir / f"node{i}", self.node_rpc(i), "ethermintd")
+        return CosmosCLI(self.base_dir / f"node{i}", self.node_rpc(i), "planqd")
 
 
 class Geth:
