@@ -4,10 +4,11 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
 	"math/big"
 	"testing"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
 
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"

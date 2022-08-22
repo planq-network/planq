@@ -9,10 +9,10 @@ import (
 
 	"github.com/planq-network/planq/x/evm/types"
 )
+
 const (
 	extraEIPsKey = "extra_eips"
 )
-
 
 // GenExtraEIPs defines a set of extra EIPs with 50% probability
 func GenExtraEIPs(r *rand.Rand) []int64 {
