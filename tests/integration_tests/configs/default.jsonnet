@@ -1,6 +1,6 @@
 {
   dotenv: '../../../scripts/.env',
-  'ethermint_9000-1': {
+  'planq_7000-1': {
     cmd: 'ethermintd',
     'start-flags': '--trace',
     config: {

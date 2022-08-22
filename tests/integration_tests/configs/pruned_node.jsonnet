@@ -1,7 +1,7 @@
 local config = import 'default.jsonnet';
 
 config {
-  'ethermint_9000-1'+: {
+  'planq_7000-1'+: {
     'app-config'+: {
       pruning: 'everything',
       'state-sync'+: {
