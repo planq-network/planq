@@ -2,6 +2,11 @@ package app
 
 import (
 	"encoding/json"
+	ibctesting "github.com/cosmos/ibc-go/v5/testing"
+	types2 "github.com/cosmos/ibc-go/v5/testing/types"
+	"github.com/evmos/ethermint/encoding"
+	"github.com/evmos/ethermint/x/evm/vm/geth"
+	"github.com/planq-network/planq/app/ante"
 	"io"
 	"net/http"
 	"os"
@@ -100,16 +105,14 @@ import (
 	// unnamed import of statik for swagger UI support
 	_ "github.com/planq-network/planq/client/docs/statik"
 
-	"github.com/planq-network/planq/app/ante"
-	srvflags "github.com/planq-network/planq/server/flags"
-	ethermint "github.com/planq-network/planq/types"
-	"github.com/planq-network/planq/x/evm"
-	evmkeeper "github.com/planq-network/planq/x/evm/keeper"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
-	"github.com/planq-network/planq/x/feemarket"
-	feemarketkeeper "github.com/planq-network/planq/x/feemarket/keeper"
-	feemarkettypes "github.com/planq-network/planq/x/feemarket/types"
-
+	srvflags "github.com/evmos/ethermint/server/flags"
+	ethermint "github.com/evmos/ethermint/types"
+	"github.com/evmos/ethermint/x/evm"
+	evmkeeper "github.com/evmos/ethermint/x/evm/keeper"
+	evmtypes "github.com/evmos/ethermint/x/evm/types"
+	"github.com/evmos/ethermint/x/feemarket"
+	feemarketkeeper "github.com/evmos/ethermint/x/feemarket/keeper"
+	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
 	// Force-load the tracer engines to trigger registration due to Go-Ethereum v1.10.15 changes
 	_ "github.com/ethereum/go-ethereum/eth/tracers/js"
 	_ "github.com/ethereum/go-ethereum/eth/tracers/native"
@@ -121,10 +124,11 @@ func init() {
 		panic(err)
 	}
 
+	sdk.DefaultPowerReduction = ethermint.PowerReduction
 	DefaultNodeHome = filepath.Join(userHomeDir, ".planqd")
 }
 
-const appName = "planqd"
+const Name = "planqd"
 
 var (
 	// DefaultNodeHome default home directories for the application daemon
@@ -155,7 +159,6 @@ var (
 		evidence.AppModuleBasic{},
 		transfer.AppModuleBasic{},
 		vesting.AppModuleBasic{},
-		// Ethermint modules
 		evm.AppModuleBasic{},
 		feemarket.AppModuleBasic{},
 	)
@@ -178,14 +181,18 @@ var (
 	}
 )
 
-var _ simapp.App = (*EthermintApp)(nil)
+var (
+	_ servertypes.Application = (*PlanqApp)(nil)
+	_ simapp.App              = (*PlanqApp)(nil)
+	_ ibctesting.TestingApp   = (*PlanqApp)(nil)
+)
 
-// var _ server.Application (*EthermintApp)(nil)
+// var _ server.Application (*PlanqApp)(nil)
 
-// EthermintApp implements an extended ABCI application. It is an application
+// PlanqApp implements an extended ABCI application. It is an application
 // that may process transactions through Ethereum's EVM running atop of
 // Tendermint consensus.
-type EthermintApp struct {
+type PlanqApp struct {
 	*baseapp.BaseApp
 
 	// encoding
@@ -236,8 +243,8 @@ type EthermintApp struct {
 	configurator module.Configurator
 }
 
-// NewEthermintApp returns a reference to a new initialized Ethermint application.
-func NewEthermintApp(
+// NewPlanqApp returns a reference to a new initialized Ethermint application.
+func NewPlanqApp(
 	logger log.Logger,
 	db dbm.DB,
 	traceStore io.Writer,
@@ -248,14 +255,14 @@ func NewEthermintApp(
 	encodingConfig simappparams.EncodingConfig,
 	appOpts servertypes.AppOptions,
 	baseAppOptions ...func(*baseapp.BaseApp),
-) *EthermintApp {
+) *PlanqApp {
 	appCodec := encodingConfig.Codec
 	cdc := encodingConfig.Amino
 	interfaceRegistry := encodingConfig.InterfaceRegistry
 
 	// NOTE we use custom transaction decoder that supports the sdk.Tx interface instead of sdk.StdTx
 	bApp := baseapp.NewBaseApp(
-		appName,
+		Name,
 		logger,
 		db,
 		encodingConfig.TxConfig.TxDecoder(),
@@ -282,7 +289,7 @@ func NewEthermintApp(
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey, evmtypes.TransientKey, feemarkettypes.TransientKey)
 	memKeys := sdk.NewMemoryStoreKeys(capabilitytypes.MemStoreKey)
 
-	app := &EthermintApp{
+	app := &PlanqApp{
 		BaseApp:           bApp,
 		cdc:               cdc,
 		appCodec:          appCodec,
@@ -355,7 +362,7 @@ func NewEthermintApp(
 	app.EvmKeeper = evmkeeper.NewKeeper(
 		appCodec, keys[evmtypes.StoreKey], tkeys[evmtypes.TransientKey], app.GetSubspace(evmtypes.ModuleName),
 		app.AccountKeeper, app.BankKeeper, app.StakingKeeper, app.FeeMarketKeeper,
-		tracer,
+		nil, geth.NewEVM, tracer,
 	)
 
 	// Create IBC Keeper
@@ -569,7 +576,23 @@ func NewEthermintApp(
 	app.SetInitChainer(app.InitChainer)
 	app.SetBeginBlocker(app.BeginBlocker)
 	app.SetEndBlocker(app.EndBlocker)
-	app.setAnteHandler(encodingConfig.TxConfig, cast.ToUint64(appOpts.Get(srvflags.EVMMaxTxGasWanted)))
+
+	maxGasWanted := cast.ToUint64(appOpts.Get(srvflags.EVMMaxTxGasWanted))
+	options := ante.HandlerOptions{
+		AccountKeeper:          app.AccountKeeper,
+		BankKeeper:             app.BankKeeper,
+		ExtensionOptionChecker: nil,
+		EvmKeeper:              app.EvmKeeper,
+		FeegrantKeeper:         app.FeeGrantKeeper,
+		IBCKeeper:              app.IBCKeeper,
+		FeeMarketKeeper:        app.FeeMarketKeeper,
+		SignModeHandler:        encodingConfig.TxConfig.SignModeHandler(),
+		SigGasConsumer:         SigVerificationGasConsumer,
+		Cdc:                    appCodec,
+		MaxTxGasWanted:         maxGasWanted,
+	}
+
+	app.SetAnteHandler(ante.NewAnteHandler(options))
 	// In v0.46, the SDK introduces _postHandlers_. PostHandlers are like
 	// antehandlers, but are run _after_ the `runMsgs` execution. They are also
 	// defined as a chain, and have the same signature as antehandlers.
@@ -597,29 +620,7 @@ func NewEthermintApp(
 	return app
 }
 
-// use Ethermint's custom AnteHandler
-func (app *EthermintApp) setAnteHandler(txConfig client.TxConfig, maxGasWanted uint64) {
-	anteHandler, err := ante.NewAnteHandler(ante.HandlerOptions{
-		AccountKeeper:          app.AccountKeeper,
-		BankKeeper:             app.BankKeeper,
-		SignModeHandler:        txConfig.SignModeHandler(),
-		FeegrantKeeper:         app.FeeGrantKeeper,
-		SigGasConsumer:         ante.DefaultSigVerificationGasConsumer,
-		IBCKeeper:              app.IBCKeeper,
-		EvmKeeper:              app.EvmKeeper,
-		FeeMarketKeeper:        app.FeeMarketKeeper,
-		MaxTxGasWanted:         maxGasWanted,
-		ExtensionOptionChecker: ethermint.HasDynamicFeeExtensionOption,
-		TxFeeChecker:           ante.NewDynamicFeeChecker(app.EvmKeeper),
-	})
-	if err != nil {
-		panic(err)
-	}
-
-	app.SetAnteHandler(anteHandler)
-}
-
-func (app *EthermintApp) setPostHandler() {
+func (app *PlanqApp) setPostHandler() {
 	postHandler, err := posthandler.NewPostHandler(
 		posthandler.HandlerOptions{},
 	)
@@ -630,21 +631,42 @@ func (app *EthermintApp) setPostHandler() {
 	app.SetPostHandler(postHandler)
 }
 
+func (app *PlanqApp) GetBaseApp() *baseapp.BaseApp {
+	return app.BaseApp
+}
+
+func (app *PlanqApp) GetStakingKeeper() types2.StakingKeeper {
+	return app.StakingKeeper
+}
+
+func (app *PlanqApp) GetIBCKeeper() *ibckeeper.Keeper {
+	return app.IBCKeeper
+}
+
+func (app *PlanqApp) GetScopedIBCKeeper() capabilitykeeper.ScopedKeeper {
+	return app.ScopedIBCKeeper
+}
+
+func (app *PlanqApp) GetTxConfig() client.TxConfig {
+	cfg := encoding.MakeConfig(ModuleBasics)
+	return cfg.TxConfig
+}
+
 // Name returns the name of the App
-func (app *EthermintApp) Name() string { return app.BaseApp.Name() }
+func (app *PlanqApp) Name() string { return app.BaseApp.Name() }
 
 // BeginBlocker updates every begin block
-func (app *EthermintApp) BeginBlocker(ctx sdk.Context, req abci.RequestBeginBlock) abci.ResponseBeginBlock {
+func (app *PlanqApp) BeginBlocker(ctx sdk.Context, req abci.RequestBeginBlock) abci.ResponseBeginBlock {
 	return app.mm.BeginBlock(ctx, req)
 }
 
 // EndBlocker updates every end block
-func (app *EthermintApp) EndBlocker(ctx sdk.Context, req abci.RequestEndBlock) abci.ResponseEndBlock {
+func (app *PlanqApp) EndBlocker(ctx sdk.Context, req abci.RequestEndBlock) abci.ResponseEndBlock {
 	return app.mm.EndBlock(ctx, req)
 }
 
 // InitChainer updates at chain initialization
-func (app *EthermintApp) InitChainer(ctx sdk.Context, req abci.RequestInitChain) abci.ResponseInitChain {
+func (app *PlanqApp) InitChainer(ctx sdk.Context, req abci.RequestInitChain) abci.ResponseInitChain {
 	var genesisState simapp.GenesisState
 	if err := json.Unmarshal(req.AppStateBytes, &genesisState); err != nil {
 		panic(err)
@@ -654,12 +676,12 @@ func (app *EthermintApp) InitChainer(ctx sdk.Context, req abci.RequestInitChain)
 }
 
 // LoadHeight loads state at a particular height
-func (app *EthermintApp) LoadHeight(height int64) error {
+func (app *PlanqApp) LoadHeight(height int64) error {
 	return app.LoadVersion(height)
 }
 
 // ModuleAccountAddrs returns all the app's module account addresses.
-func (app *EthermintApp) ModuleAccountAddrs() map[string]bool {
+func (app *PlanqApp) ModuleAccountAddrs() map[string]bool {
 	modAccAddrs := make(map[string]bool)
 	for acc := range maccPerms {
 		modAccAddrs[authtypes.NewModuleAddress(acc).String()] = true
@@ -670,7 +692,7 @@ func (app *EthermintApp) ModuleAccountAddrs() map[string]bool {
 
 // BlockedAddrs returns all the app's module account addresses that are not
 // allowed to receive external tokens.
-func (app *EthermintApp) BlockedAddrs() map[string]bool {
+func (app *PlanqApp) BlockedAddrs() map[string]bool {
 	blockedAddrs := make(map[string]bool)
 	for acc := range maccPerms {
 		blockedAddrs[authtypes.NewModuleAddress(acc).String()] = !allowedReceivingModAcc[acc]
@@ -679,64 +701,64 @@ func (app *EthermintApp) BlockedAddrs() map[string]bool {
 	return blockedAddrs
 }
 
-// LegacyAmino returns EthermintApp's amino codec.
+// LegacyAmino returns PlanqApp's amino codec.
 //
 // NOTE: This is solely to be used for testing purposes as it may be desirable
 // for modules to register their own custom testing types.
-func (app *EthermintApp) LegacyAmino() *codec.LegacyAmino {
+func (app *PlanqApp) LegacyAmino() *codec.LegacyAmino {
 	return app.cdc
 }
 
-// AppCodec returns EthermintApp's app codec.
+// AppCodec returns PlanqApp's app codec.
 //
 // NOTE: This is solely to be used for testing purposes as it may be desirable
 // for modules to register their own custom testing types.
-func (app *EthermintApp) AppCodec() codec.Codec {
+func (app *PlanqApp) AppCodec() codec.Codec {
 	return app.appCodec
 }
 
-// InterfaceRegistry returns EthermintApp's InterfaceRegistry
-func (app *EthermintApp) InterfaceRegistry() types.InterfaceRegistry {
+// InterfaceRegistry returns PlanqApp's InterfaceRegistry
+func (app *PlanqApp) InterfaceRegistry() types.InterfaceRegistry {
 	return app.interfaceRegistry
 }
 
 // GetKey returns the KVStoreKey for the provided store key.
 //
 // NOTE: This is solely to be used for testing purposes.
-func (app *EthermintApp) GetKey(storeKey string) *storetypes.KVStoreKey {
+func (app *PlanqApp) GetKey(storeKey string) *storetypes.KVStoreKey {
 	return app.keys[storeKey]
 }
 
 // GetTKey returns the TransientStoreKey for the provided store key.
 //
 // NOTE: This is solely to be used for testing purposes.
-func (app *EthermintApp) GetTKey(storeKey string) *storetypes.TransientStoreKey {
+func (app *PlanqApp) GetTKey(storeKey string) *storetypes.TransientStoreKey {
 	return app.tkeys[storeKey]
 }
 
 // GetMemKey returns the MemStoreKey for the provided mem key.
 //
 // NOTE: This is solely used for testing purposes.
-func (app *EthermintApp) GetMemKey(storeKey string) *storetypes.MemoryStoreKey {
+func (app *PlanqApp) GetMemKey(storeKey string) *storetypes.MemoryStoreKey {
 	return app.memKeys[storeKey]
 }
 
 // GetSubspace returns a param subspace for a given module name.
 //
 // NOTE: This is solely to be used for testing purposes.
-func (app *EthermintApp) GetSubspace(moduleName string) paramstypes.Subspace {
+func (app *PlanqApp) GetSubspace(moduleName string) paramstypes.Subspace {
 	subspace, _ := app.ParamsKeeper.GetSubspace(moduleName)
 	return subspace
 }
 
 // SimulationManager implements the SimulationApp interface
-func (app *EthermintApp) SimulationManager() *module.SimulationManager {
+func (app *PlanqApp) SimulationManager() *module.SimulationManager {
 	return app.sm
 }
 
 // RegisterAPIRoutes registers all application module routes with the provided
 // API server.
-func (app *EthermintApp) RegisterAPIRoutes(apiSvr *api.Server, apiConfig config.APIConfig) {
+func (app *PlanqApp) RegisterAPIRoutes(apiSvr *api.Server, apiConfig config.APIConfig) {
 	clientCtx := apiSvr.ClientCtx
 	// Register new tx routes from grpc-gateway.
 	authtx.RegisterGRPCGatewayRoutes(clientCtx, apiSvr.GRPCGatewayRouter)
@@ -753,12 +775,12 @@ func (app *EthermintApp) RegisterAPIRoutes(apiSvr *api.Server, apiConfig config.
 }
 
 // RegisterTxService implements the Application.RegisterTxService method.
-func (app *EthermintApp) RegisterTxService(clientCtx client.Context) {
+func (app *PlanqApp) RegisterTxService(clientCtx client.Context) {
 	authtx.RegisterTxService(app.BaseApp.GRPCQueryRouter(), clientCtx, app.BaseApp.Simulate, app.interfaceRegistry)
 }
 
 // RegisterTendermintService implements the Application.RegisterTendermintService method.
-func (app *EthermintApp) RegisterTendermintService(clientCtx client.Context) {
+func (app *PlanqApp) RegisterTendermintService(clientCtx client.Context) {
 	tmservice.RegisterTendermintService(
 		clientCtx,
 		app.BaseApp.GRPCQueryRouter(),

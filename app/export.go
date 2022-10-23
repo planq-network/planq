@@ -13,7 +13,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/staking"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/planq-network/planq/encoding"
+	"github.com/evmos/ethermint/encoding"
 )
 
 // NewDefaultGenesisState generates the default state for the application.
@@ -24,7 +24,7 @@ func NewDefaultGenesisState() simapp.GenesisState {
 
 // ExportAppStateAndValidators exports the state of the application for a genesis
 // file.
-func (app *EthermintApp) ExportAppStateAndValidators(
+func (app *PlanqApp) ExportAppStateAndValidators(
 	forZeroHeight bool, jailAllowedAddrs []string,
 ) (servertypes.ExportedApp, error) {
 	// Creates context with current height and checks txs for ctx to be usable by start of next block
@@ -63,7 +63,7 @@ func (app *EthermintApp) ExportAppStateAndValidators(
 // prepare for fresh start at zero height
 // NOTE zero height genesis is a temporary feature which will be deprecated
 // in favor of export at a block height
-func (app *EthermintApp) prepForZeroHeightGenesis(ctx sdk.Context, jailAllowedAddrs []string) error {
+func (app *PlanqApp) prepForZeroHeightGenesis(ctx sdk.Context, jailAllowedAddrs []string) error {
 	applyAllowedAddrs := false
 
 	// check if there is a allowed address list

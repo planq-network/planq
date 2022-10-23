@@ -1,4 +1,4 @@
 all:
-	docker build --no-cache --tag planqd/node ../.. -f ethermintnode/Dockerfile
+	docker build --no-cache --tag planqd/node ../.. -f planqnode/Dockerfile
 
 .PHONY: all

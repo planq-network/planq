@@ -17,8 +17,8 @@ import (
 func TestInitCmd(t *testing.T) {
 	rootCmd, _ := planqd.NewRootCmd()
 	rootCmd.SetArgs([]string{
-		"init",          // Test the init cmd
-		"etherminttest", // Moniker
+		"init",      // Test the init cmd
+		"planqtest", // Moniker
 		fmt.Sprintf("--%s=%s", cli.FlagOverwrite, "true"), // Overwrite genesis.json, in case it already exists
 		fmt.Sprintf("--%s=%s", flags.FlagChainID, "planq_7000-1"),
 	})

@@ -2,39 +2,43 @@ package app
 
 import (
 	"encoding/json"
-	"math/rand"
 	"time"
 
-	"github.com/cosmos/cosmos-sdk/codec"
-	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
-	cryptocodec "github.com/cosmos/cosmos-sdk/crypto/codec"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
 	"github.com/cosmos/cosmos-sdk/simapp"
-	"github.com/cosmos/cosmos-sdk/testutil/mock"
-	"github.com/cosmos/cosmos-sdk/types/module"
-	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-
-	"github.com/planq-network/planq/encoding"
-	ethermint "github.com/planq-network/planq/types"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
-
-	"github.com/cosmos/cosmos-sdk/crypto/keys/ed25519"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/planq-network/planq/crypto/ethsecp256k1"
+	ibctesting "github.com/cosmos/ibc-go/v5/testing"
+	"github.com/cosmos/ibc-go/v5/testing/mock"
 	abci "github.com/tendermint/tendermint/abci/types"
 	"github.com/tendermint/tendermint/libs/log"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	tmtypes "github.com/tendermint/tendermint/types"
 	dbm "github.com/tendermint/tm-db"
+
+	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
+	cryptocodec "github.com/cosmos/cosmos-sdk/crypto/codec"
+	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
+	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+
+	"github.com/evmos/ethermint/encoding"
+	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
+
+	"github.com/planq-network/planq/cmd/config"
+	"github.com/planq-network/planq/types"
 )
 
+func init() {
+	cfg := sdk.GetConfig()
+	config.SetBech32Prefixes(cfg)
+	config.SetBip44CoinType(cfg)
+}
+
+// DefaultTestingAppInit defines the IBC application used for testing
+var DefaultTestingAppInit func() (ibctesting.TestingApp, map[string]json.RawMessage) = SetupTestingApp
+
 // DefaultConsensusParams defines the default Tendermint consensus params used in
-// EthermintApp testing.
+// Planq testing.
 var DefaultConsensusParams = &abci.ConsensusParams{
 	Block: &abci.BlockParams{
 		MaxBytes: 200000,
@@ -52,19 +56,47 @@ var DefaultConsensusParams = &abci.ConsensusParams{
 	},
 }
 
-// Setup initializes a new EthermintApp. A Nop logger is set in EthermintApp.
-func Setup(isCheckTx bool, patchGenesis func(*EthermintApp, simapp.GenesisState) simapp.GenesisState) *EthermintApp {
-	return SetupWithDB(isCheckTx, patchGenesis, dbm.NewMemDB())
+func init() {
+	feemarkettypes.DefaultMinGasPrice = sdk.ZeroDec()
+	cfg := sdk.GetConfig()
+	config.SetBech32Prefixes(cfg)
+	config.SetBip44CoinType(cfg)
 }
 
-// SetupWithDB initializes a new EthermintApp. A Nop logger is set in EthermintApp.
-func SetupWithDB(isCheckTx bool, patchGenesis func(*EthermintApp, simapp.GenesisState) simapp.GenesisState, db dbm.DB) *EthermintApp {
-	app := NewEthermintApp(log.NewNopLogger(), db, nil, true, map[int64]bool{}, DefaultNodeHome, 5, encoding.MakeConfig(ModuleBasics), simapp.EmptyAppOptions{})
+// Setup initializes a new PlanqApp. A Nop logger is set in PlanqApp.
+func Setup(
+	isCheckTx bool,
+	feemarketGenesis *feemarkettypes.GenesisState,
+) *PlanqApp {
+	privVal := mock.NewPV()
+	pubKey, _ := privVal.GetPubKey()
+
+	// create validator set with single validator
+	validator := tmtypes.NewValidator(pubKey, 1)
+	valSet := tmtypes.NewValidatorSet([]*tmtypes.Validator{validator})
+
+	// generate genesis account
+	senderPrivKey := secp256k1.GenPrivKey()
+	acc := authtypes.NewBaseAccount(senderPrivKey.PubKey().Address().Bytes(), senderPrivKey.PubKey(), 0, 0)
+	balance := banktypes.Balance{
+		Address: acc.GetAddress().String(),
+		Coins:   sdk.NewCoins(sdk.NewCoin(config.BaseDenom, sdk.NewInt(100000000000000))),
+	}
+
+	db := dbm.NewMemDB()
+	app := NewPlanqApp(log.NewNopLogger(), db, nil, true, map[int64]bool{}, DefaultNodeHome, 5, encoding.MakeConfig(ModuleBasics), simapp.EmptyAppOptions{})
 	if !isCheckTx {
 		// init chain must be called to stop deliverState from being nil
-		genesisState := NewTestGenesisState(app.AppCodec())
-		if patchGenesis != nil {
-			genesisState = patchGenesis(app, genesisState)
+		genesisState := NewDefaultGenesisState()
+
+		genesisState = GenesisStateWithValSet(app, genesisState, valSet, []authtypes.GenesisAccount{acc}, balance)
+
+		// Verify feeMarket genesis
+		if feemarketGenesis != nil {
+			if err := feemarketGenesis.Validate(); err != nil {
+				panic(err)
+			}
+			genesisState[feemarkettypes.ModuleName] = app.AppCodec().MustMarshalJSON(feemarketGenesis)
 		}
 
 		stateBytes, err := json.MarshalIndent(genesisState, "", " ")
@@ -75,7 +107,7 @@ func SetupWithDB(isCheckTx bool, patchGenesis func(*EthermintApp, simapp.Genesis
 		// Initialize the chain
 		app.InitChain(
 			abci.RequestInitChain{
-				ChainId:         "planq_7000-1",
+				ChainId:         types.MainnetChainID + "-1",
 				Validators:      []abci.ValidatorUpdate{},
 				ConsensusParams: DefaultConsensusParams,
 				AppStateBytes:   stateBytes,
@@ -86,126 +118,13 @@ func SetupWithDB(isCheckTx bool, patchGenesis func(*EthermintApp, simapp.Genesis
 	return app
 }
 
-// RandomGenesisAccounts is used by the auth module to create random genesis accounts in simulation when a genesis.json is not specified.
-// In contrast, the default auth module's RandomGenesisAccounts implementation creates only base accounts and vestings accounts.
-func RandomGenesisAccounts(simState *module.SimulationState) authtypes.GenesisAccounts {
-	emptyCodeHash := crypto.Keccak256(nil)
-	genesisAccs := make(authtypes.GenesisAccounts, len(simState.Accounts))
-	for i, acc := range simState.Accounts {
-		bacc := authtypes.NewBaseAccountWithAddress(acc.Address)
-
-		ethacc := &ethermint.EthAccount{
-			BaseAccount: bacc,
-			CodeHash:    common.BytesToHash(emptyCodeHash).String(),
-		}
-		genesisAccs[i] = ethacc
-	}
-
-	return genesisAccs
-}
-
-// RandomAccounts creates random accounts with an ethsecp256k1 private key
-// TODO: replace secp256k1.GenPrivKeyFromSecret() with similar function in go-ethereum
-func RandomAccounts(r *rand.Rand, n int) []simtypes.Account {
-	accs := make([]simtypes.Account, n)
-
-	for i := 0; i < n; i++ {
-		// don't need that much entropy for simulation
-		privkeySeed := make([]byte, 15)
-		_, _ = r.Read(privkeySeed)
-
-		prv := secp256k1.GenPrivKeyFromSecret(privkeySeed)
-		ethPrv := &ethsecp256k1.PrivKey{}
-		_ = ethPrv.UnmarshalAmino(prv.Bytes()) // UnmarshalAmino simply copies the bytes and assigns them to ethPrv.Key
-		accs[i].PrivKey = ethPrv
-		accs[i].PubKey = accs[i].PrivKey.PubKey()
-		accs[i].Address = sdk.AccAddress(accs[i].PubKey.Address())
-
-		accs[i].ConsKey = ed25519.GenPrivKeyFromSecret(privkeySeed)
-	}
-
-	return accs
-}
-
-// StateFn returns the initial application state using a genesis or the simulation parameters.
-// It is a wrapper of simapp.AppStateFn to replace evm param EvmDenom with staking param BondDenom.
-func StateFn(cdc codec.JSONCodec, simManager *module.SimulationManager) simtypes.AppStateFn {
-	return func(r *rand.Rand, accs []simtypes.Account, config simtypes.Config,
-	) (appState json.RawMessage, simAccs []simtypes.Account, chainID string, genesisTimestamp time.Time) {
-		appStateFn := simapp.AppStateFn(cdc, simManager)
-		appState, simAccs, chainID, genesisTimestamp = appStateFn(r, accs, config)
-
-		rawState := make(map[string]json.RawMessage)
-		err := json.Unmarshal(appState, &rawState)
-		if err != nil {
-			panic(err)
-		}
-
-		stakingStateBz, ok := rawState[stakingtypes.ModuleName]
-		if !ok {
-			panic("staking genesis state is missing")
-		}
-
-		stakingState := new(stakingtypes.GenesisState)
-		cdc.MustUnmarshalJSON(stakingStateBz, stakingState)
-
-		// we should get the BondDenom and make it the evmdenom.
-		// thus simulation accounts could have positive amount of gas token.
-		bondDenom := stakingState.Params.BondDenom
-
-		evmStateBz, ok := rawState[evmtypes.ModuleName]
-		if !ok {
-			panic("evm genesis state is missing")
-		}
-
-		evmState := new(evmtypes.GenesisState)
-		cdc.MustUnmarshalJSON(evmStateBz, evmState)
-
-		// we should replace the EvmDenom with BondDenom
-		evmState.Params.EvmDenom = bondDenom
-
-		// change appState back
-		rawState[evmtypes.ModuleName] = cdc.MustMarshalJSON(evmState)
-
-		// replace appstate
-		appState, err = json.Marshal(rawState)
-		if err != nil {
-			panic(err)
-		}
-		return appState, simAccs, chainID, genesisTimestamp
-	}
-}
-
-// NewTestGenesisState generate genesis state with single validator
-func NewTestGenesisState(codec codec.Codec) simapp.GenesisState {
-	privVal := mock.NewPV()
-	pubKey, err := privVal.GetPubKey()
-	if err != nil {
-		panic(err)
-	}
-	// create validator set with single validator
-	validator := tmtypes.NewValidator(pubKey, 1)
-	valSet := tmtypes.NewValidatorSet([]*tmtypes.Validator{validator})
-
-	// generate genesis account
-	senderPrivKey := secp256k1.GenPrivKey()
-	acc := authtypes.NewBaseAccount(senderPrivKey.PubKey().Address().Bytes(), senderPrivKey.PubKey(), 0, 0)
-	balance := banktypes.Balance{
-		Address: acc.GetAddress().String(),
-		Coins:   sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(100000000000000))),
-	}
-
-	genesisState := NewDefaultGenesisState()
-	return genesisStateWithValSet(codec, genesisState, valSet, []authtypes.GenesisAccount{acc}, balance)
-}
-
-func genesisStateWithValSet(codec codec.Codec, genesisState simapp.GenesisState,
+func GenesisStateWithValSet(app *PlanqApp, genesisState simapp.GenesisState,
 	valSet *tmtypes.ValidatorSet, genAccs []authtypes.GenesisAccount,
 	balances ...banktypes.Balance,
 ) simapp.GenesisState {
 	// set genesis accounts
 	authGenesis := authtypes.NewGenesisState(authtypes.DefaultParams(), genAccs)
-	genesisState[authtypes.ModuleName] = codec.MustMarshalJSON(authGenesis)
+	genesisState[authtypes.ModuleName] = app.AppCodec().MustMarshalJSON(authGenesis)
 
 	validators := make([]stakingtypes.Validator, 0, len(valSet.Validators))
 	delegations := make([]stakingtypes.Delegation, 0, len(valSet.Validators))
@@ -213,14 +132,8 @@ func genesisStateWithValSet(codec codec.Codec, genesisState simapp.GenesisState,
 	bondAmt := sdk.DefaultPowerReduction
 
 	for _, val := range valSet.Validators {
-		pk, err := cryptocodec.FromTmPubKeyInterface(val.PubKey)
-		if err != nil {
-			panic(err)
-		}
-		pkAny, err := codectypes.NewAnyWithValue(pk)
-		if err != nil {
-			panic(err)
-		}
+		pk, _ := cryptocodec.FromTmPubKeyInterface(val.PubKey)
+		pkAny, _ := codectypes.NewAnyWithValue(pk)
 		validator := stakingtypes.Validator{
 			OperatorAddress:   sdk.ValAddress(val.Address).String(),
 			ConsensusPubkey:   pkAny,
@@ -239,8 +152,10 @@ func genesisStateWithValSet(codec codec.Codec, genesisState simapp.GenesisState,
 
 	}
 	// set validators and delegations
-	stakingGenesis := stakingtypes.NewGenesisState(stakingtypes.DefaultParams(), validators, delegations)
-	genesisState[stakingtypes.ModuleName] = codec.MustMarshalJSON(stakingGenesis)
+	stakingparams := stakingtypes.DefaultParams()
+	stakingparams.BondDenom = config.BaseDenom
+	stakingGenesis := stakingtypes.NewGenesisState(stakingparams, validators, delegations)
+	genesisState[stakingtypes.ModuleName] = app.AppCodec().MustMarshalJSON(stakingGenesis)
 
 	totalSupply := sdk.NewCoins()
 	for _, b := range balances {
@@ -250,18 +165,26 @@ func genesisStateWithValSet(codec codec.Codec, genesisState simapp.GenesisState,
 
 	for range delegations {
 		// add delegated tokens to total supply
-		totalSupply = totalSupply.Add(sdk.NewCoin(sdk.DefaultBondDenom, bondAmt))
+		totalSupply = totalSupply.Add(sdk.NewCoin(config.BaseDenom, bondAmt))
 	}
 
 	// add bonded amount to bonded pool module account
 	balances = append(balances, banktypes.Balance{
 		Address: authtypes.NewModuleAddress(stakingtypes.BondedPoolName).String(),
-		Coins:   sdk.Coins{sdk.NewCoin(sdk.DefaultBondDenom, bondAmt)},
+		Coins:   sdk.Coins{sdk.NewCoin(config.BaseDenom, bondAmt)},
 	})
 
 	// update total supply
 	bankGenesis := banktypes.NewGenesisState(banktypes.DefaultGenesisState().Params, balances, totalSupply, []banktypes.Metadata{})
-	genesisState[banktypes.ModuleName] = codec.MustMarshalJSON(bankGenesis)
+	genesisState[banktypes.ModuleName] = app.AppCodec().MustMarshalJSON(bankGenesis)
 
 	return genesisState
+}
+
+// SetupTestingApp initializes the IBC-go testing application
+func SetupTestingApp() (ibctesting.TestingApp, map[string]json.RawMessage) {
+	db := dbm.NewMemDB()
+	cfg := encoding.MakeConfig(ModuleBasics)
+	app := NewPlanqApp(log.NewNopLogger(), db, nil, true, map[int64]bool{}, DefaultNodeHome, 5, cfg, simapp.EmptyAppOptions{})
+	return app, NewDefaultGenesisState()
 }

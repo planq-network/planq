@@ -669,7 +669,7 @@ corresponding Ethereum API namespace:
 * (evm) [tharsis#181](https://github.com/cosmos/ethermint/issues/181) Updated EVM module to the recommended module structure.
 * (app) [tharsis#188](https://github.com/cosmos/ethermint/issues/186)  Misc cleanup:
   * (evm) Rename `EthereumTxMsg` --> `MsgEthereumTx` and `EmintMsg` --> `MsgEthermint` for consistency with SDK standards
-  * Updated integration and unit tests to use `EthermintApp` as testing suite
+  * Updated integration and unit tests to use `PlanqApp` as testing suite
   * Use expected `Keeper` interface for `AccountKeeper`
   * Replaced `count` type in keeper with `int`
   * Add SDK events for transactions

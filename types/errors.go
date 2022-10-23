@@ -1,26 +1,18 @@
 package types
 
 import (
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	sdkerrors "cosmossdk.io/errors"
 )
 
+// RootCodespace is the codespace for all errors defined in this package
+const RootCodespace = "planq"
+
+// root error codes for Planq
 const (
-	// RootCodespace is the codespace for all errors defined in this package
-	RootCodespace = "ethermint"
+	codeKeyTypeNotSupported = iota + 2
 )
 
-// NOTE: We can't use 1 since that error code is reserved for internal errors.
-
+// errors
 var (
-	// ErrInvalidValue returns an error resulting from an invalid value.
-	ErrInvalidValue = sdkerrors.Register(RootCodespace, 2, "invalid value")
-
-	// ErrInvalidChainID returns an error resulting from an invalid chain ID.
-	ErrInvalidChainID = sdkerrors.Register(RootCodespace, 3, "invalid chain ID")
-
-	// ErrMarshalBigInt returns an error resulting from marshaling a big.Int to a string.
-	ErrMarshalBigInt = sdkerrors.Register(RootCodespace, 5, "cannot marshal big.Int to string")
-
-	// ErrUnmarshalBigInt returns an error resulting from unmarshaling a big.Int from a string.
-	ErrUnmarshalBigInt = sdkerrors.Register(RootCodespace, 6, "cannot unmarshal big.Int from string")
+	ErrKeyTypeNotSupported = sdkerrors.Register(RootCodespace, codeKeyTypeNotSupported, "key type 'secp256k1' not supported")
 )
