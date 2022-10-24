@@ -115,6 +115,11 @@ import (
 	"github.com/evmos/ethermint/x/feemarket"
 	feemarketkeeper "github.com/evmos/ethermint/x/feemarket/keeper"
 	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
+
+	"github.com/evmos/evmos/v9/x/erc20"
+	erc20client "github.com/evmos/evmos/v9/x/erc20/client"
+	erc20keeper "github.com/evmos/evmos/v9/x/erc20/keeper"
+	erc20types "github.com/evmos/evmos/v9/x/erc20/types"
 )
 
 func init() {
@@ -147,6 +152,8 @@ var (
 		gov.NewAppModuleBasic([]govclient.ProposalHandler{
 			paramsclient.ProposalHandler, distrclient.ProposalHandler, upgradeclient.LegacyProposalHandler, upgradeclient.LegacyCancelProposalHandler,
 			ibcclientclient.UpdateClientProposalHandler, ibcclientclient.UpgradeProposalHandler,
+			// Evmos proposal types
+			erc20client.RegisterCoinProposalHandler, erc20client.RegisterERC20ProposalHandler, erc20client.ToggleTokenConversionProposalHandler,
 		}),
 		params.AppModuleBasic{},
 		crisis.AppModuleBasic{},
@@ -160,6 +167,7 @@ var (
 		vesting.AppModuleBasic{},
 		evm.AppModuleBasic{},
 		feemarket.AppModuleBasic{},
+		erc20.AppModuleBasic{},
 	)
 
 	// module account permissions
@@ -172,6 +180,7 @@ var (
 		govtypes.ModuleName:            {authtypes.Burner},
 		ibctransfertypes.ModuleName:    {authtypes.Minter, authtypes.Burner},
 		evmtypes.ModuleName:            {authtypes.Minter, authtypes.Burner}, // used for secure addition and subtraction of balance using module account
+		erc20types.ModuleName:          {authtypes.Minter, authtypes.Burner},
 	}
 
 	// module accounts that are allowed to receive tokens
@@ -232,6 +241,8 @@ type PlanqApp struct {
 	EvmKeeper       *evmkeeper.Keeper
 	FeeMarketKeeper feemarketkeeper.Keeper
 
+	Erc20Keeper erc20keeper.Keeper
+
 	// the module manager
 	mm *module.Manager
 
@@ -282,6 +293,7 @@ func NewPlanqApp(
 		ibchost.StoreKey, ibctransfertypes.StoreKey,
 		// ethermint keys
 		evmtypes.StoreKey, feemarkettypes.StoreKey,
+		erc20types.StoreKey,
 	)
 
 	// Add the EVM transient store key
@@ -364,6 +376,11 @@ func NewPlanqApp(
 		nil, geth.NewEVM, tracer,
 	)
 
+	app.Erc20Keeper = erc20keeper.NewKeeper(
+		keys[erc20types.StoreKey], appCodec, app.GetSubspace(erc20types.ModuleName),
+		app.AccountKeeper, app.BankKeeper, app.EvmKeeper,
+	)
+
 	// Create IBC Keeper
 	app.IBCKeeper = ibckeeper.NewKeeper(
 		appCodec, keys[ibchost.StoreKey], app.GetSubspace(ibchost.ModuleName), app.StakingKeeper, app.UpgradeKeeper, scopedIBCKeeper,
@@ -375,7 +392,8 @@ func NewPlanqApp(
 		AddRoute(paramproposal.RouterKey, params.NewParamChangeProposalHandler(app.ParamsKeeper)).
 		AddRoute(distrtypes.RouterKey, distr.NewCommunityPoolSpendProposalHandler(app.DistrKeeper)).
 		AddRoute(upgradetypes.RouterKey, upgrade.NewSoftwareUpgradeProposalHandler(app.UpgradeKeeper)).
-		AddRoute(ibcclienttypes.RouterKey, ibcclient.NewClientProposalHandler(app.IBCKeeper.ClientKeeper))
+		AddRoute(ibcclienttypes.RouterKey, ibcclient.NewClientProposalHandler(app.IBCKeeper.ClientKeeper)).
+		AddRoute(erc20types.RouterKey, erc20.NewErc20ProposalHandler(&app.Erc20Keeper))
 	govConfig := govtypes.DefaultConfig()
 	/*
 		Example of setting gov params:
@@ -389,6 +407,12 @@ func NewPlanqApp(
 	app.GovKeeper = *govKeeper.SetHooks(
 		govtypes.NewMultiGovHooks(
 		// register the governance hooks
+		),
+	)
+
+	app.EvmKeeper = app.EvmKeeper.SetHooks(
+		evmkeeper.NewMultiEvmHooks(
+			app.Erc20Keeper.Hooks(),
 		),
 	)
 
@@ -449,6 +473,8 @@ func NewPlanqApp(
 		// Ethermint app modules
 		evm.NewAppModule(app.EvmKeeper, app.AccountKeeper),
 		feemarket.NewAppModule(app.FeeMarketKeeper),
+
+		erc20.NewAppModule(app.Erc20Keeper, app.AccountKeeper),
 	)
 
 	// During begin block slashing happens after distr.BeginBlocker so that
@@ -479,6 +505,7 @@ func NewPlanqApp(
 		feegrant.ModuleName,
 		paramstypes.ModuleName,
 		vestingtypes.ModuleName,
+		erc20types.ModuleName,
 	)
 
 	// NOTE: fee market module must go last in order to retrieve the block gas used.
@@ -504,6 +531,7 @@ func NewPlanqApp(
 		paramstypes.ModuleName,
 		upgradetypes.ModuleName,
 		vestingtypes.ModuleName,
+		erc20types.ModuleName,
 	)
 
 	// NOTE: The genutils module must occur after staking so that pools are
@@ -536,6 +564,7 @@ func NewPlanqApp(
 		paramstypes.ModuleName,
 		upgradetypes.ModuleName,
 		vestingtypes.ModuleName,
+		erc20types.ModuleName,
 		// NOTE: crisis module must go at the end to check for invariants on each module
 		crisistypes.ModuleName,
 	)
@@ -826,5 +855,6 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	// ethermint subspaces
 	paramsKeeper.Subspace(evmtypes.ModuleName)
 	paramsKeeper.Subspace(feemarkettypes.ModuleName)
+	paramsKeeper.Subspace(erc20types.ModuleName)
 	return paramsKeeper
 }
