@@ -7,8 +7,7 @@ updates:
     time: "10:00"
   open-pull-requests-limit: 10
   reviewers:
-  - fedekunze
-  - khoslaventures
+  - ivanshukhov
   labels:
   - dependencies
 - package-ecosystem: docker
@@ -18,8 +17,7 @@ updates:
     time: "10:00"
   open-pull-requests-limit: 10
   reviewers:
-  - fedekunze
-  - khoslaventures
+  - ivanshukhov
 - package-ecosystem: gomod
   directory: "/"
   schedule:
