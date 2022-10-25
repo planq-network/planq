@@ -30,7 +30,7 @@ services:
       - ID=1
       - LOG=${LOG:-planqd.log}
     volumes:
-      - ./localnet-setup/node1/planqd:/ethermint:Z
+      - ./localnet-setup/node1/planqd:/planq:Z
     networks:
       - localnet
     entrypoint: "bash start-docker.sh"
