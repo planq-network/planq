@@ -117,7 +117,7 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-
+	sdk.DefaultPowerReduction = ethermint.PowerReduction
 	DefaultNodeHome = filepath.Join(userHomeDir, ".planqd")
 }
 
