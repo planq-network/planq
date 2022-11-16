@@ -99,20 +99,20 @@ func TestGetplqAddressFromBech32(t *testing.T) {
 		},
 		{
 			"plq address",
-			"plq1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
-			"plq1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
+			"plq1qql8ag4cluz6r4dz28p3w00dnc9w8ueuks65at",
+			"plq1qql8ag4cluz6r4dz28p3w00dnc9w8ueuks65at",
 			false,
 		},
 		{
 			"cosmos address",
 			"cosmos1qql8ag4cluz6r4dz28p3w00dnc9w8ueulg2gmc",
-			"plq1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
+			"plq1qql8ag4cluz6r4dz28p3w00dnc9w8ueuks65at",
 			false,
 		},
 		{
 			"osmosis address",
 			"osmo1qql8ag4cluz6r4dz28p3w00dnc9w8ueuhnecd2",
-			"plq1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
+			"plq1qql8ag4cluz6r4dz28p3w00dnc9w8ueuks65at",
 			false,
 		},
 	}
