@@ -235,9 +235,8 @@ module.exports = {
               path: "https://pkg.go.dev/github.com/evmos/ethermint",
             },
             {
-              title: "Planq Protobuf",
-              directory: false,
-              path: "/protocol/proto-docs",
+              title: "Evmos Library Go API",
+              path: "https://pkg.go.dev/github.com/evmos/evmos",
             },
           ],
         },

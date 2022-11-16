@@ -19,6 +19,16 @@ rm -rf ethermint
 
 # Include the specs from Cosmos SDK
 git clone https://github.com/cosmos/cosmos-sdk.git
+mkdir ./modules/auth/
+mkdir ./modules/authz/
+mkdir ./modules/bank/
+mkdir ./modules/crisis/
+mkdir ./modules/distribution/
+mkdir ./modules/evidence/
+mkdir ./modules/gov/
+mkdir ./modules/slashing/
+mkdir ./modules/staking/
+mkdir ./modules/upgrade/
 mv cosmos-sdk/x/auth/README.md ./modules/auth/README.md
 mv cosmos-sdk/x/authz/README.md ./modules/authz/README.md
 mv cosmos-sdk/x/bank/README.md ./modules/bank/README.md
