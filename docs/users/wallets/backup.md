@@ -1,0 +1,127 @@
+<!--
+order: 4
+-->
+
+# Backup
+
+Learn how to backup your wallet's mnemonic and private key. {synopsis}
+
+## Mnemonics
+
+When you create a new key, you'll recieve a mnemonic phrase that can be used to restore that key. Backup the mnemonic phrase:
+
+```bash
+planqd keys add dev0
+{
+  "name": "dev0",
+  "type": "local",
+  "address": "plq1n253dl2tgyhxjm592p580c38r4dn8023ctv28d",
+  "pubkey": '{"@type":"/ethermint.crypto.v1.ethsecp256k1.PubKey","key":"ArJhve4v5HkLm+F7ViASU/rAGx7YrwU4+XKV2MNJt+Cq"}',
+  "mnemonic": ""
+}
+
+**Important** write this mnemonic phrase in a safe place.
+It is the only way to recover your account if you ever forget your password.
+
+# <24 word mnemonic phrase>
+```
+
+To restore the key:
+
+```bash
+$ planqd keys add dev0-restored --recover
+> Enter your bip39 mnemonic
+banner genuine height east ghost oak toward reflect asset marble else explain foster car nest make van divide twice culture announce shuffle net peanut
+{
+  "name": "dev0-restored",
+  "type": "local",
+  "address": "plq1n253dl2tgyhxjm592p580c38r4dn8023ctv28d",
+  "pubkey": '{"@type":"/ethermint.crypto.v1.ethsecp256k1.PubKey","key":"ArJhve4v5HkLm+F7ViASU/rAGx7YrwU4+XKV2MNJt+Cq"}'
+}
+```
+
+## Export Key
+
+### Tendermint-Formatted Private Keys
+
+To backup this type of key without the mnemonic phrase, do the following:
+
+```bash
+planqd keys export dev0
+Enter passphrase to decrypt your key:
+Enter passphrase to encrypt the exported key:
+-----BEGIN TENDERMINT PRIVATE KEY-----
+kdf: bcrypt
+salt: 14559BB13D881A86E0F4D3872B8B2C82
+type: secp256k1
+
+# <Tendermint private key>
+-----END TENDERMINT PRIVATE KEY-----
+
+$ echo "\
+-----BEGIN TENDERMINT PRIVATE KEY-----
+kdf: bcrypt
+salt: 14559BB13D881A86E0F4D3872B8B2C82
+type: secp256k1
+
+# <Tendermint private key>
+-----END TENDERMINT PRIVATE KEY-----" > dev0.export
+```
+
+### Ethereum-Formatted Private Keys
+
+:::tip
+**Note**: These types of keys are MetaMask-compatible.
+:::
+
+To backup this type of key without the mnemonic phrase, do the following:
+
+```bash
+planqd keys unsafe-export-eth-key dev0 > dev0.export
+**WARNING** this is an unsafe way to export your unencrypted private key, are you sure? [y/N]: y
+Enter keyring passphrase:
+```
+
+## Import Key
+
+### Tendermint-Formatted Private Keys
+
+```bash
+$ planqd keys import dev0-imported ./dev0.export
+Enter passphrase to decrypt your key:
+```
+
+### Ethereum-Formatted Private Keys
+
+```
+$ planqd keys unsafe-import-eth-key dev0-imported ./dev0.export
+Enter passphrase to encrypt your key:
+```
+
+### Verification
+
+Verify that your key has been restored using the following command:
+
+```bash
+$ planqd keys list
+[
+  {
+    "name": "dev0-imported",
+    "type": "local",
+    "address": "plq1n253dl2tgyhxjm592p580c38r4dn8023ctv28d",
+    "pubkey": '{"@type":"/ethermint.crypto.v1.ethsecp256k1.PubKey","key":"ArJhve4v5HkLm+F7ViASU/rAGx7YrwU4+XKV2MNJt+Cq"}'
+  },
+  {
+    "name": "dev0-restored",
+    "type": "local",
+    "address": "plq1n253dl2tgyhxjm592p580c38r4dn8023ctv28d",
+    "pubkey": '{"@type":"/ethermint.crypto.v1.ethsecp256k1.PubKey","key":"ArJhve4v5HkLm+F7ViASU/rAGx7YrwU4+XKV2MNJt+Cq"}'
+  },
+  {
+    "name": "dev0",
+    "type": "local",
+    "address": "plq1n253dl2tgyhxjm592p580c38r4dn8023ctv28d",
+    "pubkey": '{"@type":"/ethermint.crypto.v1.ethsecp256k1.PubKey","key":"ArJhve4v5HkLm+F7ViASU/rAGx7YrwU4+XKV2MNJt+Cq"}'
+  }
+]
+```
