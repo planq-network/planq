@@ -335,7 +335,7 @@ module.exports = {
       },
     },
     footer: {
-      logo: "/planq-logo.svg",
+      logo: "",
       textLink: {
         text: "planq.network",
         url: "https://planq.network",
@@ -348,6 +348,10 @@ module.exports = {
         {
           service: "twitter",
           url: "https://twitter.com/PlanqFoundation",
+        },
+        {
+          service: "reddit",
+          url: "https://reddit.com/r/planq_network",
         },
       ],
       smallprint: "This website is maintained by Planq Foundation",
@@ -377,17 +381,8 @@ module.exports = {
               url: "https://discord.gg/jGTPyYmpsq",
             },
             {
-              title: "Planq Commonwealth Forum",
-              url: "https://commonwealth.im/planq",
-            },
-          ],
-        },
-        {
-          title: "Planq",
-          children: [
-            {
-              title: "Jobs at Planq",
-              url: "https://boards.eu.greenhouse.io/planq",
+              title: "Planq on Reddit",
+              url: "https://reddit.com/r/planq_network",
             },
           ],
         },

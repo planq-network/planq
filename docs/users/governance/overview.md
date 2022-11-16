@@ -18,7 +18,7 @@ text proposals, changing [chain parameters](./param_change.md), and spending [fu
 
 Governance practices and decisions are communicated through different types of documents and design artifacts:
 
-- On-chain governance [proposals](https://www.mintscan.io/evmos/proposals)
+- On-chain governance [proposals](https://explorer.planq.network/proposals)
 - Architecture Decision records
 - Technical standards / specifications
 
@@ -26,15 +26,12 @@ Governance practices and decisions are communicated through different types of d
 
 Venues involve community members to different degrees and individuals often perform multiple roles in the Cosmos ecosystem (validators, users, developers and core-members of Planq Team). Because technical direction setting and development is almost always happening in the open, involvement from members in the extended community occurs organically.
 
-- **[Planq Discord](https://discord.gg/evmos)**
+- **[Planq Discord](https://discord.gg/jGTPyYmpsq)**
     - For ecosystem cross-pollination with an active developer presence.
     - `🏛│governance` channel for discussing proposals, upgrades, etc.
     - `📜│proposals` channel for a full list of proposals.
     - `⏫│upgrades` channel for upcoming software upgrades.
-- **[Commonwealth](https://commonwealth.im/evmos)**
-    - All-in-one platform to discuss, vote, and fund projects together
-    - Planq [proposals](https://commonwealth.im/evmos/proposals) list
-- **[Telegram (@PlanqOrg)](https://t.me/PlanqOrg)**
+- **[Reddit (planq_network)](https://reddit.com/r/planq_network)**
     - General Planq Telegram group
-- **[Twitter (@PlanqOrg)](https://twitter.com/PlanqOrg)**
+- **[Twitter (@PlanqOrg)](twitter.com/PlanqFoundation)**
     - Official Planq Twitter

@@ -8,12 +8,10 @@ Planq token-holders can cast a vote to approve spending from the Community Pool 
 
 ## Why create a proposal to use Community Pool funds?
 
-There are other funding options, most notably the [Evmos Grants Program](https://medium.com/evmos/announcing-evmos-grants-78aa28562db6). Why create a community-spend proposal?
-
-- **As a strategy: you can do both.** You can submit your proposal to the Evmos Grants Program, but also consider submitting your proposal publicly on-chain. If the Planq community votes in favor, you can withdraw your application.
+- **As a strategy: you can do both.** You can submit your proposal to the Planq Grants Program, but also consider submitting your proposal publicly on-chain. If the Planq community votes in favor, you can withdraw your application.
 - **As a strategy: funding is fast.** Besides the time it takes to push your proposal on-chain, the only other limiting factor is a fixed 5-day voting period. As soon as the proposal passes, your account will be credited the full amount of your proposal request.
 - **To build rapport.** Engaging publicly with the community is the opportunity to develop relationships with stakeholders and to educate them about the importance of your work. Unforeseen partnerships could arise, and overall the community may value your work more if they are involved as stakeholders.
-- **To be more independent.** The [Evmos Grants Program](https://medium.com/evmos/announcing-evmos-grants-78aa28562db6) may not always be able to fund work. Having a more consistently funded source and having a report with its stakeholders means you can use your rapport to have confidence in your ability to secure funding without having to be dependent upon the foundation alone.
+
 
 ## FAQ
 

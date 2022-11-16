@@ -18,27 +18,17 @@ mv ethermint/x/feemarket/spec/ ./modules/feemarket
 rm -rf ethermint
 
 # Include the specs from Cosmos SDK
-git clone https://github.com/cosmos/cosmos-sdk.git
-mkdir ./modules/auth/
-mkdir ./modules/authz/
-mkdir ./modules/bank/
-mkdir ./modules/crisis/
-mkdir ./modules/distribution/
-mkdir ./modules/evidence/
-mkdir ./modules/gov/
-mkdir ./modules/slashing/
-mkdir ./modules/staking/
-mkdir ./modules/upgrade/
-mv cosmos-sdk/x/auth/README.md ./modules/auth/README.md
-mv cosmos-sdk/x/authz/README.md ./modules/authz/README.md
-mv cosmos-sdk/x/bank/README.md ./modules/bank/README.md
-mv cosmos-sdk/x/crisis/README.md ./modules/crisis/README.md
-mv cosmos-sdk/x/distribution/README.md ./modules/distribution/README.md
-mv cosmos-sdk/x/evidence/README.md ./modules/evidence/README.md
-mv cosmos-sdk/x/gov/README.md ./modules/gov/README.md
-mv cosmos-sdk/x/slashing/README.md ./modules/slashing/README.md
-mv cosmos-sdk/x/staking/README.md ./modules/staking/README.md
-mv cosmos-sdk/x/upgrade/README.md ./modules/upgrade/README.md
+git clone -b 'v0.45.11' https://github.com/cosmos/cosmos-sdk.git
+mv cosmos-sdk/x/auth/spec/ ./modules/auth
+mv cosmos-sdk/x/authz/spec/ ./modules/authz
+mv cosmos-sdk/x/bank/spec/ ./modules/bank
+mv cosmos-sdk/x/crisis/spec/ ./modules/crisis
+mv cosmos-sdk/x/distribution/spec/ ./modules/distribution
+mv cosmos-sdk/x/evidence/spec/ ./modules/evidence
+mv cosmos-sdk/x/gov/spec/ ./modules/gov
+mv cosmos-sdk/x/slashing/spec/ ./modules/slashing
+mv cosmos-sdk/x/staking/spec/ ./modules/staking
+mv cosmos-sdk/x/upgrade/spec/ ./modules/upgrade
 rm -rf cosmos-sdk
 
 # Include the specs from IBC go

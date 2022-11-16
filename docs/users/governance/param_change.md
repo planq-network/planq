@@ -26,8 +26,4 @@ For a comprehensive list of available module parameters see the table below:
 | `transfer`     | `ibc-go`     | [reference](https://github.com/cosmos/ibc-go/blob/main/docs/ibc/params.md)        |
 | `evm`          | `ethermint`  | [reference](https://docs.planq.network/modules/evm/08_params.html)                    |
 | `feemarket`    | `ethermint`  | [reference](https://docs.planq.network/modules/feemarket/07_params.html)              |
-| `claims`       | `plq`      | [reference](https://docs.planq.network/modules/claims/06_parameters.html)             |
 | `erc20`        | `plq`      | [reference](https://docs.planq.network/modules/erc20/07_parameters.html)              |
-| `revenue`     | `plq`      | [reference](https://docs.planq.network/modules/revenue/07_parameters.html)                   |
-| `incentives`   | `plq`      | [reference](https://docs.planq.network/modules/incentives/07_parameters.html)         |
-| `inflation`    | `plq`      | [reference](https://docs.planq.network/modules/inflation/05_parameters.html)          |
