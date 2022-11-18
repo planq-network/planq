@@ -7,8 +7,6 @@ parent:
   <h1> Planq </h1>
 </div>
 
-![banner](docs/.vuepress/public/planq-logo.png)
-
 <div align="center">
   <a href="https://github.com/planq-network/planq/releases/latest">
     <img alt="Version" src="https://img.shields.io/github/tag/planq-network/planq.svg" />
