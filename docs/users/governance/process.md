@@ -6,19 +6,19 @@ order: 2
 
 ## Deposit Period
 
-The deposit period lasts either 3 days or until the proposal deposit totals 192 PLANQ, whichever happens first.
+The deposit period lasts either 3 days or until the proposal deposit totals 500 PLANQ, whichever happens first.
 
 ### Deposits
 
-Deposit amounts are at risk of being burned. Prior to a governance proposal entering the voting period (ie. for the proposal to be voted upon), there must be at least a minimum number of PLANQ deposited (192). Anyone may contribute to this deposit. Deposits of passed and failed proposals are returned to the contributors.
+Deposit amounts are at risk of being burned. Prior to a governance proposal entering the voting period (ie. for the proposal to be voted upon), there must be at least a minimum number of PLANQ deposited (500). Anyone may contribute to this deposit. Deposits of passed and failed proposals are returned to the contributors.
 
-In the past, different people have considered contributions amounts differently. There is some consensus that this should be a personal choice. There is also some consensus that this can be an opportunity for supporters to signal their support by adding to the deposit amount, so a proposer may choose to leave contribution room (ie. a deposit below 192 PLANQ) so that others may participate. It is important to remember that any contributed PLANQ are at risk of being burned.
+In the past, different people have considered contributions amounts differently. There is some consensus that this should be a personal choice. There is also some consensus that this can be an opportunity for supporters to signal their support by adding to the deposit amount, so a proposer may choose to leave contribution room (ie. a deposit below 500 PLANQ) so that others may participate. It is important to remember that any contributed PLANQ are at risk of being burned.
 
 ### Burned deposits
 
 Deposits are burned when proposals:
 
-1. **Expire** - deposits will be burned if the deposit period ends before reaching the minimum deposit (192 PLANQ)
+1. **Expire** - deposits will be burned if the deposit period ends before reaching the minimum deposit (500 PLANQ)
 2. **Fail to reach quorum** - deposits will be burned for proposals that do not reach quorum ie. 33.4% of all staked PLANQ must vote
 3. **Are vetoed** - deposits for proposals with 33.4% of voting power backing the `NoWithVeto` option are also burned
 
@@ -41,7 +41,7 @@ Voting `NoWithVeto` provides a mechanism for a minority group representing a *th
 
 There are four criteria:
 
-1. A minimum deposit of 192 PLANQ is required for the proposal to enter the voting period
+1. A minimum deposit of 500 PLANQ is required for the proposal to enter the voting period
    - anyone may contribute to this deposit
    - the deposit must be reached within 3 days (this is the deposit period)
 2. A minimum of 33.4% of the network's voting power (quorum) is required to participate to make the proposal valid

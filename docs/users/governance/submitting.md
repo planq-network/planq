@@ -71,7 +71,7 @@ In this simple example (below), a network explorer will list the governance prop
 
 The `amount` is `1000000000000000000aplanq`. This is equal to 1 PLANQ, so `recipient` address `plq1mx9nqk5agvlsvt2yc8259nwztmxq7zjq50mxkp` will receive 1 PLANQ if this proposal is passed.
 
-The `deposit` of `192000000000000000000aplanq` results in 192 PLANQ being used from the proposal submitter's account. A minimum deposit is required for a proposal to enter the voting period, and anyone may contribute to this deposit within 3 days. If the minimum deposit isn't reached before this time, the deposit amounts will be burned. Deposit amounts will also be burned if the quorum isn't met in the vote or the proposal is vetoed.
+The `deposit` of `500000000000000000000aplanq` results in 500 PLANQ being used from the proposal submitter's account. A minimum deposit is required for a proposal to enter the voting period, and anyone may contribute to this deposit within 3 days. If the minimum deposit isn't reached before this time, the deposit amounts will be burned. Deposit amounts will also be burned if the quorum isn't met in the vote or the proposal is vetoed.
 
 ```json
 {
@@ -158,7 +158,7 @@ Users can query the proposal details with the planqd command-line interface usin
 }
 ```
 
-The deposit `denom` is `aplanq` and `amount` is `20100000000000000000`. Therefore, a deposit of 20.1 PLANQ will be included with this proposal. At the time, the PLANQ mainnet had a 10 PLANQ minimum deposit, so this proposal was put directly into the voting period (and subsequently passed). The minimum deposit amount is currently 192 PLANQ. There is a minimum deposit required for a proposal to enter the voting period, and anyone may contribute to this deposit within a 3-day period. If the minimum deposit isn't reached before this time, the deposit amounts will be burned.
+The deposit `denom` is `aplanq` and `amount` is `20100000000000000000`. Therefore, a deposit of 20.1 PLANQ will be included with this proposal. At the time, the PLANQ mainnet had a 10 PLANQ minimum deposit, so this proposal was put directly into the voting period (and subsequently passed). The minimum deposit amount is currently 500 PLANQ. There is a minimum deposit required for a proposal to enter the voting period, and anyone may contribute to this deposit within a 3-day period. If the minimum deposit isn't reached before this time, the deposit amounts will be burned.
 
 ## Sending the transaction that submits your governance proposal
 
