@@ -6,6 +6,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/tendermint/tendermint/rpc/core/types"
+	"google.golang.org/grpc/credentials/insecure"
 	"net/http"
 	"net/url"
 	"os"
@@ -106,6 +108,7 @@ type Config struct {
 	EnableTMLogging   bool                // enable Tendermint logging to STDOUT
 	CleanupDir        bool                // remove base temporary directory during cleanup
 	PrintMnemonic     bool                // print the mnemonic of first validator as log output for testing
+	Height            int64
 }
 
 // DefaultConfig returns a sane default configuration suitable for nearly all
@@ -134,6 +137,7 @@ func DefaultConfig() Config {
 		SigningAlgo:       string(hd.EthSecp256k1Type),
 		KeyringOptions:    []keyring.Option{hd.EthSecp256k1Option()},
 		PrintMnemonic:     false,
+		Height:            1,
 	}
 }
 
@@ -263,6 +267,7 @@ func New(l Logger, baseDir string, cfg Config) (*Network, error) {
 		tmCfg.RPC.ListenAddress = ""
 		appCfg.GRPC.Enable = false
 		appCfg.GRPCWeb.Enable = false
+		appCfg.JSONRPC.Enable = false
 		apiListenAddr := ""
 		if i == 0 {
 			if cfg.APIAddress != "" {
@@ -490,7 +495,8 @@ func New(l Logger, baseDir string, cfg Config) (*Network, error) {
 			WithCodec(cfg.Codec).
 			WithLegacyAmino(cfg.LegacyAmino).
 			WithTxConfig(cfg.TxConfig).
-			WithAccountRetriever(cfg.AccountRetriever)
+			WithAccountRetriever(cfg.AccountRetriever).
+			WithHeight(cfg.Height)
 
 		network.Validators[i] = &Validator{
 			AppConfig:  appCfg,
@@ -547,6 +553,37 @@ func (n *Network) LatestHeight() (int64, error) {
 	}
 
 	return status.SyncInfo.LatestBlockHeight, nil
+}
+
+func (n *Network) GetGRPCClient() (*grpc.ClientConn, error) {
+	if len(n.Validators) == 0 {
+		return nil, errors.New("no validators available")
+	}
+
+	grpcClient, err := grpc.Dial("127.0.0.1:"+strings.Split(n.Validators[0].AppConfig.GRPC.Address, ":")[1], grpc.WithTransportCredentials(insecure.NewCredentials()))
+
+	if err != nil {
+		return nil, err
+	}
+
+	return grpcClient, nil
+}
+
+func (n *Network) GetConsensusParams() (*coretypes.ResultConsensusParams, error) {
+	if len(n.Validators) == 0 {
+		return nil, errors.New("no validators available")
+	}
+	latestHeight, err := n.LatestHeight()
+	if err != nil {
+		return nil, err
+	}
+	conensusParams, err := n.Validators[0].RPCClient.ConsensusParams(context.Background(), &latestHeight)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return conensusParams, nil
 }
 
 // WaitForHeight performs a blocking check where it waits for a block to be
