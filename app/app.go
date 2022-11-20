@@ -2,6 +2,10 @@ package app
 
 import (
 	"encoding/json"
+	"fmt"
+	"github.com/planq-network/planq/app/keepers"
+	"github.com/planq-network/planq/app/upgrades"
+	v2 "github.com/planq-network/planq/app/upgrades/v2"
 	"io"
 	"net/http"
 	"os"
@@ -187,12 +191,13 @@ var (
 	allowedReceivingModAcc = map[string]bool{
 		distrtypes.ModuleName: true,
 	}
-)
 
-var (
 	_ servertypes.Application = (*PlanqApp)(nil)
 	_ simapp.App              = (*PlanqApp)(nil)
 	_ ibctesting.TestingApp   = (*PlanqApp)(nil)
+
+	Upgrades = []upgrades.Upgrade{}
+	Forks    = []upgrades.Fork{v2.Fork}
 )
 
 // var _ server.Application (*PlanqApp)(nil)
@@ -215,33 +220,7 @@ type PlanqApp struct {
 	tkeys   map[string]*storetypes.TransientStoreKey
 	memKeys map[string]*storetypes.MemoryStoreKey
 
-	// keepers
-	AccountKeeper    authkeeper.AccountKeeper
-	BankKeeper       bankkeeper.Keeper
-	CapabilityKeeper *capabilitykeeper.Keeper
-	StakingKeeper    stakingkeeper.Keeper
-	SlashingKeeper   slashingkeeper.Keeper
-	MintKeeper       mintkeeper.Keeper
-	DistrKeeper      distrkeeper.Keeper
-	GovKeeper        govkeeper.Keeper
-	CrisisKeeper     crisiskeeper.Keeper
-	UpgradeKeeper    upgradekeeper.Keeper
-	ParamsKeeper     paramskeeper.Keeper
-	FeeGrantKeeper   feegrantkeeper.Keeper
-	AuthzKeeper      authzkeeper.Keeper
-	IBCKeeper        *ibckeeper.Keeper // IBC Keeper must be a pointer in the app, so we can SetRouter on it correctly
-	EvidenceKeeper   evidencekeeper.Keeper
-	TransferKeeper   ibctransferkeeper.Keeper
-
-	// make scoped keepers public for test purposes
-	ScopedIBCKeeper      capabilitykeeper.ScopedKeeper
-	ScopedTransferKeeper capabilitykeeper.ScopedKeeper
-
-	// Ethermint keepers
-	EvmKeeper       *evmkeeper.Keeper
-	FeeMarketKeeper feemarketkeeper.Keeper
-
-	Erc20Keeper erc20keeper.Keeper
+	keepers.AppKeepers
 
 	// the module manager
 	mm *module.Manager
@@ -685,6 +664,7 @@ func (app *PlanqApp) Name() string { return app.BaseApp.Name() }
 
 // BeginBlocker updates every begin block
 func (app *PlanqApp) BeginBlocker(ctx sdk.Context, req abci.RequestBeginBlock) abci.ResponseBeginBlock {
+	BeginBlockForks(ctx, app, *app.BaseApp)
 	return app.mm.BeginBlock(ctx, req)
 }
 
@@ -815,6 +795,38 @@ func (app *PlanqApp) RegisterTendermintService(clientCtx client.Context) {
 		app.interfaceRegistry,
 		app.Query,
 	)
+}
+
+// configure store loader that checks if version == upgradeHeight and applies store upgrades
+func (app *PlanqApp) setupUpgradeStoreLoaders() {
+	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
+	if err != nil {
+		panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
+	}
+
+	if app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
+		return
+	}
+
+	for _, upgrade := range Upgrades {
+		if upgradeInfo.Name == upgrade.UpgradeName {
+			app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &upgrade.StoreUpgrades))
+		}
+	}
+}
+
+func (app *PlanqApp) setupUpgradeHandlers() {
+	for _, upgrade := range Upgrades {
+		app.UpgradeKeeper.SetUpgradeHandler(
+			upgrade.UpgradeName,
+			upgrade.CreateUpgradeHandler(
+				app.mm,
+				app.configurator,
+				app.BaseApp,
+				&app.AppKeepers,
+			),
+		)
+	}
 }
 
 // RegisterSwaggerAPI registers swagger route with API Server
