@@ -85,7 +85,7 @@ module.exports = {
       latest_version: "v1.0.0",
       mainnet_version: "v1.0.0",
       testnet_version: "v1.0.0",
-      version_number: "1",
+      version_number: "2",
       testnet_version_number: "1",
       testnet_evm_explorer_url: "https://evm.planq.network",
       evm_explorer_url: "https://evm.planq.network",
