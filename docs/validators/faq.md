@@ -61,7 +61,7 @@ planqd tx staking create-validator
     --commission-max-change-rate="0.01"
     --min-self-delegation "1"
     --moniker "validator"
-    --chain-id "planq_7000-4"
+    --chain-id "planq_7000-1"
     --gas auto
     --node tcp://127.0.0.1:26647
 ```

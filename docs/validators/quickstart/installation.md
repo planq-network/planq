@@ -64,14 +64,14 @@ You can build {{ $themeConfig.project.name }} using Docker by running:
 make build-docker
 ```
 
-The command above will create a docker container: `tharsishq/evmos:latest`. Now you can run `planqd` in the container.
+The command above will create a docker container: `planq-network/planq:latest`. Now you can run `planqd` in the container.
 
 ```bash
-docker run -it -p 26657:26657 -p 26656:26656 -v ~/.planqd/:/root/.planqd tharsishq/evmos:latest planqd version
+docker run -it -p 26657:26657 -p 26656:26656 -v ~/.planqd/:/root/.planqd planq-network/planq:latest planqd version
 
 # To initialize
-# docker run -it -p 26657:26657 -p 26656:26656 -v ~/.planqd/:/root/.planqd tharsishq/evmos:latest planqd init test-chain --chain-id test_9000-2
+# docker run -it -p 26657:26657 -p 26656:26656 -v ~/.planqd/:/root/.planqd planq-network/planq:latest planqd init test-chain --chain-id test_7000-1
 
 # To run
-# docker run -it -p 26657:26657 -p 26656:26656 -v ~/.planqd/:/root/.planqd tharsishq/evmos:latest planqd start
+# docker run -it -p 26657:26657 -p 26656:26656 -v ~/.planqd/:/root/.planqd planq-network/planq:latest planqd start
 ```

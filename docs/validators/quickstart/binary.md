@@ -109,13 +109,13 @@ planqd config
 
 We can make changes to the default settings upon our choices, so it allows users to set the configuration beforehand all at once, so it would be ready with the same config afterward.
 
-For example, the chain identifier can be changed to `planq_7000-4` from a blank name by using:
+For example, the chain identifier can be changed to `planq_7000-1` from a blank name by using:
 
 ```bash
-planqd config "chain-id" planq_7000-4
+planqd config "chain-id" planq_7000-1
 planqd config
 {
- "chain-id": "planq_7000-4",
+ "chain-id": "planq_7000-1",
  "keyring-backend": "os",
  "output": "text",
  "node": "tcp://localhost:26657",
@@ -135,7 +135,7 @@ Alternatively, we can directly make the changes to the config values in one plac
 
 # The network chain ID
 
-chain-id = "planq_7000-4"
+chain-id = "planq_7000-1"
 
 # The keyring's backend, where the keys are stored (os|file|kwallet|pass|test|memory)
 
@@ -154,12 +154,12 @@ node = "tcp://localhost:26657"
 broadcast-mode = "sync"
 ```
 
-After the necessary changes are made in the `client.toml`, then save. For example, if we directly change the chain-id from `planq_{{ $themeConfig.project.testnet_chain_id }}-2` to `plqtest_9000-1`, and output to number, it would change instantly as shown below.
+After the necessary changes are made in the `client.toml`, then save. For example, if we directly change the chain-id from `planq_{{ $themeConfig.project.testnet_chain_id }}-2` to `plqtest_7000-1`, and output to number, it would change instantly as shown below.
 
 ```bash
 planqd config
 {
- "chain-id": "evmostest_9000-1",
+ "chain-id": "plqtest_7000-1",
  "keyring-backend": "os",
  "output": "number",
  "node": "tcp://localhost:26657",

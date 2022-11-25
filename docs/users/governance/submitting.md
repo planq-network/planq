@@ -191,8 +191,8 @@ Use the `plq tx gov --help` flag to get more info about the governance commands
    - if this number isn't high enough and there isn't enough gas to process your transaction, the transaction will fail
    - the transaction will only use the amount of gas needed to process the transaction
 5. `--gas-prices` is the flat-rate per unit of gas value for a validator to process your transaction
-6. `--chain-id planq_7070-1` is Planq Mainnet. For current and past chain-id's, please look at the [Chain ID](./../technical_concepts/chain_id.md) documentation.
-   - the testnet chain ID is [planq_7000-4](https://testnet.mintscan.io/evmos). For current and past testnet information, please look at the [testnet repository](https://github.com/evmos/testnets)
+6. `--chain-id planq_7070-2` is Planq Mainnet. For current and past chain-id's, please look at the [Chain ID](./../technical_concepts/chain_id.md) documentation.
+   - the testnet chain ID is [planq_7000-1](https://testnet.mintscan.io/evmos). For current and past testnet information, please look at the [testnet repository](https://github.com/planq-network/networks/testnets)
 7. `--node` is using a full node to send the transaction to the Planq Mainnet
 
 ### Verifying your transaction

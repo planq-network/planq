@@ -55,4 +55,4 @@ Set up a dedicated validator's website, social profile (eg: Twitter) and signal 
 
 ## Community
 
-Discuss the finer details of being a validator and seek advise from the rest of the validator community on our [Discord](https://discord.gg/evmos).
+Discuss the finer details of being a validator and seek advise from the rest of the validator community on our [Discord](https://discord.gg/jGTPyYmpsq).

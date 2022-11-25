@@ -48,12 +48,12 @@ You can find other configuration examples [here](https://github.com/iqlusioninc/
   # Example KMS configuration file
   [[validator]]
   addr = "tcp://localhost:26658"                  # or "unix:///path/to/socket"
-  chain_id = "planq_7070-1"
+  chain_id = "planq_7070-2"
   reconnect = true                                # true is the default
   secret_key = "~/.tmkms/secret_connection.key"
 
   [[providers.ledger]]
-  chain_ids = ["planq_7070-1"]
+  chain_ids = ["planq_7070-2"]
   ```
 
 - Edit `addr` to point to your `planqd` instance.

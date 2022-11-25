@@ -80,7 +80,7 @@ planqd tx bank send \
     test1 \
     plq1e0fx0q9meawrcq7fmma9x60gk35lpr4xk3884m \
     10000000000000000000aplanq \
-    --chain-id=planq_7000-4 \
+    --chain-id=planq_7000-1 \
     --gas=auto \
     --fees=1000000aplanq \
     --broadcast-mode=block
@@ -97,7 +97,7 @@ planqd tx bank send \
     5000000000000000000aplanq \
     --gas=200000 \
     --fees=1000000aplanq \
-    --chain-id=planq_7000-4 \
+    --chain-id=planq_7000-1 \
     --generate-only > unsignedTx.json
 ```
 
@@ -152,7 +152,7 @@ planqd tx sign \
     --multisig=plq1e0fx0q9meawrcq7fmma9x60gk35lpr4xk3884m \
     --from=test1 \
     --output-document=test1sig.json \
-    --chain-id=planq_7000-4
+    --chain-id=planq_7000-1
 ```
 
 ```sh
@@ -161,7 +161,7 @@ planqd tx sign \
     --multisig=plq1e0fx0q9meawrcq7fmma9x60gk35lpr4xk3884m \
     --from=test2 \
     --output-document=test2sig.json \
-    --chain-id=planq_7000-4
+    --chain-id=planq_7000-1
 ```
 
 ### Step 4: Create multisignature
@@ -174,7 +174,7 @@ planqd tx multisign \
     multi \
     test1sig.json test2sig.json \
     --output-document=signedTx.json \
-    --chain-id=planq_7000-4
+    --chain-id=planq_7000-1
 ```
 
 The TX is now signed:
@@ -266,6 +266,6 @@ The TX is now signed:
 
 ```sh
 planqd tx broadcast signedTx.json \
-    --chain-id=planq_7000-4 \
+    --chain-id=planq_7000-1 \
     --broadcast-mode=block
 ```

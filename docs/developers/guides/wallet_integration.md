@@ -54,8 +54,8 @@ Developers can create `MsgSend` transactions using the [evmosjs](../libraries/ev
 import { createMessageSend } from @tharsis/transactions
 
 const chain = {
-    chainId: 9000,
-    cosmosChainId: 'planq_7000-4',
+    chainId: 7000,
+    cosmosChainId: 'planq_7000-1',
 }
 
 const sender = {
@@ -139,7 +139,7 @@ Developers can use Metamask or Keplr to help users sign off on EVM transactions 
 import { JsonRpcProvider } from '@ethersproject/providers';
 import { evmosToEth } from "@tharsis/address-converter"
 const provider = new JsonRpcProvider('https://evm-rpc.planq.network');
-const chainId = 'planq_7070-1';
+const chainId = 'planq_7070-2';
 
 // EIP-1559
 async function signAndBroadcastEthereumTx() {
@@ -157,7 +157,7 @@ async function signAndBroadcastEthereumTx() {
 
   // Define Ethereum Tx
   let ethSendTx = {
-    chainId: 9001,
+    chainId: 7070,
     to: '0x4646464646464646464646464646464646464646',
     value: '0x46',
     data: '0x0406080a',

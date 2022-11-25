@@ -14,10 +14,10 @@ This document outlines the steps to join an existing testnet {synopsis}
 
 You need to set the **genesis file** and **seeds**. If you need more information about past networks, check our [mainnet repo](https://github.com/evmos/mainnet). The table below gives an overview of all Mainnet Chain IDs. Note that, the displayed version might differ when an active Software Upgrade proposal exists on chain.
 
-| Chain ID       | Description     | Site                                                               | Version                                                      | Status  |
-| -------------- | --------------- | ------------------------------------------------------------------ | ------------------------------------------------------------ | ------- |
-| `planq_7070-1` | Planq Mainnet 2 | [Planq](https://github.com/evmos/mainnet/tree/main/planq_7070-1) | [`{{ $themeConfig.project.mainnet_version }}`](https://github.com/planq-network/planq/releases) | `Live`  |
-| `planq_7070-1` | Planq Mainnet 1 | [Planq](https://github.com/evmos/mainnet/tree/main/planq_7070-1) | [`v2.0.1`](https://github.com/planq-network/planq/releases/v2.0.1) | `Stale` |
+| Chain ID       | Description     | Site                                                             | Version                                                                                         | Status  |
+|----------------| --------------- |------------------------------------------------------------------|-------------------------------------------------------------------------------------------------| ------- |
+| `planq_7070-2` | Planq Mainnet 2 | [Planq](https://github.com/evmos/mainnet/tree/main/planq_7070-2) | [`{{ $themeConfig.project.mainnet_version }}`](https://github.com/planq-network/planq/releases) | `Live`  |
+| `planq_7070-1` | Planq Mainnet 1 | [Planq](https://github.com/evmos/mainnet/tree/main/planq_7070-1) | [`v0.10.0`](https://github.com/planq-network/planq/)                                            | `Stale` |
 
 ::: warning
 **IMPORTANT:** If you join mainnet as a validator make sure you follow all the [security](./security/security.md) recommendations!
@@ -40,7 +40,7 @@ See the Official [Chain IDs](./../users/technical_concepts/chain_id.md#official-
 :::
 
 ```bash
-planqd config chain-id planq_7070-1
+planqd config chain-id planq_7070-2
 ```
 
 ## Initialize Node
@@ -48,7 +48,7 @@ planqd config chain-id planq_7070-1
 We need to initialize the node to create all the necessary validator and node configuration files:
 
 ```bash
-planqd init <your_custom_moniker> --chain-id planq_7070-1
+planqd init <your_custom_moniker> --chain-id planq_7070-2
 ```
 
 ::: danger
@@ -96,7 +96,7 @@ seeds = "<node-id>@<ip>:<p2p port>"
 You can use the following code to get seeds from the repo and add it to your config:
 
 ```bash
-SEEDS=`curl -sL https://raw.githubusercontent.com/tharsis/mainnet/main/planq_7070-1/seeds.txt | awk '{print $1}' | paste -s -d, -`
+SEEDS=`curl -sL https://raw.githubusercontent.com/planq-network/networks/main/mainnet/planq_7070-2/seeds.txt | awk '{print $1}' | paste -s -d, -`
 sed -i.bak -e "s/^seeds =.*/seeds = \"$SEEDS\"/" ~/.planqd/config/config.toml
 ```
 
@@ -107,12 +107,12 @@ For more information on seeds and peers, you can the Tendermint [P2P documentati
 ### Add Persistent Peers
 
 We can set the [`persistent_peers`](https://docs.tendermint.com/v0.34/tendermint-core/using-tendermint.html#persistent-peer) field in `~/.planqd/config/config.toml` to specify peers that your node will maintain persistent connections with. You can retrieve them from the list of
-available peers on the [`mainnet`](https://github.com/evmos/mainnet) repo.
+available peers on the [`networks`](https://github.com/planq-network/networks) repo.
 
-A list of available persistent peers is also available in the `#find-peers` channel in the [Planq Discord](https://discord.gg/evmos). You can get a random 10 entries from the `peers.txt` file in the `PEERS` variable by running the following command:
+A list of available persistent peers is also available in the `#find-peers` channel in the [Planq Discord](https://discord.gg/jGTPyYmpsq). You can get a random 10 entries from the `peers.txt` file in the `PEERS` variable by running the following command:
 
 ```bash
-PEERS=`curl -sL https://raw.githubusercontent.com/tharsis/mainnet/main/planq_7070-1/peers.txt | sort -R | head -n 10 | awk '{print $1}' | paste -s -d, -`
+PEERS=`curl -sL https://raw.githubusercontent.com/planq-network/networks/main/mainnet/planq_7070-2/peers.txt | sort -R | head -n 10 | awk '{print $1}' | paste -s -d, -`
 ```
 
 Use `sed` to include them into the configuration. You can also add them manually:
@@ -158,7 +158,7 @@ planqd start
 
 ## Share your Peer
 
-You can share your peer to posting it in the `#find-peers` channel in the [Planq Discord](https://discord.gg/evmos).
+You can share your peer to posting it in the `#find-peers` channel in the [Planq Discord](https://discord.gg/jGTPyYmpsq).
 
 ::: tip
 To get your Node ID use

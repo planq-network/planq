@@ -9,7 +9,7 @@ Quickly sync your node with Planq using a snapshot or serve queries for prev ver
 ## List of Snapshots and Archives
 
 Below is a list of publicly available snapshots that you can use to sync with the Planq mainnet and
-archived [7070-1 mainnet](https://github.com/evmos/mainnet/tree/main/planq_7070-1):
+archived [7070-2 mainnet](https://github.com/planq-network/networks/tree/main/mainnet):
 
 <!-- markdown-link-check-disable -->
 :::: tabs
@@ -29,12 +29,12 @@ archived [7070-1 mainnet](https://github.com/evmos/mainnet/tree/main/planq_7070-
 :::
 ::::
 
-To access snapshots and archives, follow the example process below (this code snippet is to access a snapshot of the current network, `planq_7070-1`, from Nodes Guru):
+To access snapshots and archives, follow the example process below (this code snippet is to access a snapshot of the current network, `planq_7070-2`, from Nodes Guru):
 
 ```bash
 cd $HOME/.planqd/data
-wget https://snapshots.nodes.guru/planq_7070-1/planq_7070-1-410819.tar
-tar xf planq_7070-1-410819.tar
+wget https://snapshots.nodes.guru/planq_7070-2/planq_7070-2-410819.tar
+tar xf planq_7070-2-410819.tar
 ```
 
 ### PebbleDB

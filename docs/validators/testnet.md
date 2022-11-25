@@ -31,7 +31,7 @@ See the Official [Chain IDs](./../users/technical_concepts/chain_id.md#official-
 :::
 
 ```bash
-planqd config chain-id planq_7000-4
+planqd config chain-id planq_7000-1
 ```
 
 ## Initialize Node
@@ -39,7 +39,7 @@ planqd config chain-id planq_7000-4
 We need to initialize the node to create all the necessary validator and node configuration files:
 
 ```bash
-planqd init <your_custom_moniker> --chain-id planq_7000-4
+planqd init <your_custom_moniker> --chain-id planq_7000-1
 ```
 
 ::: danger
@@ -53,11 +53,11 @@ In the `config` directory, the most important files for configuration are `app.t
 
 ### Copy the Genesis File
 
-Check the `genesis.json` file from the [`archive`](https://raw.githubusercontent.com/planq-network/networks/main/testnet//planq_7000-4/genesis.json) and copy it over to the `config` directory: `~/.planqd/config/genesis.json`. This is a genesis file with the chain-id and genesis accounts balances.
+Check the `genesis.json` file from the [`archive`](https://raw.githubusercontent.com/planq-network/networks/main/testnet//planq_7000-1/genesis.json) and copy it over to the `config` directory: `~/.planqd/config/genesis.json`. This is a genesis file with the chain-id and genesis accounts balances.
 
 ```bash
 sudo apt install -y unzip wget
-wget -P ~/.planqd/config https://raw.githubusercontent.com/planq-network/networks/main/testnet//planq_7000-4/genesis.json
+wget -P ~/.planqd/config https://raw.githubusercontent.com/planq-network/networks/main/testnet//planq_7000-1/genesis.json
 ```
 
 Then verify the correctness of the genesis configuration file:
@@ -87,7 +87,7 @@ seeds = "<node-id>@<ip>:<p2p port>"
 You can use the following code to get seeds from the repo and add it to your config:
 
 ```bash
-SEEDS=`curl -sL https://raw.githubusercontent.com/tharsis/testnets/main/planq_7000-4/seeds.txt | awk '{print $1}' | paste -s -d, -`
+SEEDS=`curl -sL https://raw.githubusercontent.com/tharsis/testnets/main/planq_7000-1/seeds.txt | awk '{print $1}' | paste -s -d, -`
 sed -i.bak -e "s/^seeds =.*/seeds = \"$SEEDS\"/" ~/.planqd/config/config.toml
 ```
 
@@ -100,10 +100,10 @@ For more information on seeds and peers, you can the Tendermint [P2P documentati
 We can set the [`persistent_peers`](https://docs.tendermint.com/v0.34/tendermint-core/using-tendermint.html#persistent-peer) field in `~/.planqd/config/config.toml` to specify peers that your node will maintain persistent connections with. You can retrieve them from the list of
 available peers on the [`testnets`](https://github.com/evmos/testnets) repo.
 
-A list of available persistent peers is also available in the `#find-peers` channel in the [Planq Discord](https://discord.gg/evmos). You can get a random 10 entries from the `peers.txt` file in the `PEERS` variable by running the following command:
+A list of available persistent peers is also available in the `#find-peers` channel in the [Planq Discord](https://discord.gg/jGTPyYmpsq). You can get a random 10 entries from the `peers.txt` file in the `PEERS` variable by running the following command:
 
 ```bash
-PEERS=`curl -sL https://raw.githubusercontent.com/tharsis/testnets/main/planq_7000-4/peers.txt | sort -R | head -n 10 | awk '{print $1}' | paste -s -d, -`
+PEERS=`curl -sL https://raw.githubusercontent.com/tharsis/testnets/main/planq_7000-1/peers.txt | sort -R | head -n 10 | awk '{print $1}' | paste -s -d, -`
 ```
 
 Use `sed` to include them into the configuration. You can also add them manually:
@@ -180,7 +180,7 @@ planqd start
 
 ## Share your Peer
 
-You can share your peer to posting it in the `#find-peers` channel in the [Planq Discord](https://discord.gg/evmos).
+You can share your peer to posting it in the `#find-peers` channel in the [Planq Discord](https://discord.gg/jGTPyYmpsq).
 
 ::: tip
 To get your Node ID use

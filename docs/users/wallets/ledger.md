@@ -47,9 +47,9 @@ In the Ledger Live app, you should see the Ethereum app listed under the **Apps 
 In the table below you can find a list of Chain IDs to use with the Ethereum Ledger app.
 
 |               | EIP155 chain ID |
-| ------------- | --------------- |
-| Planq mainnet | `9001`          |
-| Planq testnet | `9000`          |
+| ------------- |-----------------|
+| Planq mainnet | `7070`          |
+| Planq testnet | `7000`          |
 
 ## Import your Ledger Account
 
@@ -85,7 +85,7 @@ In order to sign Cosmos transactions (staking, voting on proposals, IBC transfer
 
 EIP712 means that the signer will generate a signature for something like a JSON representation of the Cosmos transaction and that signature will be included in the Cosmos transaction itself.
 
-### Step-by Cosmos transaction using Planq.me
+### Step-by Cosmos transaction using Evmos.me
 
 1. **Get your address in both encodings**
 
@@ -148,7 +148,7 @@ This step should be done automatically by the same service that generated the me
 ### Known issues
 
 - The denomination displayed as `ETH` when importing the wallet because we are using the Ethereum app.
-- If you have Metamask correctly configured, the balance on the extension will be displayed as `PLANQ`, but on the Ledger device it will be displayed as `ETH`.
+- If you have Metamask correctly configured, the balance on the extension will be displayed as `PLQ`, but on the Ledger device it will be displayed as `ETH`.
 
 ::: warning
 **IMPORTANT:** Make sure you are on the correct network before signing any transaction!
