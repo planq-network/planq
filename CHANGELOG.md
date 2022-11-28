@@ -35,32 +35,25 @@ Ref: https://keepachangelog.com/en/1.0.0/
 
 # Changelog
 
-## Unreleased
+## [v1.0.0] - 2022-10-25
+
 
 ### State Machine Breaking
 
-* (deps) [\#1159](https://github.com/evmos/ethermint/pull/1159) Bump Geth version to `v1.10.19`.
-* (deps) [#1167](https://github.com/evmos/ethermint/pull/1167) Bump ibc-go to [`v4.0.0-rc2`](https://github.com/cosmos/ibc-go/releases/tag/v4.0.0-rc2)
-* (ante) [#1176](https://github.com/evmos/ethermint/pull/1176) Fix invalid tx hashes; Remove `Size_` field and validate `Hash`/`From` fields in ante handler,
-  recompute eth tx hashes in JSON-RPC APIs to fix old blocks.
-* (deps) [#1168](https://github.com/evmos/ethermint/pull/1168) Upgrade cosmos-sdk to v0.46.
-* (feemarket) [#1194](https://github.com/evmos/ethermint/pull/1194) Apply feemarket to native cosmos tx.
-
-### API Breaking
-
-* (ante) [#1214](https://github.com/evmos/ethermint/pull/1214) Set mempool priority to evm transactions.
+* (all) [#a55b2d22](https://github.com/planq-network/planq/commit/a55b2d22) 
+  Enables `ERC20` module
+  Updates `MinGasPrice` to `20000000000`
+  Updates `Block.MaxGas` to `40000000`
+  Enables `2929`, `2200`, `1884`, `1344` extra EIPs
+* (erc20) [#3e9bede6](https://github.com/planq-network/planq/commit/3e9bede6) `third_party/proto`: add erc20 module support
+* (ethermint) [#a47342ff](https://github.com/planq-network/planq/commit/a47342ff7470e25dfb2fdd45f4f1426e65b25028)  Add `ethermint` as dependency
+* (deps) [#685869a1](https://github.com/planq-network/planq/commit/a47342ff) Bump github.com/cosmos/ibc-go/v5
+* (deps) [#f9c74e23](https://github.com/planq-network/planq/commit/f9c74e23) Update cosmos-sdk to `v0.46.1`
 
 ### Improvements
+* (tests) [#f93935c3](https://github.com/planq-network/planq/commit/f93935c3) Add `GetConsensusParams` and `GetGRPCClient` function to network testutil, to test against upgrades and forks
+* (upgrades) [#5a243120](https://github.com/planq-network/planq/commit/5a243120) Update upgrade structure
 
-* (rpc) [#1229](https://github.com/evmos/ethermint/pull/1229) Add support for configuring RPC `MaxOpenConnections`
-* (feemarket) [\#1165](https://github.com/evmos/ethermint/pull/1165) Add hint in specs about different gas terminology for gas in Cosmos and Ethereum.
-* (cli) [#1226](https://github.com/evmos/ethermint/pull/1226) Add custom app db backend flag.
-* (cli) [#1230](https://github.com/evmos/ethermint/pull/1230) Remove redundant positional height parameter from feemarket's query cli.
-
-### Bug Fixes
-
-* (rpc) [#1179](https://github.com/evmos/ethermint/pull/1179) Fix gas used in traceTransaction response.
-* (rpc) [#1284](https://github.com/evmos/ethermint/pull/1284) Fix internal trace response upon incomplete `eth_sendTransaction` call.
 
 ## [v0.18.0] - 2022-08-04
 
