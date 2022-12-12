@@ -85,69 +85,71 @@ The Planq network is now to be found in Keplr; look for the `Planq` network in t
 
 
 <script>
-window.onload = async () => {
-   var anchors = document.getElementsByTagName("a");
-   for (var i = 0; i < anchors.length ; i++) {
-      if(anchors[i].hash === "#add-planq-to-keplr") {
-         anchors[i].addEventListener("click", 
-        function (event) {
-            event.preventDefault();
-            addPlanqToKeplr();
-        }, 
-        false);
-      }
-   }
-
-   async function addPlanqToKeplr() {
-       if (!window.keplr) {
-           alert("Please install keplr extension");
-       } else {
-       await keplr.experimentalSuggestChain({
-          "chainId": "planq_7070-2",
-          "chainName": "Planq",
-          "rpc": "https://rpc.planq.network",
-          "rest": "https://rest.planq.network",
-          "bip44": {
-              "coinType": 60,
-          },
-          "bech32Config": {
-              "bech32PrefixAccAddr": "plq",
-              "bech32PrefixAccPub": "plq" + "pub",
-              "bech32PrefixValAddr": "plq" + "valoper",
-              "bech32PrefixValPub": "plq" + "valoperpub",
-              "bech32PrefixConsAddr": "plq" + "valcons",
-              "bech32PrefixConsPub": "plq" + "valconspub",
-          },
-          "currencies": [ 
-              { 
-                  "coinDenom": "PLANQ", 
-                  "coinMinimalDenom": "aplanq", 
-                  "coinDecimals": 18, 
-                  "coinGeckoId": "planq", 
-              }, 
-          ],
-          "feeCurrencies": [
-              {
-                  "coinDenom": "PLANQ",
-                  "coinMinimalDenom": "aplanq", 
-                  "coinDecimals": 18, 
-                  "coinGeckoId": "planq",
-                  "gasPriceStep": {
-                     "low": 25000000000,
-                     "average": 25000000000,
-                     "high": 40000000000,
-                  },
-              },
-          ],
-          "stakeCurrency": {
-              "coinDenom": "PLANQ",
-              "coinMinimalDenom": "aplanq",
-              "coinDecimals": 18,
-              "coinGeckoId": "planq",
-          },
-         features: ["ibc-transfer", "ibc-go", "eth-address-gen", "eth-key-sign"],
+if (typeof window !== "undefined") {
+   window.onload = async () => {
+      var anchors = document.getElementsByTagName("a");
+      for (var i = 0; i < anchors.length ; i++) {
+         if(anchors[i].hash === "#add-planq-to-keplr") {
+            anchors[i].addEventListener("click", 
+           function (event) {
+               event.preventDefault();
+               addPlanqToKeplr();
+           }, 
+           false);
          }
-      );
+      }
+   
+      async function addPlanqToKeplr() {
+          if (!window.keplr) {
+              alert("Please install keplr extension");
+          } else {
+          await keplr.experimentalSuggestChain({
+             "chainId": "planq_7070-2",
+             "chainName": "Planq",
+             "rpc": "https://rpc.planq.network",
+             "rest": "https://rest.planq.network",
+             "bip44": {
+                 "coinType": 60,
+             },
+             "bech32Config": {
+                 "bech32PrefixAccAddr": "plq",
+                 "bech32PrefixAccPub": "plq" + "pub",
+                 "bech32PrefixValAddr": "plq" + "valoper",
+                 "bech32PrefixValPub": "plq" + "valoperpub",
+                 "bech32PrefixConsAddr": "plq" + "valcons",
+                 "bech32PrefixConsPub": "plq" + "valconspub",
+             },
+             "currencies": [ 
+                 { 
+                     "coinDenom": "PLANQ", 
+                     "coinMinimalDenom": "aplanq", 
+                     "coinDecimals": 18, 
+                     "coinGeckoId": "planq", 
+                 }, 
+             ],
+             "feeCurrencies": [
+                 {
+                     "coinDenom": "PLANQ",
+                     "coinMinimalDenom": "aplanq", 
+                     "coinDecimals": 18, 
+                     "coinGeckoId": "planq",
+                     "gasPriceStep": {
+                        "low": 25000000000,
+                        "average": 25000000000,
+                        "high": 40000000000,
+                     },
+                 },
+             ],
+             "stakeCurrency": {
+                 "coinDenom": "PLANQ",
+                 "coinMinimalDenom": "aplanq",
+                 "coinDecimals": 18,
+                 "coinGeckoId": "planq",
+             },
+            features: ["ibc-transfer", "ibc-go", "eth-address-gen", "eth-key-sign"],
+            }
+         );
+         }
       }
    }
 }
