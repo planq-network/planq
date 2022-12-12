@@ -80,4 +80,75 @@ There are several ways to import an existing account:
 
 ## Connect Keplr to Mainnet
 
-Once you are signed in to the Keplr extension, you can connect the wallet with the Planq network. The Planq mainnet network is already built into Keplr; look for the `Planq (beta)` network.
+Once you are signed in to the Keplr extension, you can connect the wallet with the Planq network. **[Click here to add the Planq Mainnet to Keplr](#add-planq-to-keplr)**.
+The Planq network is now to be found in Keplr; look for the `Planq` network in the `Beta support` section.
+
+
+<script>
+window.onload = async () => {
+   var anchors = document.getElementsByTagName("a");
+   for (var i = 0; i < anchors.length ; i++) {
+      if(anchors[i].hash === "#add-planq-to-keplr") {
+         anchors[i].addEventListener("click", 
+        function (event) {
+            event.preventDefault();
+            addPlanqToKeplr();
+        }, 
+        false);
+      }
+   }
+
+   async function addPlanqToKeplr() {
+       if (!window.keplr) {
+           alert("Please install keplr extension");
+       } else {
+       await keplr.experimentalSuggestChain({
+          "chainId": "planq_7070-2",
+          "chainName": "Planq",
+          "rpc": "https://rpc.planq.network",
+          "rest": "https://rest.planq.network",
+          "bip44": {
+              "coinType": 60,
+          },
+          "bech32Config": {
+              "bech32PrefixAccAddr": "plq",
+              "bech32PrefixAccPub": "plq" + "pub",
+              "bech32PrefixValAddr": "plq" + "valoper",
+              "bech32PrefixValPub": "plq" + "valoperpub",
+              "bech32PrefixConsAddr": "plq" + "valcons",
+              "bech32PrefixConsPub": "plq" + "valconspub",
+          },
+          "currencies": [ 
+              { 
+                  "coinDenom": "PLANQ", 
+                  "coinMinimalDenom": "aplanq", 
+                  "coinDecimals": 18, 
+                  "coinGeckoId": "planq", 
+              }, 
+          ],
+          "feeCurrencies": [
+              {
+                  "coinDenom": "PLANQ",
+                  "coinMinimalDenom": "aplanq", 
+                  "coinDecimals": 18, 
+                  "coinGeckoId": "planq",
+                  "gasPriceStep": {
+                     "low": 25000000000,
+                     "average": 25000000000,
+                     "high": 40000000000,
+                  },
+              },
+          ],
+          "stakeCurrency": {
+              "coinDenom": "PLANQ",
+              "coinMinimalDenom": "aplanq",
+              "coinDecimals": 18,
+              "coinGeckoId": "planq",
+          },
+         features: ["ibc-transfer", "ibc-go", "eth-address-gen", "eth-key-sign"],
+         }
+      );
+      }
+   }
+}
+</script>
