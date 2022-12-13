@@ -115,6 +115,11 @@ module.exports = {
               path: "/about/intro",
             },
             {
+              title: "Airdrop",
+              directory: false,
+              path: "/about/airdrop",
+            },
+            {
               title: "Planq Ecosystem",
               path: "https://planq.network/ecosystem",
             },
