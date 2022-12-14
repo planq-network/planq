@@ -146,7 +146,7 @@ if (typeof window !== "undefined") {
                  "coinDecimals": 18,
                  "coinGeckoId": "planq",
              },
-            features: ["ibc-transfer", "ibc-go", "eth-address-gen", "eth-key-sign"],
+            "features": ["ibc-transfer", "ibc-go", "eth-address-gen", "eth-key-sign"],
             }
          );
          }

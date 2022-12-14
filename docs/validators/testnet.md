@@ -6,13 +6,17 @@ order: 4
 
 This document outlines the steps to join an existing testnet {synopsis}
 
+:::warning
+Currently there is no public testnet available, the next upcoming one will be announced soon.
+:::
+
 ## Pick a Testnet
 
-You specify the network you want to join by setting the **genesis file** and **seeds**. If you need more information about past networks, check our [testnets repo](https://github.com/evmos/testnets).
+You specify the network you want to join by setting the **genesis file** and **seeds**. If you need more information about past networks, check our [testnets repo](https://github.com/planq-network/networks/testnet).
 
-| Testnet Chain ID | Description                       | Site                                                                       | Version                                                                                  | Status  |
-| ---------------- | --------------------------------- | -------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ------- |
-| `planq_7000-1`   | Arsia Mons Testnet                | [Arsia Mons](https://github.com/evmos/testnets/tree/main/arsia_mons)     | [`v0.1.x`](https://github.com/planq-network/planq/releases)                                    | `Stale` |
+| Testnet Chain ID | Description                       | Site | Version                                                                                  | Status  |
+| ---------------- | --------------------------------- |------| ---------------------------------------------------------------------------------------- | ------- |
+| `planq_7000-1`   | Arsia Mons Testnet                | -    | [`v0.1.x`](https://github.com/planq-network/planq/releases)                                    | `Stale` |
 
 ## Install `planqd`
 
@@ -98,7 +102,7 @@ For more information on seeds and peers, you can the Tendermint [P2P documentati
 ### Add Persistent Peers
 
 We can set the [`persistent_peers`](https://docs.tendermint.com/v0.34/tendermint-core/using-tendermint.html#persistent-peer) field in `~/.planqd/config/config.toml` to specify peers that your node will maintain persistent connections with. You can retrieve them from the list of
-available peers on the [`testnets`](https://github.com/evmos/testnets) repo.
+available peers on the [`testnets`](https://github.com/planq-network/networks/testnet) repo.
 
 A list of available persistent peers is also available in the `#find-peers` channel in the [Planq Discord](https://discord.gg/jGTPyYmpsq). You can get a random 10 entries from the `peers.txt` file in the `PEERS` variable by running the following command:
 
