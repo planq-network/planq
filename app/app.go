@@ -417,7 +417,7 @@ func NewPlanqApp(
 	app.EvidenceKeeper = *evidenceKeeper
 
 	/****  Module Options ****/
-
+	app.setupUpgradeStoreLoaders()
 	// NOTE: we may consider parsing `appOpts` inside module constructors. For the moment
 	// we prefer to be more strict in what arguments the modules expect.
 	skipGenesisInvariants := cast.ToBool(appOpts.Get(crisis.FlagSkipGenesisInvariants))
@@ -571,7 +571,7 @@ func NewPlanqApp(
 		authtypes.ModuleName: auth.NewAppModule(app.appCodec, app.AccountKeeper, ethermintapp.RandomGenesisAccounts),
 	}
 	app.sm = module.NewSimulationManagerFromAppModules(app.mm.Modules, overrideModules)
-
+	app.setupUpgradeHandlers()
 	app.sm.RegisterStoreDecoders()
 
 	// initialize stores
