@@ -11,7 +11,7 @@ Learn how to participate in the **validator onboarding airdrop**. Additionally a
 * A running `planqd` instance to validate
 * Your Planq EVM address
 * Accepted KYC
-* The sign-up period between the **14th Dec 00:00 UTC and 21st Dec 23:59 UTC** has not passed yet
+* The sign-up period between the **14th Dec 00:00 UTC and 28th Dec 23:59 UTC** has not passed yet
 
 ### How to setup `planqd`
 
