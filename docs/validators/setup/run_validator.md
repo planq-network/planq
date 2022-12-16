@@ -29,7 +29,7 @@ planqd tendermint show-validator
 Ref: [Security Advisory: Insecurely configured geth can make funds remotely accessible](https://blog.ethereum.org/2015/08/29/security-alert-insecurely-configured-geth-can-make-funds-remotely-accessible/)
 :::
 
-To create your validator on testnet, just use the following command:
+To create your validator on mainnet, just use the following command:
 
 ```bash
 planqd tx staking create-validator \
@@ -41,8 +41,9 @@ planqd tx staking create-validator \
   --commission-max-rate="0.10" \
   --commission-max-change-rate="0.01" \
   --min-self-delegation="1000000" \
-  --gas="auto" \
-  --gas-prices="0.025atplanq" \
+  --gas="1000000" \
+  --gas-prices="30000000000aplanq" \
+  --gas-adjustment="1.15" \
   --from=<key_name>
 ```
 
