@@ -77,6 +77,12 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 				return errors.New("--ledger flag passed: Ledger device is currently not supported")
 			}
 
+			gasPrice, _ := cmd.Flags().GetString(flags.FlagGasPrices)
+
+			if len(gasPrice) == 0 {
+				cmd.Flags().Set(flags.FlagGasPrices, "300000000000aplanq")
+			}
+
 			initClientCtx, err := client.ReadPersistentCommandFlags(initClientCtx, cmd.Flags())
 			if err != nil {
 				return err
