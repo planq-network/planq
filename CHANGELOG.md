@@ -35,6 +35,15 @@ Ref: https://keepachangelog.com/en/1.0.0/
 
 # Changelog
 
+## [v1.0.2] - 2022-12-18
+* fix: increase default gas price for cli cmd
+* fix: apply ics23 patch for dragonberry
+
+## [v1.0.1] - 2022-12-16
+* feat: add 2 more seeds
+* fix: genesis validation error
+* feat: add upgrade handler methods
+
 ## [v1.0.0] - 2022-10-25
 
 
