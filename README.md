@@ -26,7 +26,7 @@ parent:
 </div>
 <div align="center">
   <a href="https://discord.gg/jGTPyYmpsq">
-    <img alt="Discord" src="https://img.shields.io/discord/809048090249134080.svg" />
+    <img alt="Discord" src="https://img.shields.io/discord/989163662541471805.svg" />
   </a>
   <a href="https://github.com/planq-network/planq/actions?query=branch%3Amain+workflow%3ALint">
     <img alt="Lint Status" src="https://github.com/planq-network/planq/actions/workflows/lint.yml/badge.svg?branch=main" />
