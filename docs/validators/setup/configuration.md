@@ -6,11 +6,11 @@ order: 2
 
 ## Block Time
 
-The timeout-commit value in the node config defines how long we wait after committing a block, before starting on the new height (this gives us a chance to receive some more pre-commits, even though we already have +2/3). The current default value is `"1s"`.
+The timeout-commit value in the node config defines how long we wait after committing a block, before starting on the new height (this gives us a chance to receive some more pre-commits, even though we already have +2/3). The current default value is `"5s"`.
 
 ::: tip
 **Note**: From v6, this is handled automatically by the server when initializing the node.
-Validators will need to ensure their local node configurations in order to speed up the network to ~2s block times.
+Validators will need to ensure their local node configurations in order to speed up the network to ~5s block times.
 :::
 
 ```toml
@@ -26,7 +26,7 @@ Validators will need to ensure their local node configurations in order to speed
 # How long we wait after committing a block, before starting on the new
 # height (this gives us a chance to receive some more precommits, even
 # though we already have +2/3).
-timeout_commit = "1s"
+timeout_commit = "5s"
 ```
 
 ## Peers
