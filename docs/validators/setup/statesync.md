@@ -180,20 +180,20 @@ moniker="NODE_NAME"
 ## Use commands below for Testnet setup
 
 ```bash
-SNAP_RPC1="http://bd-evmos-testnet-state-sync-node-01.bdnodes.net:26657"
-SNAP_RPC="http://bd-evmos-testnet-state-sync-node-02.bdnodes.net:26657"
+SNAP_RPC1="http://rpc-testnet.planq.network:443"
+SNAP_RPC="http://rpc-testnet.planq.network:443"
 CHAIN_ID="planq_7000-1"
-PEER="3a6b22e1569d9f85e9e97d1d204a1c457d860926@bd-evmos-testnet-seed-node-01.bdnodes.net:26656"
-wget -O $HOME/genesis.json https://raw.githubusercontent.com/planq-network/networks/main/testnet//planq_7000-1/genesis.json 
+PEER="3a6b22e1569d9f85e9e97d1d204a1c457d860926@123.45.67.89:26657"
+wget -O $HOME/genesis.json https://raw.githubusercontent.com/planq-network/networks/main/testnet/planq_7000-1/genesis.json 
 ```
 
 ## Use commands below for Mainnet setup
 
 ```bash
-SNAP_RPC1="http://bd-evmos-mainnet-state-sync-us-01.bdnodes.net:26657"
-SNAP_RPC="http://bd-evmos-mainnet-state-sync-eu-01.bdnodes.net:26657"
+SNAP_RPC1="https://rpc.planq.network:443"
+SNAP_RPC="https://rpc.planq.network:443"
 CHAIN_ID="planq_7070-2"
-PEER="96557e26aabf3b23e8ff5282d03196892a7776fc@bd-evmos-mainnet-state-sync-us-01.bdnodes.net,dec587d55ff38827ebc6312cedda6085c59683b6@bd-evmos-mainnet-state-sync-eu-01.bdnodes.net"
+PEER="3eb12284b7fb707490b8adfda6fa7d94e2fa5cd9@planq.p2p.roomit.xyz:16603,a3b8955aa523285d0aed51c7bfaf19eb20264ef5@mainnet-planq.konsortech.xyz:26656"
 wget -O $HOME/genesis.json https://raw.githubusercontent.com/planq-network/networks/main/mainnet/genesis.json 
 ```
 
@@ -229,7 +229,6 @@ Change config files (set the node name, add persistent peers, set indexer = "nul
 
 ```bash
 sed -i -e "s%^moniker *=.*%moniker = \"$moniker\"%; " $HOME/.planqd/config/config.toml
-sed -i -e "s%^indexer *=.*%indexer = \"null\"%; " $HOME/.planqd/config/config.toml
 sed -i -e "s%^persistent_peers *=.*%persistent_peers = \"$PEER\"%; " $HOME/.planqd/config/config.toml
 ```
 
@@ -250,7 +249,7 @@ echo $LATEST_HEIGHT $BLOCK_HEIGHT $TRUST_HASH
 Output example (numbers will be different):
 
 ```bash
-376080 374080 F0C78FD4AE4DB5E76A298206AE3C602FF30668C521D753BB7C435771AEA47189
+631519 629519 7A71C0F476D086715A812C063A4BAADAC58F6E13E2C2E4AFF64C250BA7C61391
 ```
 
 If output is OK do next
@@ -262,9 +261,7 @@ s|^(rpc_servers[[:space:]]+=[[:space:]]+).*$|\1\"$SNAP_RPC,$SNAP_RPC1\"| ; \
 
 s|^(trust_height[[:space:]]+=[[:space:]]+).*$|\1$BLOCK_HEIGHT| ; \
 
-s|^(trust_hash[[:space:]]+=[[:space:]]+).*$|\1\"$TRUST_HASH\"| ; \
-
-s|^(seeds[[:space:]]+=[[:space:]]+).*$|\1\"\"|" ~/.planqd/config/config.toml
+s|^(trust_hash[[:space:]]+=[[:space:]]+).*$|\1\"$TRUST_HASH\"|" ~/.planqd/config/config.toml
 ```
 
 ### Create planqd service
