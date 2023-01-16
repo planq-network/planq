@@ -35,6 +35,10 @@ Ref: https://keepachangelog.com/en/1.0.0/
 
 # Changelog
 
+## [v1.0.3] - 2023-01-16
+* fix: snapshot config
+* fix: update seed ip
+
 ## [v1.0.2] - 2022-12-18
 * fix: increase default gas price for cli cmd
 * fix: apply ics23 patch for dragonberry
