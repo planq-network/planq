@@ -151,7 +151,6 @@ Assume that many people will stop reading at this point. However, it is importan
       - the transfer logic is not modified (i.e. transfer logic is not directly manipulated)
       - no malicious `Approve` events can directly manipulate users' balance through a delayed granted allowance
 
-
 ### Begin with a well-considered draft proposal
 
 The ideal format for a proposal is as a Markdown file (ie. `.md`) in a Github repo or [HackMd](https://hackmd.io/). Markdown

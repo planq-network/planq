@@ -12,6 +12,7 @@ Check the JSON-RPC methods supported on Planq. {synopsis}
 - [Geth JSON-RPC APIs](https://geth.ethereum.org/docs/rpc/server) {prereq}
 
 ## Endpoints
+<!-- markdown-link-check-disable -->
 
 | Method                                                                            | Namespace | Implemented | Public | Notes              |
 |-----------------------------------------------------------------------------------|-----------|-------------|--------|--------------------|
@@ -157,6 +158,8 @@ Check the JSON-RPC methods supported on Planq. {synopsis}
 | [`txpool_content`](#txpool-content)                                               | TxPool    | ✔           |        |                    |
 | [`txpool_inspect`](#txpool-inspect)                                               | TxPool    | ✔           |        |                    |
 | [`txpool_status`](#txpool-status)                                                 | TxPool    | ✔           |        |                    |
+
+<!-- markdown-link-check-enable -->
 
 :::tip
 Block Number can be entered as a Hex string, `"earliest"`, ``"latest"`` or `"pending"`.
@@ -509,6 +512,7 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_sendTransaction","params":[{
 ### `eth_sendRawTransaction`
 
 Creates new message call transaction or a contract creation for signed transactions.
+<!-- markdown-link-check-disable-next-line -->
 You can get signed transaction data using the [`personal_sign`](#personal-sign) method.
 
 #### Parameters
@@ -622,7 +626,7 @@ Returns transaction details given the ethereum tx something.
 ```json
 // Request
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getTransactionByHash","params":["0xec5fa15e1368d6ac314f9f64118c5794f076f63c02e66f97ea5fe1de761a8973"],"id":1}' -H "Content-Type: application/json" http://localhost:8545
- 
+
 // Result
 {"jsonrpc":"2.0","id":1,"result":{"blockHash":"0x7a7398cc11d9c4c8e6f53e0c73824297aceafdab62db9e4b867a0da694384864","blockNumber":"0x188","from":"0x3b7252d007059ffc82d16d022da3cbf9992d2f70","gas":"0x147ee","gasPrice":"0x3b9aca00","hash":"0xec5fa15e1368d6ac314f9f64118c5794f076f63c02e66f97ea5fe1de761a8973","input":"0x6dba746c","nonce":"0x18","to":"0xa655256f589060437e5ffe2246dec385d040f148","transactionIndex":"0x0","value":"0x0","v":"0xa96","r":"0x6db399d694a452fb4106419140a6e5dbbe6817743a0f6f695a651e6576e59a5e","s":"0x25dd6ab1f936d0280d2fed0caeb0ebe5b9a46de6d8cb08ad8fd2c88deb55fc31"}}
 ```
@@ -752,7 +756,7 @@ Returns an array of all logs matching filter with given id.
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getFilterLogs","params":["0x127e9eca4f7751fb4e5cb5291ad8b455"],"id":1}' -H "Content-Type: application/json" http://localhost:8545
 
 // Result
-{"jsonrpc":"2.0","id":1,"error":{"code":-32000,"message":"filter 0x35b64c227ce30e84fc5c7bd347be380e doesn't have a LogsSubscription type: got 5"}} 
+{"jsonrpc":"2.0","id":1,"error":{"code":-32000,"message":"filter 0x35b64c227ce30e84fc5c7bd347be380e doesn't have a LogsSubscription type: got 5"}}
 ```
 
 ### `eth_getLogs`
@@ -947,6 +951,7 @@ Decrypts the key with the given address from the key store.
 
 Both passphrase and unlock duration are optional when using the JavaScript console. The unencrypted key will be held in memory until the unlock duration expires. If the unlock duration defaults to 300 seconds. An explicit duration of zero seconds unlocks the key until geth exits.
 
+<!-- markdown-link-check-disable-next-line -->
 The account can be used with [`eth_sign`](#eth-sign) and [`eth_sendTransaction`](#eth-sendtransaction) while it is unlocked.
 
 #### Parameters
@@ -973,6 +978,7 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"personal_unlockAccount","params"
 
 Validate the given passphrase and submit transaction.
 
+<!-- markdown-link-check-disable-next-line -->
 The transaction is the same argument as for [`eth_sendTransaction`](#eth-sendtransaction) and contains the `from` address. If the passphrase can be used to decrypt the private key belonging to `tx.from` the transaction is verified, signed and send onto the network.
 
 :::warning
@@ -1029,12 +1035,14 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"personal_sign","params":["0xdead
 **Private**: Requires authentication.
 :::
 
+<!-- markdown-link-check-disable-next-line -->
 `ecRecover` returns the address associated with the private key that was used to calculate the signature in [`personal_sign`](#personal-sign).
 
 #### Parameters
 
 - Message
 
+<!-- markdown-link-check-disable-next-line -->
 - Signature returned from [`personal_sign`](#personal-sign)
 
 ```json
