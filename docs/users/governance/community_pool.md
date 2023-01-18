@@ -12,7 +12,6 @@ Planq token-holders can cast a vote to approve spending from the Community Pool 
 - **As a strategy: funding is fast.** Besides the time it takes to push your proposal on-chain, the only other limiting factor is a fixed 5-day voting period. As soon as the proposal passes, your account will be credited the full amount of your proposal request.
 - **To build rapport.** Engaging publicly with the community is the opportunity to develop relationships with stakeholders and to educate them about the importance of your work. Unforeseen partnerships could arise, and overall the community may value your work more if they are involved as stakeholders.
 
-
 ## FAQ
 
 ### How is the Community Pool funded?

@@ -21,13 +21,17 @@ In case any questions arise along the way, feel free to join our [Discord](https
 ### Your Planq EVM Address
 
 Below are 3 ways to obtain your Planq EVM address:
+
 * Via [Metamask](../users/wallets/metamask.md)
 * Via [Keplr](../users/wallets/keplr.md)
 * Via `planqd`. [Further information on planqd keys usage](../users/keys/keyring.md)
+
 ```bash
 planqd debug addr <your-plq-address>
 ```
+
 Example:
+
 ```bash
 planqd debug addr plq1y59gekgkzzq7cvwdu5c4lefu7wg29g3f32qajh
 Address bytes: [37 10 140 217 22 16 129 236 49 205 229 49 95 229 60 243 144 162 162 41]
@@ -36,9 +40,9 @@ Address (EIP-55): 0x250a8cd9161081Ec31cde5315Fe53cF390a2a229
 Bech32 Acc: plq1y59gekgkzzq7cvwdu5c4lefu7wg29g3f32qajh
 Bech32 Val: plqvaloper1y59gekgkzzq7cvwdu5c4lefu7wg29g3f05d85x
 ```
-We can now obtain our EVM address from the line `Address (EIP-55)`, which in this case is 
-`0x250a8cd9161081Ec31cde5315Fe53cF390a2a229`.
 
+We can now obtain our EVM address from the line `Address (EIP-55)`, which in this case is
+`0x250a8cd9161081Ec31cde5315Fe53cF390a2a229`.
 
 ### KYC
 

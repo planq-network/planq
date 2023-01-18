@@ -83,22 +83,21 @@ There are several ways to import an existing account:
 Once you are signed in to the Keplr extension, you can connect the wallet with the Planq network. **[Click here to add the Planq Mainnet to Keplr](#add-planq-to-keplr)**.
 The Planq network is now to be found in Keplr; look for the `Planq` network in the `Beta support` section.
 
-
 <script>
 if (typeof window !== "undefined") {
    window.onload = async () => {
       var anchors = document.getElementsByTagName("a");
       for (var i = 0; i < anchors.length ; i++) {
          if(anchors[i].hash === "#add-planq-to-keplr") {
-            anchors[i].addEventListener("click", 
+            anchors[i].addEventListener("click",
            function (event) {
                event.preventDefault();
                addPlanqToKeplr();
-           }, 
+           },
            false);
          }
       }
-   
+
       async function addPlanqToKeplr() {
           if (!window.keplr) {
               alert("Please install keplr extension");
@@ -119,19 +118,19 @@ if (typeof window !== "undefined") {
                  "bech32PrefixConsAddr": "plq" + "valcons",
                  "bech32PrefixConsPub": "plq" + "valconspub",
              },
-             "currencies": [ 
-                 { 
-                     "coinDenom": "PLANQ", 
-                     "coinMinimalDenom": "aplanq", 
-                     "coinDecimals": 18, 
-                     "coinGeckoId": "planq", 
-                 }, 
+             "currencies": [
+                 {
+                     "coinDenom": "PLANQ",
+                     "coinMinimalDenom": "aplanq",
+                     "coinDecimals": 18,
+                     "coinGeckoId": "planq",
+                 },
              ],
              "feeCurrencies": [
                  {
                      "coinDenom": "PLANQ",
-                     "coinMinimalDenom": "aplanq", 
-                     "coinDecimals": 18, 
+                     "coinMinimalDenom": "aplanq",
+                     "coinDecimals": 18,
                      "coinGeckoId": "planq",
                      "gasPriceStep": {
                         "low": 25000000000,
