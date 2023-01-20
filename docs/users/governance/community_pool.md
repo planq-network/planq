@@ -8,8 +8,7 @@ Planq token-holders can cast a vote to approve spending from the Community Pool 
 
 ## Why create a proposal to use Community Pool funds?
 
-- **As a strategy: you can do both.** You can submit your proposal to the Planq Grants Program, but also consider submitting your proposal publicly on-chain. If the Planq community votes in favor, you can withdraw your application.
-- **As a strategy: funding is fast.** Besides the time it takes to push your proposal on-chain, the only other limiting factor is a fixed 5-day voting period. As soon as the proposal passes, your account will be credited the full amount of your proposal request.
+- **As a strategy: funding is fast.** Besides the time it takes to push your proposal on-chain, the only other limiting factor is a fixed 2-day voting period. As soon as the proposal passes, your account will be credited the full amount of your proposal request.
 - **To build rapport.** Engaging publicly with the community is the opportunity to develop relationships with stakeholders and to educate them about the importance of your work. Unforeseen partnerships could arise, and overall the community may value your work more if they are involved as stakeholders.
 
 ## FAQ
@@ -26,7 +25,7 @@ Funded projects that fail to deliver may return funding to Community Pool and en
 
 ### What is the balance of the Community Pool?
 
-- **Community Pool Account**: [`plq1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8974jnh`](https://explorer.planq.network/accounts/plq1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8974jnh)
+- **Community Pool Account**: [`plq1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8w85q0v`](https://explorer.planq.network/accounts/plq1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8w85q0v)
 
 ### How can funds from the Community Pool be spent?
 
