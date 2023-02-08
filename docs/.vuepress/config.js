@@ -73,10 +73,10 @@ module.exports = {
     project: {
       name: "Planq",
       denom: "Planq",
-      ticker: "PLANQ",
+      ticker: "PLQ",
       binary: "planqd",
       testnet_denom: "tPlanq",
-      testnet_ticker: "tPLANQ",
+      testnet_ticker: "tPLQ",
       rpc_url: "https://evm-rpc.planq.network",
       rpc_url_testnet: "https://evm-rpc.planq.network",
       rpc_url_local: "http://localhost:8545/",
