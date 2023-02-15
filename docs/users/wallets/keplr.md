@@ -80,5 +80,5 @@ There are several ways to import an existing account:
 
 ## Connect Keplr to Mainnet
 
-Once you are signed in to the Keplr extension, you can connect the wallet with the Planq network. **[Click here to add the Planq Mainnet to Keplr](https://chains.keplr.app))**. Search for Planq in the search bar and click on "Add to Keplr".
+Once you are signed in to the Keplr extension, you can connect the wallet with the Planq network. **[Click here to add the Planq Mainnet to Keplr](https://chains.keplr.app)**. Search for Planq in the search bar and click on "Add to Keplr".
 The Planq network is now to be found in Keplr; look for the `Planq` network in the `Beta support` section.
