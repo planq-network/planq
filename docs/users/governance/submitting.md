@@ -45,13 +45,20 @@ Many proposals allow for long form text to be included, usually under the key `d
 
 #### Real Example
 
-[Proposal 1](https://commonwealth.im/evmos/proposal/1-airdrop-claim-mission) was representative of one of four core network activities that users had to participate in to claim tokens from the Planq Rektdrop.
+[Proposal 2](https://ping.pub/planq/gov/2) was a Slashing Param Change.
 
 ```json
 {
-  "title": "Airdrop Claim Mission",
-  "description": "Vote to claim",
-  "deposit": "10000000000000000000aplanq"
+  "title": "Slashing Param Change",
+  "description": "We have noticed that some validators have been jailed for missing block sign. Current slashing SignedBlocksWindow parameter is 100, that means validator must sign 50% of last 100 blocks to avoid being jailed. As discussed on Discord, this is not a proper parameter so we proposed to adjust this parameter from 100 to 20000."
+  "changes": [
+    {
+      "subspace": "slashing",
+      "key": "SignedBlocksWindow",
+      "value": "20000"
+    }
+  ],
+  "deposit": "500000000000000000000aplanq"
 }
 ```
 
@@ -71,7 +78,7 @@ In this simple example (below), a network explorer will list the governance prop
 
 The `amount` is `1000000000000000000aplanq`. This is equal to 1 PLANQ, so `recipient` address `plq1mx9nqk5agvlsvt2yc8259nwztmxq7zjq50mxkp` will receive 1 PLANQ if this proposal is passed.
 
-The `deposit` of `500000000000000000000aplanq` results in 500 PLANQ being used from the proposal submitter's account. A minimum deposit is required for a proposal to enter the voting period, and anyone may contribute to this deposit within 3 days. If the minimum deposit isn't reached before this time, the deposit amounts will be burned. Deposit amounts will also be burned if the quorum isn't met in the vote or the proposal is vetoed.
+The `deposit` of `500000000000000000000aplanq` results in 500 PLANQ being used from the proposal submitter's account. A minimum deposit is required for a proposal to enter the voting period, and anyone may contribute to this deposit within 2 days. If the minimum deposit isn't reached before this time, the deposit amounts will be burned. Deposit amounts will also be burned if the quorum isn't met in the vote or the proposal is vetoed.
 
 ```json
 {
@@ -84,25 +91,25 @@ The `deposit` of `500000000000000000000aplanq` results in 500 PLANQ being used f
       "amount": "1000000000000000000"
     }
   ],
-  "deposit": "64000000000000000000aplanq"
+  "deposit": "500000000000000000000aplanq"
 }
 
 ```
 
 #### Real Example
 
-This is a governance protocol which [Flux Protocol](https://www.fluxprotocol.org/), the provider of a cross-chain oracle which provides smart contracts with access to economically secure data feeds, submitted to cover costs of the subsidizied FPO (First Party Oracle) solution which they deployed on the Planq mainnet.
+This is a governance protocol which replaces client 07-tendermint-3 with client 07-tendermint-10.
 
 Users can query the proposal details with the `planqd` command-line interface using this command:
 
 ```bash
-`planqd --node https://rpc.planq.network query gov proposal 23`.
+`planqd --node https://rpc.planq.network query gov proposal 3`.
 ```
 
 ```json
 {
-  "title": "Grant proposal for Flux Protocol an oracle solution live on Planq",
-  "description": "proposal: https://gateway.pinata.cloud/ipfs/QmfZknL4KRHvJ6XUDwtyRKANVs44FFmjGuM8YbArqqfWwF discussion: https://commonwealth.im/evmos/discussion/4915-evmos-grant-flux-oracle-solution",
+  "title": "Replace expired IBC client for Osmosis",
+  "description": "Replace client 07-tendermint-3 with client 07-tendermint-6",
   "recipient": "plq15dxa2e3lc8zvmryv62x3stt86yhplu2vs9kxct",
   "amount": [
     {
@@ -110,7 +117,7 @@ Users can query the proposal details with the `planqd` command-line interface us
       "denom": "aplanq"
     }
   ],
-  "deposit": "64000000000000000000aplanq"
+  "deposit": "500000000000000000000aplanq"
 }
 ```
 
@@ -158,7 +165,7 @@ Users can query the proposal details with the planqd command-line interface usin
 }
 ```
 
-The deposit `denom` is `aplanq` and `amount` is `20100000000000000000`. Therefore, a deposit of 20.1 PLANQ will be included with this proposal. At the time, the PLANQ mainnet had a 10 PLANQ minimum deposit, so this proposal was put directly into the voting period (and subsequently passed). The minimum deposit amount is currently 500 PLANQ. There is a minimum deposit required for a proposal to enter the voting period, and anyone may contribute to this deposit within a 3-day period. If the minimum deposit isn't reached before this time, the deposit amounts will be burned.
+The deposit `denom` is `aplanq` and `amount` is `20100000000000000000`. Therefore, a deposit of 20.1 PLANQ will be included with this proposal. At the time, the PLANQ mainnet had a 10 PLANQ minimum deposit, so this proposal was put directly into the voting period (and subsequently passed). The minimum deposit amount is currently 500 PLANQ. There is a minimum deposit required for a proposal to enter the voting period, and anyone may contribute to this deposit within a 2-day period. If the minimum deposit isn't reached before this time, the deposit amounts will be burned.
 
 ## Sending the transaction that submits your governance proposal
 
@@ -197,7 +204,7 @@ Use the `plq tx gov --help` flag to get more info about the governance commands
 
 ### Verifying your transaction
 
-After posting your transaction, your command line interface (`planqd`) will provide you with the transaction's hash, which you can either query using `planqd` or by searching the transaction hash using [Mintscan](https://www.mintscan.io/evmos) or any block explorer.
+After posting your transaction, your command line interface (`planqd`) will provide you with the transaction's hash, which you can either query using `planqd` or by searching the transaction hash using [Bigdipper](https://explorer.planq.network/) or any block explorer.
 
 ### Depositing funds after a proposal has been submitted
 
