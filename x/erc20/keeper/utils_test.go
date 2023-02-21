@@ -94,8 +94,7 @@ func (suite *KeeperTestSuite) DoSetupTest(t require.TestingT) {
 
 	evmParams := suite.app.EvmKeeper.GetParams(suite.ctx)
 	evmParams.EvmDenom = utils.BaseDenom
-	err = suite.app.EvmKeeper.SetParams(suite.ctx, evmParams)
-	require.NoError(t, err)
+	suite.app.EvmKeeper.SetParams(suite.ctx, evmParams)
 
 	// Set Validator
 	valAddr := sdk.ValAddress(suite.address.Bytes())
@@ -146,8 +145,7 @@ func (suite *KeeperTestSuite) SetupIBCTest() {
 	s.app = suite.EvmosChain.App.(*app.PlanqApp)
 	evmParams := s.app.EvmKeeper.GetParams(s.EvmosChain.GetContext())
 	evmParams.EvmDenom = utils.BaseDenom
-	err := s.app.EvmKeeper.SetParams(s.EvmosChain.GetContext(), evmParams)
-	suite.Require().NoError(err)
+	s.app.EvmKeeper.SetParams(s.EvmosChain.GetContext(), evmParams)
 
 	// s.app.FeeMarketKeeper.SetBaseFee(s.EvmosChain.GetContext(), big.NewInt(1))
 

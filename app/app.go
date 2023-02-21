@@ -94,8 +94,7 @@ import (
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 	ibctestingtypes "github.com/cosmos/ibc-go/v6/testing/types"
 
-	"github.com/cosmos/ibc-go/v6/modules/apps/transfer"
-	ibctransferkeeper "github.com/cosmos/ibc-go/v6/modules/apps/transfer/keeper"
+	ibctransfer "github.com/cosmos/ibc-go/v6/modules/apps/transfer"
 	ibctransfertypes "github.com/cosmos/ibc-go/v6/modules/apps/transfer/types"
 	ibc "github.com/cosmos/ibc-go/v6/modules/core"
 	ibcclient "github.com/cosmos/ibc-go/v6/modules/core/02-client"
@@ -132,6 +131,10 @@ import (
 	erc20client "github.com/planq-network/planq/x/erc20/client"
 	erc20keeper "github.com/planq-network/planq/x/erc20/keeper"
 	erc20types "github.com/planq-network/planq/x/erc20/types"
+
+	// NOTE: override ICS20 keeper to support IBC transfers of ERC20 tokens
+	"github.com/planq-network/planq/x/ibc/transfer"
+	ibctransferkeeper "github.com/planq-network/planq/x/ibc/transfer/keeper"
 )
 
 func init() {
@@ -176,7 +179,7 @@ var (
 		feegrantmodule.AppModuleBasic{},
 		upgrade.AppModuleBasic{},
 		evidence.AppModuleBasic{},
-		transfer.AppModuleBasic{},
+		transfer.AppModuleBasic{AppModuleBasic: &ibctransfer.AppModuleBasic{}},
 		vesting.AppModuleBasic{},
 		evm.AppModuleBasic{},
 		feemarket.AppModuleBasic{},
@@ -373,7 +376,7 @@ func NewPlanqApp(
 
 	app.Erc20Keeper = erc20keeper.NewKeeper(
 		keys[erc20types.StoreKey], appCodec, authtypes.NewModuleAddress(govtypes.ModuleName),
-		app.AccountKeeper, app.BankKeeper, app.EvmKeeper, app.StakingKeeper, nil,
+		app.AccountKeeper, app.BankKeeper, app.EvmKeeper, app.StakingKeeper,
 	)
 
 	// Create IBC Keeper
@@ -415,7 +418,7 @@ func NewPlanqApp(
 	app.TransferKeeper = ibctransferkeeper.NewKeeper(
 		appCodec, keys[ibctransfertypes.StoreKey], app.GetSubspace(ibctransfertypes.ModuleName),
 		app.IBCKeeper.ChannelKeeper, app.IBCKeeper.ChannelKeeper, &app.IBCKeeper.PortKeeper,
-		app.AccountKeeper, app.BankKeeper, scopedTransferKeeper,
+		app.AccountKeeper, app.BankKeeper, scopedTransferKeeper, app.Erc20Keeper,
 	)
 	transferModule := transfer.NewAppModule(app.TransferKeeper)
 
