@@ -42,7 +42,7 @@ import (
 
 var (
 	s *AnteTestSuite
-	_ sdk.AnteHandler = MockAnteHandler{}.AnteHandle
+	_ sdk.AnteHandler = (&MockAnteHandler{}).AnteHandle
 )
 
 type AnteTestSuite struct {
@@ -71,6 +71,7 @@ func (suite *AnteTestSuite) SetupTest(isCheckTx bool) {
 	consAddress := sdk.ConsAddress(privCons.PubKey().Address())
 
 	suite.app = app.Setup(isCheckTx, feemarkettypes.DefaultGenesisState())
+	suite.denom = "aplanq"
 	suite.ctx = suite.app.BaseApp.NewContext(isCheckTx, tmproto.Header{
 		Height:          1,
 		ChainID:         "planq_7001-1",
