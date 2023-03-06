@@ -35,6 +35,12 @@ Ref: https://keepachangelog.com/en/1.0.0/
 
 # Changelog
 
+## [v1.0.4] - 2023-03-06
+* improvement: Use the Informal Systems Tendermint fork
+* fix: Bump tendermint to v0.34.25
+* fix: Bump Gin version to v1.7.7
+* fix: update seed ip
+
 ## [v1.0.3] - 2023-01-16
 * fix: snapshot config
 * fix: update seed ip
