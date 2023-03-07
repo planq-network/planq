@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"github.com/planq-network/planq/app/keepers"
 	"github.com/planq-network/planq/app/upgrades"
-	v2 "github.com/planq-network/planq/app/upgrades/v2"
+	v1_0_1 "github.com/planq-network/planq/app/upgrades/v1_0_1"
+	"github.com/planq-network/planq/app/upgrades/v1_0_5"
 	"io"
 	"net/http"
 	"os"
@@ -197,7 +198,7 @@ var (
 	_ ibctesting.TestingApp   = (*PlanqApp)(nil)
 
 	Upgrades = []upgrades.Upgrade{}
-	Forks    = []upgrades.Fork{v2.Fork}
+	Forks    = []upgrades.Fork{v1_0_1.Fork, v1_0_5.Fork}
 )
 
 // var _ server.Application (*PlanqApp)(nil)

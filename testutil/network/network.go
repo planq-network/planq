@@ -127,6 +127,7 @@ func DefaultConfig() Config {
 		TimeoutCommit:     2 * time.Second,
 		ChainID:           fmt.Sprintf("planq_%d-1", tmrand.Int63n(9999999999999)+1),
 		NumValidators:     4,
+		EnableTMLogging:   true,
 		BondDenom:         ethermint.AttoPhoton,
 		MinGasPrices:      fmt.Sprintf("0.000006%s", ethermint.AttoPhoton),
 		AccountTokens:     sdk.TokensFromConsensusPower(1000, ethermint.PowerReduction),
@@ -422,7 +423,7 @@ func New(l Logger, baseDir string, cfg Config) (*Network, error) {
 			CodeHash:    common.BytesToHash(evmtypes.EmptyCodeHash).Hex(),
 		})
 
-		commission, err := sdk.NewDecFromStr("0.5")
+		commission, err := sdk.NewDecFromStr("0.0")
 		if err != nil {
 			return nil, err
 		}
@@ -432,7 +433,7 @@ func New(l Logger, baseDir string, cfg Config) (*Network, error) {
 			valPubKeys[i],
 			sdk.NewCoin(cfg.BondDenom, cfg.BondedTokens),
 			stakingtypes.NewDescription(nodeDirName, "", "", "", ""),
-			stakingtypes.NewCommissionRates(commission, sdk.OneDec(), sdk.OneDec()),
+			stakingtypes.NewCommissionRates(commission.Add(sdk.NewDecWithPrec(int64(i+2), 2)), sdk.NewDecWithPrec(int64(i+2), 2), sdk.NewDecWithPrec(int64(1), 2)),
 			sdk.OneInt(),
 		)
 		if err != nil {
