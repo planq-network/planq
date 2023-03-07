@@ -560,9 +560,6 @@ release-dry-run:
 	docker run \
 		--rm \
 		--privileged \
-		--env APP=planqd \
-		--env VERSION=$(VERSION) \
-		--env COMMIT=$(COMMIT) \
 		-e CGO_ENABLED=1 \
 		-v /var/run/docker.sock:/var/run/docker.sock \
 		-v `pwd`:/go/src/$(PACKAGE_NAME) \
