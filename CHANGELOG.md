@@ -35,6 +35,13 @@ Ref: https://keepachangelog.com/en/1.0.0/
 
 # Changelog
 
+## [v1.0.6] - 2023-05-26
+* fix: Update ibc-go to v5.0.2 patched huckleberry version
+
+## [v1.0.5] - 2023-03-07
+* fix: Bump tendermint to v0.34.26
+* feat: enforce minimum validator commission of 4%
+
 ## [v1.0.4] - 2023-03-06
 * improvement: Use the Informal Systems Tendermint fork
 * fix: Bump tendermint to v0.34.25
