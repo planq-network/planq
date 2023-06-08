@@ -34,6 +34,9 @@ Ref: https://keepachangelog.com/en/1.0.0/
 -->
 
 # Changelog
+## [v1.0.7]
+* fix: barberry via cosmos-sdk v0.46.3 backport
+* feat: add pruning cmd
 
 ## [v1.0.6] - 2023-05-26
 * fix: Update ibc-go to v5.0.2 patched huckleberry version
