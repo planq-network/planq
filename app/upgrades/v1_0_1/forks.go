@@ -1,4 +1,4 @@
-package v2
+package v1_0_1
 
 import (
 	"github.com/cosmos/cosmos-sdk/baseapp"
@@ -12,7 +12,7 @@ import (
 // RunForkLogic executes height-gated on-chain fork logic for the Planq v2
 // upgrade.
 func RunForkLogic(ctx sdk.Context, keepers *keepers.AppKeepers, baseApp *baseapp.BaseApp) {
-	ctx.Logger().Info("Applying Planq v2 upgrade." +
+	ctx.Logger().Info("Applying Planq v1_0_1 upgrade." +
 		" enable extra EIPs" +
 		" enable ERC20 Module" +
 		" setting max block gas limit + min gas price")

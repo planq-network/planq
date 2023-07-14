@@ -87,7 +87,7 @@ func InitCmd(mbm module.BasicManager, defaultNodeHome string) *cobra.Command {
 				"0525de7e7640008d2a2e01d1a7f6456f28f3324c@51.79.142.6:26656",    // Planq Foundation SG
 				"21432722b67540f6b366806dff295849738d7865@139.99.223.241:26656", // Planq Foundation AU
 				"7c10b1a106a512976e8d71effe5c086327458eef@35.200.183.35:26656",  // Planq Foundation IN
-				"b76abe67188be594e17d6e25c7231b027c8bd324@34.175.180.219:26656", // Planq Foundation EU-ES
+				"56f473a809cb87eaee37d9346a006e0b13077c50@51.195.63.229:26656",  // Planq Foundation EU-DE
 			}
 			config.P2P.Seeds = strings.Join(seeds, ",")
 

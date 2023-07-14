@@ -4,7 +4,7 @@ order: 3
 
 # Join Mainnet
 
-This document outlines the steps to join an existing testnet {synopsis}
+This document outlines the steps to join an existing mainnet {synopsis}
 
 ## Pre-requisite Readings
 

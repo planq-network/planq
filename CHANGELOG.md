@@ -34,6 +34,35 @@ Ref: https://keepachangelog.com/en/1.0.0/
 -->
 
 # Changelog
+## [v1.0.7]
+* fix: barberry via cosmos-sdk v0.46.3 backport
+* feat: add pruning cmd
+
+## [v1.0.6] - 2023-05-26
+* fix: Update ibc-go to v5.0.2 patched huckleberry version
+
+## [v1.0.5] - 2023-03-07
+* fix: Bump tendermint to v0.34.26
+* feat: enforce minimum validator commission of 4%
+
+## [v1.0.4] - 2023-03-06
+* improvement: Use the Informal Systems Tendermint fork
+* fix: Bump tendermint to v0.34.25
+* fix: Bump Gin version to v1.7.7
+* fix: update seed ip
+
+## [v1.0.3] - 2023-01-16
+* fix: snapshot config
+* fix: update seed ip
+
+## [v1.0.2] - 2022-12-18
+* fix: increase default gas price for cli cmd
+* fix: apply ics23 patch for dragonberry
+
+## [v1.0.1] - 2022-12-16
+* feat: add 2 more seeds
+* fix: genesis validation error
+* feat: add upgrade handler methods
 
 ## [v1.0.0] - 2022-10-25
 

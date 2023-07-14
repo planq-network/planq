@@ -1,26 +1,31 @@
 version: 2
 updates:
-- package-ecosystem: github-actions
+- package-ecosystem: "github-actions"
   directory: "/"
   schedule:
-    interval: daily
-    time: "10:00"
-  open-pull-requests-limit: 10
+    interval: "daily"
+    time: "09:00"
+  assignees:
+      - "ivanshukhov"
   reviewers:
-  - ivanshukhov
+      - "ivanshukhov"
   labels:
   - dependencies
-- package-ecosystem: docker
+- package-ecosystem: "docker"
   directory: "/"
   schedule:
-    interval: daily
-    time: "10:00"
-  open-pull-requests-limit: 10
+    interval: "daily"
+    time: "09:00"
+  assignees:
+      - "ivanshukhov"
   reviewers:
-  - ivanshukhov
-- package-ecosystem: gomod
+      - "ivanshukhov"
+- package-ecosystem: "gomod"
   directory: "/"
   schedule:
-    interval: daily
-    time: "10:00"
-  open-pull-requests-limit: 10
+    interval: "daily"
+    time: "09:00"
+  assignees:
+      - "ivanshukhov"
+  reviewers:
+      - "ivanshukhov"
