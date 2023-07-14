@@ -15,4 +15,5 @@ const (
 // errors
 var (
 	ErrKeyTypeNotSupported = sdkerrors.Register(RootCodespace, codeKeyTypeNotSupported, "key type 'secp256k1' not supported")
+	ErrInvalidChainID      = sdkerrors.Register(RootCodespace, 3, "invalid chain ID")
 )
