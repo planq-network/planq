@@ -5,7 +5,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	evmkeeper "github.com/evmos/ethermint/x/evm/keeper"
 	feemarketkeeper "github.com/evmos/ethermint/x/feemarket/keeper"
-	erc20keeper "github.com/evmos/evmos/v9/x/erc20/keeper"
+	erc20keeper "github.com/evmos/evmos/v12/x/erc20/keeper"
 	"github.com/planq-network/planq/app/keepers"
 )
 
