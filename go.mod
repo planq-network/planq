@@ -4,13 +4,13 @@ go 1.18
 
 require (
 	cosmossdk.io/errors v1.0.0-beta.7
-	cosmossdk.io/math v1.0.0-beta.3
-	github.com/cosmos/cosmos-sdk v0.46.3
+	cosmossdk.io/math v1.0.0-beta.6
+	github.com/cosmos/cosmos-sdk v0.46.13
 	github.com/cosmos/go-bip39 v1.0.0
-	github.com/cosmos/ibc-go/v5 v5.0.0
-	github.com/ethereum/go-ethereum v1.10.19
-	github.com/evmos/ethermint v0.6.1-0.20220919141022-34226aa7b1fa
-	github.com/evmos/evmos/v9 v9.0.0-20221024144001-b82bc3cc870f
+	github.com/cosmos/ibc-go/v6 v6.1.0
+	github.com/ethereum/go-ethereum v1.10.26
+	github.com/evmos/ethermint v0.22.0
+	github.com/evmos/evmos/v12 v12.0.0
 	github.com/gorilla/mux v1.8.0
 	github.com/pkg/errors v0.9.1
 	github.com/rakyll/statik v0.1.7
@@ -19,7 +19,7 @@ require (
 	github.com/stretchr/testify v1.8.0
 	github.com/tendermint/tendermint v0.34.26
 	github.com/tendermint/tm-db v0.6.7
-	google.golang.org/grpc v1.50.1
+	google.golang.org/grpc v1.53.0
 )
 
 require (
@@ -192,8 +192,6 @@ replace (
 
 	// ics23 patch for dragonberry
 	github.com/confio/ics23/go => github.com/cosmos/cosmos-sdk/ics23/go v0.8.0
-	github.com/cosmos/cosmos-sdk v0.46.3 => github.com/planq-network/cosmos-sdk v0.0.0-20230608160702-864c3adaa8fb
-	github.com/cosmos/ibc-go/v5 => github.com/planq-network/ibc-go/v5 v5.0.2
 
 	// Fix upstream GHSA-h395-qcrw-5vmq vulnerability.
 	// TODO Remove it: https://github.com/cosmos/cosmos-sdk/issues/10409
