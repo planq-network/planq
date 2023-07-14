@@ -20,7 +20,7 @@ import (
 	ibckeeper "github.com/cosmos/ibc-go/v6/modules/core/keeper"
 	evmkeeper "github.com/evmos/ethermint/x/evm/keeper"
 	feemarketkeeper "github.com/evmos/ethermint/x/feemarket/keeper"
-	erc20keeper "github.com/evmos/evmos/v12/x/erc20/keeper"
+	erc20keeper "github.com/planq-network/planq/x/erc20/keeper"
 )
 
 type AppKeepers struct {
