@@ -5,9 +5,9 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 
+	evmtypes "github.com/evmos/ethermint/x/evm/types"
 	utiltx "github.com/planq-network/planq/testutil/tx"
 	"github.com/planq-network/planq/x/erc20/types"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
 )
 
 func (suite *KeeperTestSuite) TestGetTokenPairs() {

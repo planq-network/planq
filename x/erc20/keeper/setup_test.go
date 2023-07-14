@@ -14,10 +14,10 @@ import (
 	ibcgotesting "github.com/cosmos/ibc-go/v6/testing"
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
+	evm "github.com/evmos/ethermint/x/evm/types"
 	"github.com/planq-network/planq/app"
 	ibctesting "github.com/planq-network/planq/ibc/testing"
 	"github.com/planq-network/planq/x/erc20/types"
-	evm "github.com/planq-network/planq/x/evm/types"
 	"github.com/stretchr/testify/suite"
 )
 
