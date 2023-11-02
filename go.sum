@@ -302,8 +302,6 @@ github.com/envoyproxy/protoc-gen-validate v0.1.0/go.mod h1:iSmxcyjqTsJpI2R4NaDN7
 github.com/ethereum/go-ethereum v1.10.17/go.mod h1:Lt5WzjM07XlXc95YzrhosmR4J9Ahd6X2wyEV2SvGhk0=
 github.com/ethereum/go-ethereum v1.10.19 h1:EOR5JbL4MD5yeOqv8W2iC1s4NximrTjqFccUz8lyBRA=
 github.com/ethereum/go-ethereum v1.10.19/go.mod h1:IJBNMtzKcNHPtllYihy6BL2IgK1u+32JriaTbdt4v+w=
-github.com/evmos/ethermint v0.6.1-0.20220919141022-34226aa7b1fa h1:bpvKBR28IiB5XccRBih6zHK6p83YAddhVuovuVbtfJg=
-github.com/evmos/ethermint v0.6.1-0.20220919141022-34226aa7b1fa/go.mod h1:BMNkMffNTcrpv/kG52aZtHBnQpeiVyX5+Gr3tlt3Faw=
 github.com/evmos/evmos/v9 v9.0.0-20221024144001-b82bc3cc870f h1:AvP8PPAuK6cjX/cQeFdb3Xkn42+gBYyH30p0Tm91KHQ=
 github.com/evmos/evmos/v9 v9.0.0-20221024144001-b82bc3cc870f/go.mod h1:wVDKNcB5/SsxxUZ/UIjZeBbNPr0/bqyIQ+MXbhPooMQ=
 github.com/facebookgo/ensure v0.0.0-20200202191622-63f1cf65ac4c h1:8ISkoahWXwZR41ois5lSJBSVw4D0OV19Ht/JSTzvSv0=
@@ -809,6 +807,8 @@ github.com/pkg/sftp v1.13.1/go.mod h1:3HaPG6Dq1ILlpPZRO0HVMrsydcdLt6HRDccSgb87qR
 github.com/pkg/term v0.0.0-20180730021639-bffc007b7fd5/go.mod h1:eCbImbZ95eXtAUIbLAuAVnBnwf83mjf6QIVH8SHYwqQ=
 github.com/planq-network/cosmos-sdk v0.0.0-20230608160702-864c3adaa8fb h1:cL4tckU6o9pT86Tv8Ydin0wj2qwBl4ROgqqGvI+tSO0=
 github.com/planq-network/cosmos-sdk v0.0.0-20230608160702-864c3adaa8fb/go.mod h1:AynIAjXwtS3T/ApdhNCz/7/KGMbZSUBbKRTcbukb2ic=
+github.com/planq-network/ethermint v0.0.0-20231102083538-b49ebdfe865a h1:Yj8JbbjEgohE5hZUeayLw9CEtInibOKgR1OGboZOqfk=
+github.com/planq-network/ethermint v0.0.0-20231102083538-b49ebdfe865a/go.mod h1:BMNkMffNTcrpv/kG52aZtHBnQpeiVyX5+Gr3tlt3Faw=
 github.com/planq-network/ibc-go/v5 v5.0.2 h1:ZijaLEJWyqvHNOOK0iT/r2dC16RlHc88A64sz+F7ync=
 github.com/planq-network/ibc-go/v5 v5.0.2/go.mod h1:LX0DHLW3dfi/1e4BJzi8MGLWmQ4DSraPEgVjyo3VzAo=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=

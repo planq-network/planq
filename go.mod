@@ -195,6 +195,9 @@ replace (
 	github.com/cosmos/cosmos-sdk v0.46.3 => github.com/planq-network/cosmos-sdk v0.0.0-20230608160702-864c3adaa8fb
 	github.com/cosmos/ibc-go/v5 => github.com/planq-network/ibc-go/v5 v5.0.2
 
+	// ethermint websocket fix
+	github.com/evmos/ethermint v0.6.1-0.20220919141022-34226aa7b1fa => github.com/planq-network/ethermint v0.0.0-20231102083538-b49ebdfe865a
+
 	// Fix upstream GHSA-h395-qcrw-5vmq vulnerability.
 	// TODO Remove it: https://github.com/cosmos/cosmos-sdk/issues/10409
 	github.com/gin-gonic/gin => github.com/gin-gonic/gin v1.7.7
