@@ -817,8 +817,8 @@ github.com/pkg/sftp v1.13.1/go.mod h1:3HaPG6Dq1ILlpPZRO0HVMrsydcdLt6HRDccSgb87qR
 github.com/pkg/term v0.0.0-20180730021639-bffc007b7fd5/go.mod h1:eCbImbZ95eXtAUIbLAuAVnBnwf83mjf6QIVH8SHYwqQ=
 github.com/planq-network/cosmos-sdk v0.0.0-20230608160702-864c3adaa8fb h1:cL4tckU6o9pT86Tv8Ydin0wj2qwBl4ROgqqGvI+tSO0=
 github.com/planq-network/cosmos-sdk v0.0.0-20230608160702-864c3adaa8fb/go.mod h1:AynIAjXwtS3T/ApdhNCz/7/KGMbZSUBbKRTcbukb2ic=
-github.com/planq-network/ethermint v0.0.0-20231107115613-eb7037044ede h1:9YSFQE+jVhLa5wgu4nIlkS9MAO4vVv66ZBGbbZT2y64=
-github.com/planq-network/ethermint v0.0.0-20231107115613-eb7037044ede/go.mod h1:pLVI4nqnafcEWh30qfKg16iZd3i/CX1O9cZCJ/EHaFw=
+github.com/planq-network/ethermint v0.0.0-20231107122553-4fbd10bf67cb h1:2t+kI0jMHaZpIGV19oMCqD41WNAiBF8pTbrSXPkmcJc=
+github.com/planq-network/ethermint v0.0.0-20231107122553-4fbd10bf67cb/go.mod h1:pLVI4nqnafcEWh30qfKg16iZd3i/CX1O9cZCJ/EHaFw=
 github.com/planq-network/ibc-go/v5 v5.0.2 h1:ZijaLEJWyqvHNOOK0iT/r2dC16RlHc88A64sz+F7ync=
 github.com/planq-network/ibc-go/v5 v5.0.2/go.mod h1:LX0DHLW3dfi/1e4BJzi8MGLWmQ4DSraPEgVjyo3VzAo=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
