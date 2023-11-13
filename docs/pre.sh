@@ -32,12 +32,12 @@ mv cosmos-sdk/x/upgrade/spec/ ./modules/upgrade
 rm -rf cosmos-sdk
 
 # Include the specs from IBC go
-git clone https://github.com/cosmos/ibc-go.git
+git clone -b 'release/v5.0.x' https://github.com/cosmos/ibc-go.git
 mv ibc-go/modules/apps/transfer/spec/ ./modules/transfer
 mv ibc-go/modules/core/spec/ ./modules/ibc-core
 rm -rf ibc-go
 
 # Include the specs from Evmos
-git clone https://github.com/evmos/evmos.git
+git clone -b 'release/v11.0.x' https://github.com/evmos/evmos.git
 mv evmos/x/erc20/spec/ ./modules/erc20
 rm -rf evmos
