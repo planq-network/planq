@@ -30,3 +30,5 @@ Accounts can own Cosmos coins in their balance, which are used for operations wi
 
 Planq is compatible with ERC20 tokens and other non-fungible token standards (EIP721, EIP1155)
 that are natively supported by the EVM.
+
+A registered list of ERC20 tokens can be found [here](../../developers/erc20.md).
