@@ -2,12 +2,12 @@ name: Docs build
 # This workflow runs when a PR is labeled with `docs`
 # This will check if the docs build successfully by running `npm run build`
 on:
-  pull_request:
   push:
     branches:
       - main
       - release/*
 
+permissions: write-all
 jobs:
   check-docs-build:
     name: Check docs build
@@ -33,3 +33,10 @@ jobs:
           make build-docs
         # Check only if there are differences in the source code
         if: env.GIT_DIFF
+
+      - name: Deploy to GH Pages 🚀
+        if: env.GIT_DIFF
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: docs
