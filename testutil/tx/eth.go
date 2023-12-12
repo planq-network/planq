@@ -31,23 +31,23 @@ import (
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 
-	"github.com/evmos/ethermint/server/config"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
 	"github.com/planq-network/planq/app"
+	"github.com/planq-network/planq/server/config"
 	"github.com/planq-network/planq/utils"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
 )
 
 // PrepareEthTx creates an ethereum tx and signs it with the provided messages and private key.
 // It returns the signed transaction and an error
 func PrepareEthTx(
 	txCfg client.TxConfig,
-	appPlanq *app.PlanqApp,
+	appEvmos *app.PlanqApp,
 	priv cryptotypes.PrivKey,
 	msgs ...sdk.Msg,
 ) (authsigning.Tx, error) {
 	txBuilder := txCfg.NewTxBuilder()
 
-	signer := ethtypes.LatestSignerForChainID(appPlanq.EvmKeeper.ChainID())
+	signer := ethtypes.LatestSignerForChainID(appEvmos.EvmKeeper.ChainID())
 	txFee := sdk.Coins{}
 	txGasLimit := uint64(0)
 
@@ -104,7 +104,7 @@ func PrepareEthTx(
 // Should this not be the case, just pass in zero.
 func CreateEthTx(
 	ctx sdk.Context,
-	appPlanq *app.PlanqApp,
+	appEvmos *app.PlanqApp,
 	privKey cryptotypes.PrivKey,
 	from sdk.AccAddress,
 	dest sdk.AccAddress,
@@ -113,28 +113,26 @@ func CreateEthTx(
 ) (*evmtypes.MsgEthereumTx, error) {
 	toAddr := common.BytesToAddress(dest.Bytes())
 	fromAddr := common.BytesToAddress(from.Bytes())
-	chainID := appPlanq.EvmKeeper.ChainID()
+	chainID := appEvmos.EvmKeeper.ChainID()
 
 	// When we send multiple Ethereum Tx's in one Cosmos Tx, we need to increment the nonce for each one.
-	nonce := appPlanq.EvmKeeper.GetNonce(ctx, fromAddr) + uint64(nonceIncrement)
-	evmTxParams := evmtypes.NewTx(
-		chainID,
-		nonce,
-		&toAddr,
-		amount,
-		100000,
-		appPlanq.FeeMarketKeeper.GetBaseFee(ctx),
-		big.NewInt(1),
-		big.NewInt(1),
-		[]byte{},
-		&ethtypes.AccessList{},
-	)
-	msgEthereumTx := evmTxParams
+	nonce := appEvmos.EvmKeeper.GetNonce(ctx, fromAddr) + uint64(nonceIncrement)
+	evmTxParams := &evmtypes.EvmTxArgs{
+		ChainID:   chainID,
+		Nonce:     nonce,
+		To:        &toAddr,
+		Amount:    amount,
+		GasLimit:  100000,
+		GasFeeCap: appEvmos.FeeMarketKeeper.GetBaseFee(ctx),
+		GasTipCap: big.NewInt(1),
+		Accesses:  &ethtypes.AccessList{},
+	}
+	msgEthereumTx := evmtypes.NewTx(evmTxParams)
 	msgEthereumTx.From = fromAddr.String()
 
 	// If we are creating multiple eth Tx's with different senders, we need to sign here rather than later.
 	if privKey != nil {
-		signer := ethtypes.LatestSignerForChainID(appPlanq.EvmKeeper.ChainID())
+		signer := ethtypes.LatestSignerForChainID(appEvmos.EvmKeeper.ChainID())
 		err := msgEthereumTx.Sign(signer, NewSigner(privKey))
 		if err != nil {
 			return nil, err

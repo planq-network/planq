@@ -29,10 +29,10 @@ import (
 	"github.com/ethereum/go-ethereum/signer/core/apitypes"
 
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
-	"github.com/evmos/ethermint/types"
 	"github.com/planq-network/planq/app"
 	cryptocodec "github.com/planq-network/planq/crypto/codec"
 	"github.com/planq-network/planq/ethereum/eip712"
+	"github.com/planq-network/planq/types"
 )
 
 type EIP712TxArgs struct {
@@ -65,12 +65,12 @@ type legacyWeb3ExtensionArgs struct {
 // It returns the signed transaction and an error
 func CreateEIP712CosmosTx(
 	ctx sdk.Context,
-	appPlanq *app.PlanqApp,
+	appEvmos *app.PlanqApp,
 	args EIP712TxArgs,
 ) (sdk.Tx, error) {
 	builder, err := PrepareEIP712CosmosTx(
 		ctx,
-		appPlanq,
+		appEvmos,
 		args,
 	)
 	return builder.GetTx(), err
@@ -81,7 +81,7 @@ func CreateEIP712CosmosTx(
 // It returns the tx builder with the signed transaction and an error
 func PrepareEIP712CosmosTx(
 	ctx sdk.Context,
-	appPlanq *app.PlanqApp,
+	appEvmos *app.PlanqApp,
 	args EIP712TxArgs,
 ) (client.TxBuilder, error) {
 	txArgs := args.CosmosTxArgs
@@ -93,9 +93,9 @@ func PrepareEIP712CosmosTx(
 	chainIDNum := pc.Uint64()
 
 	from := sdk.AccAddress(txArgs.Priv.PubKey().Address().Bytes())
-	accNumber := appPlanq.AccountKeeper.GetAccount(ctx, from).GetAccountNumber()
+	accNumber := appEvmos.AccountKeeper.GetAccount(ctx, from).GetAccountNumber()
 
-	nonce, err := appPlanq.AccountKeeper.GetSequence(ctx, from)
+	nonce, err := appEvmos.AccountKeeper.GetSequence(ctx, from)
 	if err != nil {
 		return nil, err
 	}
@@ -132,7 +132,7 @@ func PrepareEIP712CosmosTx(
 
 	return signCosmosEIP712Tx(
 		ctx,
-		appPlanq,
+		appEvmos,
 		args,
 		builder,
 		chainIDNum,
@@ -144,7 +144,7 @@ func PrepareEIP712CosmosTx(
 // the provided private key and the typed data
 func signCosmosEIP712Tx(
 	ctx sdk.Context,
-	appPlanq *app.PlanqApp,
+	appEvmos *app.PlanqApp,
 	args EIP712TxArgs,
 	builder authtx.ExtensionOptionsTxBuilder,
 	chainID uint64,
@@ -153,7 +153,7 @@ func signCosmosEIP712Tx(
 	priv := args.CosmosTxArgs.Priv
 
 	from := sdk.AccAddress(priv.PubKey().Address().Bytes())
-	nonce, err := appPlanq.AccountKeeper.GetSequence(ctx, from)
+	nonce, err := appEvmos.AccountKeeper.GetSequence(ctx, from)
 	if err != nil {
 		return nil, err
 	}

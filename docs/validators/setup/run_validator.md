@@ -33,7 +33,7 @@ To create your validator on mainnet, just use the following command:
 
 ```bash
 planqd tx staking create-validator \
-  --amount=1000000atplanq \
+  --amount=1000000aplanq \
   --pubkey=$(planqd tendermint show-validator) \
   --moniker="choose a moniker" \
   --chain-id=<chain_id> \

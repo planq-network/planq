@@ -34,9 +34,9 @@ import (
 	ibcgotesting "github.com/cosmos/ibc-go/v6/testing"
 	"github.com/cosmos/ibc-go/v6/testing/mock"
 
+	evmostypes "github.com/evmos/ethermint/types"
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
 	"github.com/planq-network/planq/crypto/ethsecp256k1"
-	evmostypes "github.com/planq-network/planq/types"
 	"github.com/planq-network/planq/utils"
 )
 

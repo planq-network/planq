@@ -25,7 +25,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
-	evmostypes "github.com/planq-network/planq/types"
+	evmostypes "github.com/evmos/ethermint/types"
 
 	"github.com/planq-network/planq/x/erc20/types"
 )

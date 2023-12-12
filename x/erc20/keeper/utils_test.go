@@ -2,6 +2,7 @@ package keeper_test
 
 import (
 	"encoding/json"
+	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"math"
 	"math/big"
 	"strconv"
@@ -21,19 +22,19 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
+	"github.com/evmos/ethermint/server/config"
 	"github.com/evmos/ethermint/x/evm/statedb"
 	evm "github.com/evmos/ethermint/x/evm/types"
+	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
 	"github.com/planq-network/planq/app"
 	"github.com/planq-network/planq/contracts"
 	"github.com/planq-network/planq/crypto/ethsecp256k1"
 	ibctesting "github.com/planq-network/planq/ibc/testing"
-	"github.com/evmos/ethermint/server/config"
 	"github.com/planq-network/planq/testutil"
 	utiltx "github.com/planq-network/planq/testutil/tx"
 	teststypes "github.com/planq-network/planq/types/tests"
 	"github.com/planq-network/planq/utils"
 	"github.com/planq-network/planq/x/erc20/types"
-	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
 	"github.com/stretchr/testify/require"
 )
 
@@ -142,7 +143,7 @@ func (suite *KeeperTestSuite) SetupIBCTest() {
 	suite.coordinator.CommitNBlocks(suite.IBCOsmosisChain, 2)
 	suite.coordinator.CommitNBlocks(suite.IBCCosmosChain, 2)
 
-	s.app = suite.EvmosChain.App.(*app.Evmos)
+	s.app = suite.EvmosChain.App.(*app.PlanqApp)
 	evmParams := s.app.EvmKeeper.GetParams(s.EvmosChain.GetContext())
 	evmParams.EvmDenom = utils.BaseDenom
 	err := s.app.EvmKeeper.SetParams(s.EvmosChain.GetContext(), evmParams)
@@ -169,9 +170,9 @@ func (suite *KeeperTestSuite) SetupIBCTest() {
 	suite.Require().True(ok)
 	coinEvmos := sdk.NewCoin(utils.BaseDenom, amt)
 	coins := sdk.NewCoins(coinEvmos)
-	err = s.app.BankKeeper.MintCoins(suite.EvmosChain.GetContext(), inflationtypes.ModuleName, coins)
+	err = s.app.BankKeeper.MintCoins(suite.EvmosChain.GetContext(), banktypes.ModuleName, coins)
 	suite.Require().NoError(err)
-	err = s.app.BankKeeper.SendCoinsFromModuleToAccount(suite.EvmosChain.GetContext(), inflationtypes.ModuleName, suite.EvmosChain.SenderAccount.GetAddress(), coins)
+	err = s.app.BankKeeper.SendCoinsFromModuleToAccount(suite.EvmosChain.GetContext(), banktypes.ModuleName, suite.EvmosChain.SenderAccount.GetAddress(), coins)
 	suite.Require().NoError(err)
 
 	// we need some coins in the bankkeeper to be able to register the coins later
@@ -209,12 +210,6 @@ func (suite *KeeperTestSuite) SetupIBCTest() {
 	err = suite.IBCCosmosChain.GetSimApp().BankKeeper.MintCoins(suite.IBCCosmosChain.GetContext(), minttypes.ModuleName, stkCoin)
 	suite.Require().NoError(err)
 	err = suite.IBCCosmosChain.GetSimApp().BankKeeper.SendCoinsFromModuleToAccount(suite.IBCCosmosChain.GetContext(), minttypes.ModuleName, suite.IBCCosmosChain.SenderAccount.GetAddress(), stkCoin)
-	suite.Require().NoError(err)
-
-	claimparams := claimstypes.DefaultParams()
-	claimparams.AirdropStartTime = suite.EvmosChain.GetContext().BlockTime()
-	claimparams.EnableClaims = true
-	err = s.app.ClaimsKeeper.SetParams(suite.EvmosChain.GetContext(), claimparams)
 	suite.Require().NoError(err)
 
 	params := types.DefaultParams()
@@ -360,7 +355,7 @@ func (suite *KeeperTestSuite) DeployContractDirectBalanceManipulation() (common.
 func (suite *KeeperTestSuite) DeployContractToChain(name, symbol string, decimals uint8) (common.Address, error) {
 	return testutil.DeployContract(
 		s.EvmosChain.GetContext(),
-		s.EvmosChain.App.(*app.Evmos),
+		s.EvmosChain.App.(*app.PlanqApp),
 		suite.EvmosChain.SenderPrivKey,
 		suite.queryClientEvm,
 		contracts.ERC20MinterBurnerDecimalsContract,

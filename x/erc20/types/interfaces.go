@@ -31,7 +31,6 @@ import (
 
 	"github.com/evmos/ethermint/x/evm/statedb"
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
-	claimstypes "github.com/planq-network/planq/x/claims/types"
 )
 
 // AccountKeeper defines the expected interface needed to retrieve account info.
@@ -66,11 +65,6 @@ type EVMKeeper interface {
 	GetAccountWithoutBalance(ctx sdk.Context, addr common.Address) *statedb.Account
 	EstimateGas(c context.Context, req *evmtypes.EthCallRequest) (*evmtypes.EstimateGasResponse, error)
 	ApplyMessage(ctx sdk.Context, msg core.Message, tracer vm.EVMLogger, commit bool) (*evmtypes.MsgEthereumTxResponse, error)
-}
-
-// StakingKeeper defines the expected interface needed to retrieve the staking denom.
-type ClaimsKeeper interface {
-	GetParams(ctx sdk.Context) claimstypes.Params
 }
 
 type (

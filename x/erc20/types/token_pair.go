@@ -19,7 +19,7 @@ package types
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
-	evmostypes "github.com/planq-network/planq/types"
+	evmostypes "github.com/evmos/ethermint/types"
 	"github.com/tendermint/tendermint/crypto/tmhash"
 )
 
