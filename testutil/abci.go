@@ -26,8 +26,8 @@ import (
 	abci "github.com/tendermint/tendermint/abci/types"
 	tmtypes "github.com/tendermint/tendermint/types"
 
-	"github.com/evmos/ethermint/encoding"
 	"github.com/planq-network/planq/app"
+	"github.com/planq-network/planq/encoding"
 	"github.com/planq-network/planq/testutil/tx"
 )
 

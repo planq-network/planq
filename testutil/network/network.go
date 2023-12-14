@@ -69,7 +69,7 @@ import (
 
 	"github.com/planq-network/planq/encoding"
 	"github.com/planq-network/planq/server/config"
-	evmostypes "github.com/planq-network/planq/types"
+	planqtypes "github.com/planq-network/planq/types"
 	evmtypes "github.com/planq-network/planq/x/evm/types"
 )
 
@@ -127,10 +127,10 @@ func DefaultConfig() Config {
 		ChainID:           fmt.Sprintf("evmos_%d-1", tmrand.Int63n(9999999999999)+1),
 		NumValidators:     4,
 		BondDenom:         "aevmos",
-		MinGasPrices:      fmt.Sprintf("0.000006%s", evmostypes.AttoEvmos),
-		AccountTokens:     sdk.TokensFromConsensusPower(1000000000000000000, evmostypes.PowerReduction),
-		StakingTokens:     sdk.TokensFromConsensusPower(500000000000000000, evmostypes.PowerReduction),
-		BondedTokens:      sdk.TokensFromConsensusPower(100000000000000000, evmostypes.PowerReduction),
+		MinGasPrices:      fmt.Sprintf("0.000006%s", planqtypes.AttoPhoton),
+		AccountTokens:     sdk.TokensFromConsensusPower(1000000000000000000, planqtypes.PowerReduction),
+		StakingTokens:     sdk.TokensFromConsensusPower(500000000000000000, planqtypes.PowerReduction),
+		BondedTokens:      sdk.TokensFromConsensusPower(100000000000000000, planqtypes.PowerReduction),
 		PruningStrategy:   pruningtypes.PruningOptionNothing,
 		CleanupDir:        true,
 		SigningAlgo:       string(hd.EthSecp256k1Type),
@@ -233,7 +233,7 @@ func New(l Logger, baseDir string, cfg Config) (*Network, error) {
 	l.Log("acquiring test network lock")
 	lock.Lock()
 
-	if !evmostypes.IsValidChainID(cfg.ChainID) {
+	if !planqtypes.IsValidChainID(cfg.ChainID) {
 		return nil, fmt.Errorf("invalid chain-id: %s", cfg.ChainID)
 	}
 
@@ -428,7 +428,7 @@ func New(l Logger, baseDir string, cfg Config) (*Network, error) {
 
 		genFiles = append(genFiles, tmCfg.GenesisFile())
 		genBalances = append(genBalances, banktypes.Balance{Address: addr.String(), Coins: balances.Sort()})
-		genAccounts = append(genAccounts, &evmostypes.EthAccount{
+		genAccounts = append(genAccounts, &planqtypes.EthAccount{
 			BaseAccount: authtypes.NewBaseAccount(addr, nil, 0, 0),
 			CodeHash:    common.BytesToHash(evmtypes.EmptyCodeHash).Hex(),
 		})
@@ -486,7 +486,7 @@ func New(l Logger, baseDir string, cfg Config) (*Network, error) {
 			return nil, err
 		}
 
-		customAppTemplate, _ := config.AppConfig(evmostypes.AttoEvmos)
+		customAppTemplate, _ := config.AppConfig(planqtypes.AttoPhoton)
 		srvconfig.SetConfigTemplate(customAppTemplate)
 		srvconfig.WriteConfigFile(filepath.Join(nodeDir, "config/app.toml"), appCfg)
 

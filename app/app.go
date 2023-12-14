@@ -8,10 +8,12 @@ import (
 	v1_0_1 "github.com/planq-network/planq/app/upgrades/v1_0_1"
 	"github.com/planq-network/planq/app/upgrades/v1_0_5"
 	v2 "github.com/planq-network/planq/app/upgrades/v2"
+	"github.com/planq-network/planq/x/evm/vm/geth"
 	"io"
 	"net/http"
 	"os"
 	"path/filepath"
+	"sort"
 
 	"github.com/gorilla/mux"
 	"github.com/rakyll/statik/fs"
@@ -24,14 +26,17 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/client"
+	"github.com/cosmos/cosmos-sdk/client/grpc/node"
 	"github.com/cosmos/cosmos-sdk/client/grpc/tmservice"
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/cosmos/cosmos-sdk/server/api"
 	"github.com/cosmos/cosmos-sdk/server/config"
+
 	servertypes "github.com/cosmos/cosmos-sdk/server/types"
 	"github.com/cosmos/cosmos-sdk/simapp"
 	simappparams "github.com/cosmos/cosmos-sdk/simapp/params"
+	"github.com/cosmos/cosmos-sdk/store/streaming"
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
@@ -92,6 +97,7 @@ import (
 	upgradeclient "github.com/cosmos/cosmos-sdk/x/upgrade/client"
 	upgradekeeper "github.com/cosmos/cosmos-sdk/x/upgrade/keeper"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
+
 	ibctestingtypes "github.com/cosmos/ibc-go/v6/testing/types"
 
 	ibctransfer "github.com/cosmos/ibc-go/v6/modules/apps/transfer"
@@ -111,21 +117,23 @@ import (
 	icahosttypes "github.com/cosmos/ibc-go/v6/modules/apps/27-interchain-accounts/host/types"
 	icatypes "github.com/cosmos/ibc-go/v6/modules/apps/27-interchain-accounts/types"
 
+	ethante "github.com/planq-network/planq/app/ante/evm"
+	"github.com/planq-network/planq/encoding"
+	"github.com/planq-network/planq/ethereum/eip712"
+	srvflags "github.com/planq-network/planq/server/flags"
+	ethermint "github.com/planq-network/planq/types"
+	"github.com/planq-network/planq/x/evm"
+	evmkeeper "github.com/planq-network/planq/x/evm/keeper"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/x/feemarket"
+	feemarketkeeper "github.com/planq-network/planq/x/feemarket/keeper"
+	feemarkettypes "github.com/planq-network/planq/x/feemarket/types"
+
 	// unnamed import of statik for swagger UI support
 	_ "github.com/planq-network/planq/client/docs/statik"
 
 	"github.com/planq-network/planq/app/ante"
-
-	"github.com/evmos/ethermint/encoding"
-	srvflags "github.com/evmos/ethermint/server/flags"
-	ethermint "github.com/evmos/ethermint/types"
-	"github.com/evmos/ethermint/x/evm"
-	evmkeeper "github.com/evmos/ethermint/x/evm/keeper"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
-	"github.com/evmos/ethermint/x/evm/vm/geth"
-	"github.com/evmos/ethermint/x/feemarket"
-	feemarketkeeper "github.com/evmos/ethermint/x/feemarket/keeper"
-	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
+	v2 "github.com/planq-network/planq/app/upgrades/v2"
 
 	"github.com/planq-network/planq/x/erc20"
 	erc20client "github.com/planq-network/planq/x/erc20/client"
@@ -135,6 +143,9 @@ import (
 	// NOTE: override ICS20 keeper to support IBC transfers of ERC20 tokens
 	"github.com/planq-network/planq/x/ibc/transfer"
 	ibctransferkeeper "github.com/planq-network/planq/x/ibc/transfer/keeper"
+
+	_ "github.com/ethereum/go-ethereum/eth/tracers/js"
+	_ "github.com/ethereum/go-ethereum/eth/tracers/native"
 )
 
 func init() {
@@ -262,6 +273,7 @@ func NewPlanqApp(
 	cdc := encodingConfig.Amino
 	interfaceRegistry := encodingConfig.InterfaceRegistry
 
+	eip712.SetEncodingConfig(encodingConfig)
 	// NOTE we use custom transaction decoder that supports the sdk.Tx interface instead of sdk.StdTx
 	bApp := baseapp.NewBaseApp(
 		Name,
@@ -294,6 +306,11 @@ func NewPlanqApp(
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey, evmtypes.TransientKey, feemarkettypes.TransientKey)
 	memKeys := sdk.NewMemoryStoreKeys(capabilitytypes.MemStoreKey)
 
+	// load state streaming if enabled
+	if _, _, err := streaming.LoadStreamingServices(bApp, appOpts, appCodec, keys); err != nil {
+		fmt.Printf("failed to load state streaming: %s", err)
+		os.Exit(1)
+	}
 	app := &PlanqApp{
 		BaseApp:           bApp,
 		cdc:               cdc,
@@ -371,7 +388,7 @@ func NewPlanqApp(
 	app.EvmKeeper = evmkeeper.NewKeeper(
 		appCodec, keys[evmtypes.StoreKey], tkeys[evmtypes.TransientKey], authtypes.NewModuleAddress(govtypes.ModuleName),
 		app.AccountKeeper, app.BankKeeper, app.StakingKeeper, app.FeeMarketKeeper,
-		nil, geth.NewEVM, tracer, app.GetSubspace(evmtypes.ModuleName),
+		tracer, app.GetSubspace(evmtypes.ModuleName),
 	)
 
 	app.Erc20Keeper = erc20keeper.NewKeeper(
@@ -614,7 +631,7 @@ func NewPlanqApp(
 		authtypes.ModuleName: auth.NewAppModule(app.appCodec, app.AccountKeeper, authsims.RandomGenesisAccounts),
 	}
 	app.sm = module.NewSimulationManagerFromAppModules(app.mm.Modules, overrideModules)
-	app.setupUpgradeHandlers()
+
 	app.sm.RegisterStoreDecoders()
 
 	// initialize stores
@@ -625,38 +642,12 @@ func NewPlanqApp(
 	// initialize BaseApp
 	app.SetInitChainer(app.InitChainer)
 	app.SetBeginBlocker(app.BeginBlocker)
-	app.SetEndBlocker(app.EndBlocker)
 
 	maxGasWanted := cast.ToUint64(appOpts.Get(srvflags.EVMMaxTxGasWanted))
-	options := ante.HandlerOptions{
-		AccountKeeper:          app.AccountKeeper,
-		BankKeeper:             app.BankKeeper,
-		ExtensionOptionChecker: nil,
-		EvmKeeper:              app.EvmKeeper,
-		FeegrantKeeper:         app.FeeGrantKeeper,
-		IBCKeeper:              app.IBCKeeper,
-		FeeMarketKeeper:        app.FeeMarketKeeper,
-		SignModeHandler:        encodingConfig.TxConfig.SignModeHandler(),
-		SigGasConsumer:         SigVerificationGasConsumer,
-		Cdc:                    appCodec,
-		MaxTxGasWanted:         maxGasWanted,
-	}
-
-	app.SetAnteHandler(ante.NewAnteHandler(options))
-	// In v0.46, the SDK introduces _postHandlers_. PostHandlers are like
-	// antehandlers, but are run _after_ the `runMsgs` execution. They are also
-	// defined as a chain, and have the same signature as antehandlers.
-	//
-	// In baseapp, postHandlers are run in the same store branch as `runMsgs`,
-	// meaning that both `runMsgs` and `postHandler` state will be committed if
-	// both are successful, and both will be reverted if any of the two fails.
-	//
-	// The SDK exposes a default empty postHandlers chain.
-	//
-	// Please note that changing any of the anteHandler or postHandler chain is
-	// likely to be a state-machine breaking change, which needs a coordinated
-	// upgrade.
+	app.setAnteHandler(encodingConfig.TxConfig, maxGasWanted)
 	app.setPostHandler()
+	app.SetEndBlocker(app.EndBlocker)
+	app.setupUpgradeHandlers()
 
 	if loadLatest {
 		if err := app.LoadLatestVersion(); err != nil {
@@ -668,6 +659,31 @@ func NewPlanqApp(
 	app.ScopedTransferKeeper = scopedTransferKeeper
 
 	return app
+}
+
+func (app *PlanqApp) setAnteHandler(txConfig client.TxConfig, maxGasWanted uint64) {
+	options := ante.HandlerOptions{
+		Cdc:                    app.appCodec,
+		AccountKeeper:          app.AccountKeeper,
+		BankKeeper:             app.BankKeeper,
+		ExtensionOptionChecker: ethermint.HasDynamicFeeExtensionOption,
+		EvmKeeper:              app.EvmKeeper,
+		StakingKeeper:          app.StakingKeeper,
+		FeegrantKeeper:         app.FeeGrantKeeper,
+		DistributionKeeper:     app.DistrKeeper,
+		IBCKeeper:              app.IBCKeeper,
+		FeeMarketKeeper:        app.FeeMarketKeeper,
+		SignModeHandler:        txConfig.SignModeHandler(),
+		SigGasConsumer:         ante.SigVerificationGasConsumer,
+		MaxTxGasWanted:         maxGasWanted,
+		TxFeeChecker:           ethante.NewDynamicFeeChecker(app.EvmKeeper),
+	}
+
+	if err := options.Validate(); err != nil {
+		panic(err)
+	}
+
+	app.SetAnteHandler(ante.NewAnteHandler(options))
 }
 
 func (app *PlanqApp) setPostHandler() {
@@ -734,7 +750,14 @@ func (app *PlanqApp) LoadHeight(height int64) error {
 // ModuleAccountAddrs returns all the app's module account addresses.
 func (app *PlanqApp) ModuleAccountAddrs() map[string]bool {
 	modAccAddrs := make(map[string]bool)
-	for acc := range maccPerms {
+
+	accs := make([]string, 0, len(maccPerms))
+	for k := range maccPerms {
+		accs = append(accs, k)
+	}
+	sort.Strings(accs)
+
+	for _, acc := range accs {
 		modAccAddrs[authtypes.NewModuleAddress(acc).String()] = true
 	}
 
@@ -745,7 +768,14 @@ func (app *PlanqApp) ModuleAccountAddrs() map[string]bool {
 // allowed to receive external tokens.
 func (app *PlanqApp) BlockedAddrs() map[string]bool {
 	blockedAddrs := make(map[string]bool)
-	for acc := range maccPerms {
+
+	accs := make([]string, 0, len(maccPerms))
+	for k := range maccPerms {
+		accs = append(accs, k)
+	}
+	sort.Strings(accs)
+
+	for _, acc := range accs {
 		blockedAddrs[authtypes.NewModuleAddress(acc).String()] = !allowedReceivingModAcc[acc]
 	}
 
@@ -815,6 +845,8 @@ func (app *PlanqApp) RegisterAPIRoutes(apiSvr *api.Server, apiConfig config.APIC
 	authtx.RegisterGRPCGatewayRoutes(clientCtx, apiSvr.GRPCGatewayRouter)
 	// Register new tendermint queries routes from grpc-gateway.
 	tmservice.RegisterGRPCGatewayRoutes(clientCtx, apiSvr.GRPCGatewayRouter)
+	// Register node gRPC service for grpc-gateway.
+	node.RegisterGRPCGatewayRoutes(clientCtx, apiSvr.GRPCGatewayRouter)
 
 	// Register grpc-gateway routes for all modules.
 	ModuleBasics.RegisterGRPCGatewayRoutes(clientCtx, apiSvr.GRPCGatewayRouter)
@@ -909,8 +941,8 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(ibchost.ModuleName)
 	paramsKeeper.Subspace(icahosttypes.SubModuleName)
 	// ethermint subspaces
-	paramsKeeper.Subspace(evmtypes.ModuleName)
-	paramsKeeper.Subspace(feemarkettypes.ModuleName)
+	paramsKeeper.Subspace(evmtypes.ModuleName).WithKeyTable(evmtypes.ParamKeyTable()) //nolint: staticcheck
+	paramsKeeper.Subspace(feemarkettypes.ModuleName).WithKeyTable(feemarkettypes.ParamKeyTable())
 	paramsKeeper.Subspace(erc20types.ModuleName)
 	return paramsKeeper
 }

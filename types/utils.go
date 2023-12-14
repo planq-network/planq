@@ -3,7 +3,7 @@ package types
 import (
 	"strings"
 
-	"github.com/evmos/ethermint/crypto/ethsecp256k1"
+	"github.com/planq-network/planq/crypto/ethsecp256k1"
 
 	sdkerrors "cosmossdk.io/errors"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/ed25519"

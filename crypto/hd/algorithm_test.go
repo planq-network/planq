@@ -17,7 +17,7 @@ import (
 
 	cryptocodec "github.com/planq-network/planq/crypto/codec"
 	enccodec "github.com/planq-network/planq/encoding/codec"
-	evmostypes "github.com/planq-network/planq/types"
+	planqtypes "github.com/planq-network/planq/types"
 )
 
 var TestCodec amino.Codec
@@ -52,7 +52,7 @@ func TestKeyring(t *testing.T) {
 	require.Nil(t, info)
 
 	mockIn.Reset("password\npassword\n")
-	info, mnemonic, err := kr.NewMnemonic("foo", keyring.English, evmostypes.BIP44HDPath, keyring.DefaultBIP39Passphrase, EthSecp256k1)
+	info, mnemonic, err := kr.NewMnemonic("foo", keyring.English, planqtypes.BIP44HDPath, keyring.DefaultBIP39Passphrase, EthSecp256k1)
 	require.NoError(t, err)
 	require.NotEmpty(t, mnemonic)
 	require.Equal(t, "foo", info.Name)
@@ -61,7 +61,7 @@ func TestKeyring(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, string(EthSecp256k1Type), pubKey.Type())
 
-	hdPath := evmostypes.BIP44HDPath
+	hdPath := planqtypes.BIP44HDPath
 
 	bz, err := EthSecp256k1.Derive()(mnemonic, keyring.DefaultBIP39Passphrase, hdPath)
 	require.NoError(t, err)
@@ -87,7 +87,7 @@ func TestKeyring(t *testing.T) {
 }
 
 func TestDerivation(t *testing.T) {
-	bz, err := EthSecp256k1.Derive()(mnemonic, keyring.DefaultBIP39Passphrase, evmostypes.BIP44HDPath)
+	bz, err := EthSecp256k1.Derive()(mnemonic, keyring.DefaultBIP39Passphrase, planqtypes.BIP44HDPath)
 	require.NoError(t, err)
 	require.NotEmpty(t, bz)
 
@@ -105,7 +105,7 @@ func TestDerivation(t *testing.T) {
 	wallet, err := hdwallet.NewFromMnemonic(mnemonic)
 	require.NoError(t, err)
 
-	path := hdwallet.MustParseDerivationPath(evmostypes.BIP44HDPath)
+	path := hdwallet.MustParseDerivationPath(planqtypes.BIP44HDPath)
 	account, err := wallet.Derive(path, false)
 	require.NoError(t, err)
 

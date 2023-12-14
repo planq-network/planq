@@ -15,9 +15,9 @@ import (
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
 
-	evm "github.com/evmos/ethermint/x/evm/types"
 	"github.com/planq-network/planq/app"
 	"github.com/planq-network/planq/testutil/tx"
+	evm "github.com/planq-network/planq/x/evm/types"
 )
 
 // DeployContract deploys a contract with the provided private key,

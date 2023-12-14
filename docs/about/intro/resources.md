@@ -17,7 +17,7 @@ This documentation page is currently under work in progress.
 - Documentation (this site): [https://docs.planq.network/](https://docs.planq.network/)
 - Open Source Codebase: [https://github.com/planq-network/planq](https://github.com/planq-network/planq)
 - Website: [https://planq.network/](https://planq.network/)
-- Ethermint: [https://github.com/evmos/ethermint](https://github.com/evmos/ethermint)
+- Ethermint: [https://github.com/planq-network/planq](https://github.com/planq-network/planq)
 
 ## Workshops and Videos
 

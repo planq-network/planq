@@ -37,12 +37,12 @@ import (
 	govv1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/evmos/ethermint/crypto/hd"
-	"github.com/evmos/ethermint/server/config"
-	srvflags "github.com/evmos/ethermint/server/flags"
+	"github.com/planq-network/planq/crypto/hd"
+	"github.com/planq-network/planq/server/config"
+	srvflags "github.com/planq-network/planq/server/flags"
 
-	ethermint "github.com/evmos/ethermint/types"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
+	ethermint "github.com/planq-network/planq/types"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
 
 	cmdcfg "github.com/planq-network/planq/cmd/config"
 	evmoskr "github.com/planq-network/planq/crypto/keyring"

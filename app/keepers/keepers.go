@@ -17,9 +17,9 @@ import (
 	upgradekeeper "github.com/cosmos/cosmos-sdk/x/upgrade/keeper"
 	icahostkeeper "github.com/cosmos/ibc-go/v6/modules/apps/27-interchain-accounts/host/keeper"
 	ibckeeper "github.com/cosmos/ibc-go/v6/modules/core/keeper"
-	evmkeeper "github.com/evmos/ethermint/x/evm/keeper"
-	feemarketkeeper "github.com/evmos/ethermint/x/feemarket/keeper"
 	erc20keeper "github.com/planq-network/planq/x/erc20/keeper"
+	evmkeeper "github.com/planq-network/planq/x/evm/keeper"
+	feemarketkeeper "github.com/planq-network/planq/x/feemarket/keeper"
 	ibctransferkeeper "github.com/planq-network/planq/x/ibc/transfer/keeper"
 )
 

@@ -2,11 +2,11 @@ package v1_0_1
 
 import (
 	"context"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
-	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
 	erc20types "github.com/evmos/evmos/v9/x/erc20/types"
 	pApp "github.com/planq-network/planq/app"
 	"github.com/planq-network/planq/testutil/network"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
+	feemarkettypes "github.com/planq-network/planq/x/feemarket/types"
 	"github.com/stretchr/testify/suite"
 	"testing"
 	"time"

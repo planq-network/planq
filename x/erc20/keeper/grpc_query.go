@@ -25,7 +25,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
-	evmostypes "github.com/evmos/ethermint/types"
+	planqtypes "github.com/planq-network/planq/types"
 
 	"github.com/planq-network/planq/x/erc20/types"
 )
@@ -70,7 +70,7 @@ func (k Keeper) TokenPair(c context.Context, req *types.QueryTokenPairRequest) (
 
 	// check if the token is a hex address, if not, check if it is a valid SDK
 	// denom
-	if err := evmostypes.ValidateAddress(req.Token); err != nil {
+	if err := planqtypes.ValidateAddress(req.Token); err != nil {
 		if err := sdk.ValidateDenom(req.Token); err != nil {
 			return nil, status.Errorf(
 				codes.InvalidArgument,

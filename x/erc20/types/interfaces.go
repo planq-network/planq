@@ -29,8 +29,8 @@ import (
 	"github.com/ethereum/go-ethereum/core"
 	"github.com/ethereum/go-ethereum/core/vm"
 
-	"github.com/evmos/ethermint/x/evm/statedb"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
+	"github.com/planq-network/planq/x/evm/statedb"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
 )
 
 // AccountKeeper defines the expected interface needed to retrieve account info.

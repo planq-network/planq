@@ -7,8 +7,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
 	"github.com/cosmos/cosmos-sdk/simapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	ibctesting "github.com/cosmos/ibc-go/v5/testing"
-	"github.com/cosmos/ibc-go/v5/testing/mock"
+	ibctesting "github.com/cosmos/ibc-go/v6/testing"
+	"github.com/cosmos/ibc-go/v6/testing/mock"
 	abci "github.com/tendermint/tendermint/abci/types"
 	"github.com/tendermint/tendermint/libs/log"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
@@ -21,8 +21,8 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/evmos/ethermint/encoding"
-	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
+	"github.com/planq-network/planq/encoding"
+	feemarkettypes "github.com/planq-network/planq/x/feemarket/types"
 
 	"github.com/planq-network/planq/cmd/config"
 	"github.com/planq-network/planq/types"

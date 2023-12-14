@@ -26,7 +26,7 @@ import (
 	txTypes "github.com/cosmos/cosmos-sdk/types/tx"
 
 	apitypes "github.com/ethereum/go-ethereum/signer/core/apitypes"
-	evmostypes "github.com/planq-network/planq/types"
+	planqtypes "github.com/planq-network/planq/types"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 )
@@ -116,7 +116,7 @@ func decodeAminoSignDoc(signDocBytes []byte) (apitypes.TypedData, error) {
 		return apitypes.TypedData{}, err
 	}
 
-	chainID, err := evmostypes.ParseChainID(aminoDoc.ChainID)
+	chainID, err := planqtypes.ParseChainID(aminoDoc.ChainID)
 	if err != nil {
 		return apitypes.TypedData{}, errors.New("invalid chain ID passed as argument")
 	}
@@ -180,7 +180,7 @@ func decodeProtobufSignDoc(signDocBytes []byte) (apitypes.TypedData, error) {
 
 	signerInfo := authInfo.SignerInfos[0]
 
-	chainID, err := evmostypes.ParseChainID(signDoc.ChainId)
+	chainID, err := planqtypes.ParseChainID(signDoc.ChainId)
 	if err != nil {
 		return apitypes.TypedData{}, fmt.Errorf("invalid chain ID passed as argument: %w", err)
 	}

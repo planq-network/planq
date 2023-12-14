@@ -35,12 +35,13 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/crisis"
 	genutilcli "github.com/cosmos/cosmos-sdk/x/genutil/client/cli"
 
-	ethermintclient "github.com/evmos/ethermint/client"
-	"github.com/evmos/ethermint/client/debug"
-	"github.com/evmos/ethermint/encoding"
-	ethermintserver "github.com/evmos/ethermint/server"
-	servercfg "github.com/evmos/ethermint/server/config"
-	srvflags "github.com/evmos/ethermint/server/flags"
+	ethermintclient "github.com/planq-network/planq/client"
+	"github.com/planq-network/planq/client/debug"
+	"github.com/planq-network/planq/encoding"
+	"github.com/planq-network/planq/ethereum/eip712"
+	ethermintserver "github.com/planq-network/planq/server"
+	servercfg "github.com/planq-network/planq/server/config"
+	srvflags "github.com/planq-network/planq/server/flags"
 
 	"github.com/planq-network/planq/app"
 	cmdcfg "github.com/planq-network/planq/cmd/config"
@@ -65,7 +66,9 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 		WithBroadcastMode(flags.BroadcastBlock).
 		WithHomeDir(app.DefaultNodeHome).
 		WithKeyringOptions(evmoskr.Option()).
-		WithViper(EnvPrefix)
+		WithViper(EnvPrefix).
+		WithLedgerHasProtobuf(true)
+	eip712.SetEncodingConfig(encodingConfig)
 
 	rootCmd := &cobra.Command{
 		Use:   app.Name,
@@ -74,18 +77,6 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 			// set the default command outputs
 			cmd.SetOut(cmd.OutOrStdout())
 			cmd.SetErr(cmd.ErrOrStderr())
-
-			// Disable ledger temporarily
-			useLedger, _ := cmd.Flags().GetBool(flags.FlagUseLedger)
-			if useLedger {
-				return errors.New("--ledger flag passed: Ledger device is currently not supported")
-			}
-
-			gasPrice, _ := cmd.Flags().GetString(flags.FlagGasPrices)
-
-			if len(gasPrice) == 0 {
-				cmd.Flags().Set(flags.FlagGasPrices, "300000000000aplanq")
-			}
 
 			initClientCtx, err := client.ReadPersistentCommandFlags(initClientCtx, cmd.Flags())
 			if err != nil {
@@ -121,6 +112,7 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 			InitCmd(app.ModuleBasics, app.DefaultNodeHome),
 		),
 		genutilcli.CollectGenTxsCmd(banktypes.GenesisBalancesIterator{}, app.DefaultNodeHome),
+		MigrateGenesisCmd(),
 		genutilcli.GenTxCmd(app.ModuleBasics, encodingConfig.TxConfig, banktypes.GenesisBalancesIterator{}, app.DefaultNodeHome),
 		genutilcli.ValidateGenesisCmd(validateGenesisAppModuleBasics),
 		AddGenesisAccountCmd(app.DefaultNodeHome),

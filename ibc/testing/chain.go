@@ -34,10 +34,10 @@ import (
 	ibcgotesting "github.com/cosmos/ibc-go/v6/testing"
 	"github.com/cosmos/ibc-go/v6/testing/mock"
 
-	evmostypes "github.com/evmos/ethermint/types"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
 	"github.com/planq-network/planq/crypto/ethsecp256k1"
+	planqtypes "github.com/planq-network/planq/types"
 	"github.com/planq-network/planq/utils"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
 )
 
 // ChainIDPrefix defines the default chain ID prefix for Evmos test chains
@@ -75,12 +75,12 @@ func NewTestChain(t *testing.T, coord *ibcgotesting.Coordinator, chainID string)
 
 	baseAcc := authtypes.NewBaseAccount(senderPrivKey.PubKey().Address().Bytes(), senderPrivKey.PubKey(), 0, 0)
 
-	acc := &evmostypes.EthAccount{
+	acc := &planqtypes.EthAccount{
 		BaseAccount: baseAcc,
 		CodeHash:    common.BytesToHash(evmtypes.EmptyCodeHash).Hex(),
 	}
 
-	amount := sdk.TokensFromConsensusPower(1, evmostypes.PowerReduction)
+	amount := sdk.TokensFromConsensusPower(1, planqtypes.PowerReduction)
 
 	balance := banktypes.Balance{
 		Address: acc.GetAddress().String(),

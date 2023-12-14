@@ -3,10 +3,10 @@ package v1_0_1
 import (
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	evmkeeper "github.com/evmos/ethermint/x/evm/keeper"
-	feemarketkeeper "github.com/evmos/ethermint/x/feemarket/keeper"
-	erc20keeper "github.com/evmos/evmos/v12/x/erc20/keeper"
 	"github.com/planq-network/planq/app/keepers"
+	erc20keeper "github.com/planq-network/planq/x/erc20/keeper"
+	evmkeeper "github.com/planq-network/planq/x/evm/keeper"
+	feemarketkeeper "github.com/planq-network/planq/x/feemarket/keeper"
 )
 
 // RunForkLogic executes height-gated on-chain fork logic for the Planq v2

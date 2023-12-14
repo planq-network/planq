@@ -29,8 +29,8 @@ import (
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/evmos/ethermint/server/config"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
+	"github.com/planq-network/planq/server/config"
+	evmtypes "github.com/planq-network/planq/x/evm/types"
 
 	"github.com/planq-network/planq/contracts"
 	"github.com/planq-network/planq/x/erc20/types"
