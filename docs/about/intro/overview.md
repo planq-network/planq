@@ -9,7 +9,7 @@ Learn about Planq and its primary features. {synopsis}
 ## What is Planq
 
 Planq is a scalable, high-throughput Proof-of-Stake blockchain that is fully compatible and
-interoperable with Ethereum. It's built using the [Cosmos SDK](https://github.com/cosmos/cosmos-sdk/) which runs on top of [Tendermint Core](https://github.com/tendermint/tendermint) consensus engine.
+interoperable with Ethereum. It's built using the [Cosmos SDK](https://github.com/cosmos/cosmos-sdk/) which runs on top of [Tendermint Core](https://github.com/cometbft/cometbft) consensus engine.
 
 Planq allows for running vanilla Ethereum as a [Cosmos](https://cosmos.network/)
 application-specific blockchain. This allows developers to have all the desired features of
@@ -22,7 +22,7 @@ Ecosystem through the Inter Blockchain Communication Protocol (IBC).
 Here’s a glance at some of the key features of Planq:
 
 * Web3 and EVM compatibility
-* High throughput via [Tendermint Core](https://github.com/tendermint/tendermint)
+* High throughput via [Tendermint Core](https://github.com/cometbft/cometbft)
 * Horizontal scalability via [IBC](https://cosmos.network/ibc)
 * Fast transaction finality
 

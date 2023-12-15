@@ -19,13 +19,13 @@ import (
 	"encoding/json"
 	"fmt"
 
+	tmrpctypes "github.com/cometbft/cometbft/rpc/core/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/pkg/errors"
 	rpctypes "github.com/planq-network/planq/rpc/types"
 	evmtypes "github.com/planq-network/planq/x/evm/types"
-	tmrpctypes "github.com/tendermint/tendermint/rpc/core/types"
 )
 
 // TraceTransaction returns the structured logs created during the execution of EVM

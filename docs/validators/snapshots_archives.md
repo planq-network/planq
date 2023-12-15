@@ -44,7 +44,7 @@ To use PebbleDB instead of GoLevelDB when using snapshots from Notional:
 Build:
 
 ```bash
-go mod edit -replace github.com/tendermint/tm-db=github.com/baabeetaa/tm-db@pebble
+go mod edit -replace github.com/cometbft/cometbft-db=github.com/baabeetaa/tm-db@pebble
 go mod tidy
 go install -tags pebbledb -ldflags "-w -s -X github.com/cosmos/cosmos-sdk/types.DBBackend=pebbledb" ./...
 ```

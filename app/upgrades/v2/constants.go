@@ -2,7 +2,7 @@ package v2
 
 import (
 	store "github.com/cosmos/cosmos-sdk/store/types"
-	icahosttypes "github.com/cosmos/ibc-go/v6/modules/apps/27-interchain-accounts/host/types"
+	icahosttypes "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/host/types"
 	"github.com/planq-network/planq/app/upgrades"
 	erc20types "github.com/planq-network/planq/x/erc20/types"
 )

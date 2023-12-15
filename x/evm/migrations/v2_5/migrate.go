@@ -1,4 +1,4 @@
-package v5
+package v2_5
 
 import (
 	"github.com/cosmos/cosmos-sdk/codec"
@@ -6,7 +6,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/planq-network/planq/x/evm/types"
 
-	v5types "github.com/planq-network/planq/x/evm/migrations/v5/types"
+	v2_5types "github.com/planq-network/planq/x/evm/migrations/v2_5/types"
 )
 
 // MigrateStore migrates the x/evm module state from the consensus version 4 to
@@ -19,7 +19,7 @@ func MigrateStore(
 	cdc codec.BinaryCodec,
 ) error {
 	var (
-		extraEIPs   v5types.V5ExtraEIPs
+		extraEIPs   v2_5types.V2_5ExtraEIPs
 		chainConfig types.ChainConfig
 		params      types.Params
 	)
@@ -30,11 +30,6 @@ func MigrateStore(
 
 	extraEIPsBz := store.Get(types.ParamStoreKeyExtraEIPs)
 	cdc.MustUnmarshal(extraEIPsBz, &extraEIPs)
-
-	// revert ExtraEIP change for Evmos testnet
-	if ctx.ChainID() == "evmos_9000-4" {
-		extraEIPs.EIPs = []int64{}
-	}
 
 	chainCfgBz := store.Get(types.ParamStoreKeyChainConfig)
 	cdc.MustUnmarshal(chainCfgBz, &chainConfig)

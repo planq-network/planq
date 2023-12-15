@@ -408,7 +408,7 @@ Ref: https://keepachangelog.com/en/1.0.0/
 
 * (deps) [tharsis#692](https://github.com/planq-network/planq/pull/692) Bump Cosmos SDK version to [`v0.44.3`](https://github.com/cosmos/cosmos-sdk/releases/tag/v0.44.3).
 * (rpc) [tharsis#679](https://github.com/planq-network/planq/pull/679) Fix file close handle.
-* (deps) [tharsis#668](https://github.com/planq-network/planq/pull/668) Bump Tendermint version to [`v0.34.14`](https://github.com/tendermint/tendermint/releases/tag/v0.34.14).
+* (deps) [tharsis#668](https://github.com/planq-network/planq/pull/668) Bump Tendermint version to [`v0.34.14`](https://github.com/cometbft/cometbft/releases/tag/v0.34.14).
 
 ### Bug Fixes
 
@@ -520,7 +520,7 @@ the Tracer type used to collect execution traces from the EVM transaction execut
 * (deps) [tharsis#427](https://github.com/planq-network/planq/pull/427) Bump ibc-go to [`v1.0.0`](https://github.com/cosmos/ibc-go/releases/tag/v1.0.0)
 * (gRPC) [tharsis#239](https://github.com/planq-network/planq/pull/239) Query `ChainConfig` via gRPC.
 * (rpc) [tharsis#181](https://github.com/planq-network/planq/pull/181) Use evm denomination for params on tx fee.
-* (deps) [tharsis#423](https://github.com/planq-network/planq/pull/423) Bump Cosmos SDK and Tendermint versions to [v0.43.0](https://github.com/cosmos/cosmos-sdk/releases/tag/v0.43.0) and [v0.34.11](https://github.com/tendermint/tendermint/releases/tag/v0.34.11), respectively.
+* (deps) [tharsis#423](https://github.com/planq-network/planq/pull/423) Bump Cosmos SDK and Tendermint versions to [v0.43.0](https://github.com/cosmos/cosmos-sdk/releases/tag/v0.43.0) and [v0.34.11](https://github.com/cometbft/cometbft/releases/tag/v0.34.11), respectively.
 * (evm) [tharsis#66](https://github.com/planq-network/planq/issues/66) Support legacy transaction types for signing.
 * (evm) [tharsis#24](https://github.com/planq-network/planq/pull/24) Implement metrics for `MsgEthereumTx`, state transitions, `BeginBlock` and `EndBlock`.
 * (rpc)  [tharsis#124](https://github.com/planq-network/planq/issues/124) Implement `txpool_content`, `txpool_inspect` and `txpool_status` RPC methods
@@ -610,7 +610,7 @@ the Tracer type used to collect execution traces from the EVM transaction execut
 * (deps) [tharsis#615](https://github.com/cosmos/ethermint/pull/615) Bump Cosmos SDK version to [v0.39.2](https://github.com/cosmos/cosmos-sdk/tag/v0.39.2)
 * (deps) [tharsis#610](https://github.com/cosmos/ethermint/pull/610) Update Go dependency to 1.15+.
 * (evm) [tharsis#603](https://github.com/cosmos/ethermint/pull/603) Add state transition params that enable or disable the EVM `Call` and `Create` operations.
-* (deps) [tharsis#602](https://github.com/cosmos/ethermint/pull/602) Bump tendermint version to [v0.33.9](https://github.com/tendermint/tendermint/releases/tag/v0.33.9)
+* (deps) [tharsis#602](https://github.com/cosmos/ethermint/pull/602) Bump tendermint version to [v0.33.9](https://github.com/cometbft/cometbft/releases/tag/v0.33.9)
 
 ### Bug Fixes
 

@@ -15,7 +15,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/planq-network/planq/crypto/ethsecp256k1"
-	utiltx "github.com/planq-network/planq/tests"
+	utiltx "github.com/planq-network/planq/testutil/tx"
 
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"

@@ -19,11 +19,11 @@ package keeper
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
-	v3 "github.com/planq-network/planq/x/erc20/migrations/v3"
+	v2 "github.com/planq-network/planq/x/erc20/migrations/v2"
 	"github.com/planq-network/planq/x/erc20/types"
 )
 
-var _ module.MigrationHandler = Migrator{}.Migrate2to3
+var _ module.MigrationHandler = Migrator{}.Migrate1to2
 
 // Migrator is a struct for handling in-place store migrations.
 type Migrator struct {
@@ -39,6 +39,6 @@ func NewMigrator(keeper Keeper, legacySubspace types.Subspace) Migrator {
 	}
 }
 
-func (m Migrator) Migrate2to3(ctx sdk.Context) error {
-	return v3.MigrateStore(ctx, m.keeper.storeKey, m.legacySubspace)
+func (m Migrator) Migrate1to2(ctx sdk.Context) error {
+	return v2.MigrateStore(ctx, m.keeper.storeKey, m.legacySubspace)
 }

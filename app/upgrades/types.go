@@ -1,13 +1,13 @@
 package upgrades
 
 import (
+	abci "github.com/cometbft/cometbft/abci/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	store "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 	"github.com/planq-network/planq/app/keepers"
-	abci "github.com/tendermint/tendermint/abci/types"
 )
 
 // BaseAppParamManager defines an interrace that BaseApp is expected to fullfil

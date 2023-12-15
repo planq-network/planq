@@ -20,6 +20,8 @@ import (
 	"math/big"
 	"time"
 
+	"github.com/cometbft/cometbft/libs/log"
+	tmrpctypes "github.com/cometbft/cometbft/rpc/core/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	"github.com/cosmos/cosmos-sdk/server"
@@ -34,8 +36,6 @@ import (
 	"github.com/planq-network/planq/server/config"
 	ethermint "github.com/planq-network/planq/types"
 	evmtypes "github.com/planq-network/planq/x/evm/types"
-	"github.com/tendermint/tendermint/libs/log"
-	tmrpctypes "github.com/tendermint/tendermint/rpc/core/types"
 )
 
 // BackendI implements the Cosmos and EVM backend.

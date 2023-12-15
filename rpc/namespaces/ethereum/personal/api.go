@@ -26,7 +26,7 @@ import (
 	"github.com/planq-network/planq/crypto/hd"
 	ethermint "github.com/planq-network/planq/types"
 
-	"github.com/tendermint/tendermint/libs/log"
+	"github.com/cometbft/cometbft/libs/log"
 
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	sdk "github.com/cosmos/cosmos-sdk/types"

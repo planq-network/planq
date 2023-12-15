@@ -22,6 +22,7 @@ import (
 
 	errorsmod "cosmossdk.io/errors"
 	sdkmath "cosmossdk.io/math"
+	tmtypes "github.com/cometbft/cometbft/types"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	sdkcrypto "github.com/cosmos/cosmos-sdk/crypto"
@@ -38,7 +39,6 @@ import (
 	"github.com/planq-network/planq/server/config"
 	ethermint "github.com/planq-network/planq/types"
 	evmtypes "github.com/planq-network/planq/x/evm/types"
-	tmtypes "github.com/tendermint/tendermint/types"
 )
 
 // Accounts returns the list of accounts available to this node.

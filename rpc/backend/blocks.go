@@ -21,6 +21,7 @@ import (
 	"math/big"
 	"strconv"
 
+	tmrpctypes "github.com/cometbft/cometbft/rpc/core/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	grpctypes "github.com/cosmos/cosmos-sdk/types/grpc"
 	"github.com/ethereum/go-ethereum/common"
@@ -30,7 +31,6 @@ import (
 	"github.com/pkg/errors"
 	rpctypes "github.com/planq-network/planq/rpc/types"
 	evmtypes "github.com/planq-network/planq/x/evm/types"
-	tmrpctypes "github.com/tendermint/tendermint/rpc/core/types"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 )

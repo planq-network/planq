@@ -21,7 +21,6 @@ import (
 	cosmosLedger "github.com/cosmos/cosmos-sdk/crypto/ledger"
 	"github.com/cosmos/cosmos-sdk/crypto/types"
 
-	"github.com/evmos/evmos-ledger-go/ledger"
 	"github.com/planq-network/planq/crypto/ethsecp256k1"
 	"github.com/planq-network/planq/crypto/hd"
 )

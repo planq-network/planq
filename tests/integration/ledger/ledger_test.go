@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"context"
 
+	"cosmossdk.io/simapp/params"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
-	"github.com/cosmos/cosmos-sdk/simapp/params"
 
 	"github.com/planq-network/planq/app"
 	"github.com/planq-network/planq/crypto/hd"

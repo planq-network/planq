@@ -10,9 +10,9 @@ import (
 	"github.com/planq-network/planq/tests"
 	"google.golang.org/grpc/metadata"
 
+	"github.com/cometbft/cometbft/abci/types"
+	tmrpctypes "github.com/cometbft/cometbft/rpc/core/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/tendermint/tendermint/abci/types"
-	tmrpctypes "github.com/tendermint/tendermint/rpc/core/types"
 
 	"github.com/planq-network/planq/rpc/backend/mocks"
 	evmtypes "github.com/planq-network/planq/x/evm/types"

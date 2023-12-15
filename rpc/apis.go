@@ -34,7 +34,7 @@ import (
 	"github.com/planq-network/planq/rpc/namespaces/ethereum/web3"
 	ethermint "github.com/planq-network/planq/types"
 
-	rpcclient "github.com/tendermint/tendermint/rpc/jsonrpc/client"
+	rpcclient "github.com/cometbft/cometbft/rpc/jsonrpc/client"
 )
 
 // RPC namespaces and API version

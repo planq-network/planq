@@ -1,4 +1,4 @@
-package v3_test
+package v2_test
 
 import (
 	"testing"
@@ -51,7 +51,7 @@ func TestMigrate(t *testing.T) {
 	legacySubspace.GetParamSetIfExists(ctx, &outputParams)
 
 	mockSubspace := newMockSubspace(v3types.DefaultParams(), storeKey, tKey)
-	require.NoError(t, v3.MigrateStore(ctx, storeKey, mockSubspace))
+	require.NoError(t, v1.MigrateStore(ctx, storeKey, mockSubspace))
 
 	// Get all the new parameters from the store
 	enableEvmHook := store.Has(types.ParamStoreKeyEnableEVMHook)

@@ -4,11 +4,11 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/cometbft/cometbft/crypto/tmhash"
 	"github.com/ethereum/go-ethereum/common"
 	utiltx "github.com/planq-network/planq/testutil/tx"
 	"github.com/planq-network/planq/x/erc20/types"
 	"github.com/stretchr/testify/suite"
-	"github.com/tendermint/tendermint/crypto/tmhash"
 )
 
 type TokenPairTestSuite struct {

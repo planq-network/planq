@@ -22,6 +22,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/cometbft/cometbft/libs/bytes"
 	"github.com/cosmos/cosmos-sdk/client"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -32,7 +33,6 @@ import (
 	"github.com/planq-network/planq/ethereum/eip712"
 	evmos "github.com/planq-network/planq/types"
 	"github.com/spf13/cobra"
-	"github.com/tendermint/tendermint/libs/bytes"
 )
 
 // Cmd creates a main CLI command
