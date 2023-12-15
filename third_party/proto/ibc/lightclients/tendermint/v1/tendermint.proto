@@ -89,7 +89,7 @@ message ConsensusState {
   ibc.core.commitment.v1.MerkleRoot root = 2 [ (gogoproto.nullable) = false ];
   bytes next_validators_hash = 3 [
     (gogoproto.casttype) =
-        "github.com/tendermint/tendermint/libs/bytes.HexBytes",
+        "github.com/cometbft/cometbft/libs/bytes.HexBytes",
     (gogoproto.moretags) = "yaml:\"next_validators_hash\""
   ];
 }
