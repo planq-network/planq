@@ -29,7 +29,9 @@ mkdir -p ./tmp-swagger-gen
 #buf generate proto --template buf.gen.proto.yaml
 
 # create additional swagger files on an individual basis  w/ `buf build` and `buf generate` (needed for `swagger-combine`)
-proto_dirs=$(find ./third_party/proto -path -prune -o -name '*.proto' -print0 | xargs -0 -n1 dirname | sort | uniq)
+proto_dir="./third_party/proto"
+proto_dirs=$(find "${proto_dir}/cosmos" "${proto_dir}/ethermint" "${proto_dir}/ibc" "${proto_dir}/evmos" -path -prune -o -name '*.proto' -print0 | xargs -0 -n1 dirname | sort | uniq)
+printf $proto_dirs
 for dir in $proto_dirs; do
 
   # generate swagger files (filter query files)
