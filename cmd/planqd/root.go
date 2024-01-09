@@ -29,11 +29,13 @@ import (
 	snapshottypes "github.com/cosmos/cosmos-sdk/snapshots/types"
 	"github.com/cosmos/cosmos-sdk/store"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkmodule "github.com/cosmos/cosmos-sdk/types/module"
 	authcmd "github.com/cosmos/cosmos-sdk/x/auth/client/cli"
 	"github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/cosmos/cosmos-sdk/x/crisis"
 	genutilcli "github.com/cosmos/cosmos-sdk/x/genutil/client/cli"
+	erc20cli "github.com/evmos/evmos/v9/x/erc20/client/cli"
 
 	ethermintclient "github.com/evmos/ethermint/client"
 	"github.com/evmos/ethermint/client/debug"
@@ -113,7 +115,10 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 	cfg.Seal()
 
 	// TODO: fix ASAP with proper upgrade
-	validateGenesisAppModuleBasics := app.ModuleBasics
+	validateGenesisAppModuleBasics := make(map[string]sdkmodule.AppModuleBasic)
+	for k, v := range app.ModuleBasics {
+		validateGenesisAppModuleBasics[k] = v
+	}
 	delete(validateGenesisAppModuleBasics, "erc20")
 
 	rootCmd.AddCommand(
@@ -174,6 +179,7 @@ func queryCommand() *cobra.Command {
 		rpc.BlockCommand(),
 		authcmd.QueryTxsByEventsCmd(),
 		authcmd.QueryTxCmd(),
+		erc20cli.GetQueryCmd(),
 	)
 
 	app.ModuleBasics.AddQueryCommands(cmd)
@@ -200,6 +206,7 @@ func txCommand() *cobra.Command {
 		authcmd.GetBroadcastCommand(),
 		authcmd.GetEncodeCommand(),
 		authcmd.GetDecodeCommand(),
+		erc20cli.NewTxCmd(),
 	)
 
 	app.ModuleBasics.AddTxCommands(cmd)
