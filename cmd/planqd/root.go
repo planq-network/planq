@@ -35,8 +35,6 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/cosmos/cosmos-sdk/x/crisis"
 	genutilcli "github.com/cosmos/cosmos-sdk/x/genutil/client/cli"
-	erc20cli "github.com/evmos/evmos/v9/x/erc20/client/cli"
-
 	ethermintclient "github.com/evmos/ethermint/client"
 	"github.com/evmos/ethermint/client/debug"
 	"github.com/evmos/ethermint/encoding"
@@ -179,7 +177,6 @@ func queryCommand() *cobra.Command {
 		rpc.BlockCommand(),
 		authcmd.QueryTxsByEventsCmd(),
 		authcmd.QueryTxCmd(),
-		erc20cli.GetQueryCmd(),
 	)
 
 	app.ModuleBasics.AddQueryCommands(cmd)
@@ -206,7 +203,6 @@ func txCommand() *cobra.Command {
 		authcmd.GetBroadcastCommand(),
 		authcmd.GetEncodeCommand(),
 		authcmd.GetDecodeCommand(),
-		erc20cli.NewTxCmd(),
 	)
 
 	app.ModuleBasics.AddTxCommands(cmd)
