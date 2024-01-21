@@ -10,7 +10,7 @@ require (
 	cosmossdk.io/tools/rosetta v0.2.1
 	github.com/cometbft/cometbft v0.38.2
 	github.com/cometbft/cometbft-db v0.9.1
-	github.com/cosmos/cosmos-sdk v0.47.6
+	github.com/cosmos/cosmos-sdk v0.47.7
 	github.com/cosmos/go-bip39 v1.0.0
 	github.com/cosmos/ibc-go/v7 v7.3.1
 	github.com/ethereum/go-ethereum v1.10.26
