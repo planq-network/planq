@@ -82,8 +82,8 @@ module.exports = {
       rpc_url_local: "http://localhost:8545/",
       chain_id: "7070",
       testnet_chain_id: "7000",
-      latest_version: "v1.0.4",
-      mainnet_version: "v1.0.4",
+      latest_version: "v1.0.8",
+      mainnet_version: "v1.0.8",
       testnet_version: "v1.0.0",
       version_number: "2",
       testnet_version_number: "1",
@@ -324,7 +324,7 @@ module.exports = {
       chat: {
         title: "Discord Channel",
         text: "Chat with Planq users and team on Discord.",
-        url: "https://discord.gg/jGTPyYmpsq",
+        url: "https://discord.gg/planq-network",
         bg: "linear-gradient(103.75deg, #1B1E36 0%, #22253F 100%)",
       },
       forum: {
@@ -382,8 +382,16 @@ module.exports = {
           title: "Community",
           children: [
             {
-              title: "Planq Discord Community",
-              url: "https://discord.gg/jGTPyYmpsq",
+              title: "Planq Discord",
+              url: "https://discord.gg/planq-network",
+            },
+            {
+              title: "Planq Telegram",
+              url: "https://t.me/PlanqNetwork",
+            },
+            {
+              title: "Planq Twitter",
+              url: "https://twitter.com/PlanqFoundation",
             },
             {
               title: "Planq on Reddit",

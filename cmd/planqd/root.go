@@ -29,6 +29,7 @@ import (
 	snapshottypes "github.com/cosmos/cosmos-sdk/snapshots/types"
 	"github.com/cosmos/cosmos-sdk/store"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkmodule "github.com/cosmos/cosmos-sdk/types/module"
 	authcmd "github.com/cosmos/cosmos-sdk/x/auth/client/cli"
 	"github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
@@ -104,7 +105,10 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 	cfg.Seal()
 
 	// TODO: fix ASAP with proper upgrade
-	validateGenesisAppModuleBasics := app.ModuleBasics
+	validateGenesisAppModuleBasics := make(map[string]sdkmodule.AppModuleBasic)
+	for k, v := range app.ModuleBasics {
+		validateGenesisAppModuleBasics[k] = v
+	}
 	delete(validateGenesisAppModuleBasics, "erc20")
 
 	rootCmd.AddCommand(

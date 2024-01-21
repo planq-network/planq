@@ -13,6 +13,7 @@ Please find the following resources for in-depth information:
 - **[Quick Connect](./connect.md)**: List of publicly available endpoints.
 - **[Planq Clients](./clients.md)**: Description of available clients.
 - **[Block Explorers](./explorers.md)**: List of block explorers available for Planq.
+- **[ERC20 Tokens](./erc20.md)**: List of ERC20 tokens that are registered on Planq.
 - **[Testnet Faucet](./testnet/faucet.md)**: Explaination of faucet use to obtain testnet tokens.
 - **Localnet**: Instructions on how to configure a local instance of the Planq blockchain.
     - **[Single Node](./localnet/single_node.md)**: Run a single local node.
