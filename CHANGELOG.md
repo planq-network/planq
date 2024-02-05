@@ -34,6 +34,11 @@ Ref: https://keepachangelog.com/en/1.0.0/
 -->
 
 # Changelog
+## [v1.1.0] - 2024-02-05
+### State Machine Breaking
+* (erc20) [#567d3779](https://github.com/planq-network/planq/commit/567d3779) re-add erc20 cli commands
+* (erc20) [#b80c5e87](https://github.com/planq-network/planq/commit/b80c5e87) enable erc20 module on block 7.516.700
+
 ## [v1.0.8] - 2023-11-07
 * below changes are related to our backported ethermint lib:
 * fix: align filter rule for debug trace block (#1688)
