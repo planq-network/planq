@@ -9,7 +9,7 @@ const (
 	// UpgradeName is the shared upgrade plan name for mainnet and testnet
 	UpgradeName = "v1.1.0"
 	// MainnetUpgradeHeight defines the Planq mainnet block height on which the upgrade will take place
-	UpgradeHeight = 7_153_500 // (24 * 60 * 60) / 5 + 7101660
+	UpgradeHeight = 7_516_700 // (24 * 60 * 60) / 5 + 7101660
 	// UpgradeInfo defines the binaries that will be used for the upgrade
 	UpgradeInfo = `0` // current binary will do the upgrade via schedule upgrade
 )
