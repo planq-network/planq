@@ -2,13 +2,11 @@ package v2
 
 import (
 	errorsmod "cosmossdk.io/errors"
-	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
-	paramstypes "github.com/cosmos/cosmos-sdk/x/params/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 	ica "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts"
@@ -62,8 +60,9 @@ func CreateUpgradeHandler(
 		// InitGenesis function.
 		vm[icatypes.ModuleName] = ica.AppModule{}.ConsensusVersion()
 
-		_ = mm.Modules[icatypes.ModuleName].InitGenesis(ctx, icatypes.ModuleCdc, bz)
-
+		m := mm.Modules[icatypes.ModuleName].(module.HasGenesis)
+		m.InitGenesis(ctx, icatypes.ModuleCdc, bz)
+		
 		// Leave modules are as-is to avoid running InitGenesis.
 		logger.Debug("running module migrations ...")
 		return mm.RunMigrations(ctx, configurator, vm)
