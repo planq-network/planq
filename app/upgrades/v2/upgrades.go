@@ -2,11 +2,13 @@ package v2
 
 import (
 	errorsmod "cosmossdk.io/errors"
+	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
+	paramstypes "github.com/cosmos/cosmos-sdk/x/params/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 	ica "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts"
@@ -26,7 +28,7 @@ func CreateUpgradeHandler(
 ) upgradetypes.UpgradeHandler {
 	return func(ctx sdk.Context, _ upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
 		logger := ctx.Logger().With("upgrade", UpgradeName)
-
+		baseAppLegacySS := keepers.ParamsKeeper.Subspace(baseapp.Paramspace).WithKeyTable(paramstypes.ConsensusParamsKeyTable())
 		// create ICS27 Controller submodule params, with the controller module NOT enabled
 		gs := &genesistypes.GenesisState{
 			ControllerGenesisState: genesistypes.ControllerGenesisState{},
@@ -62,7 +64,7 @@ func CreateUpgradeHandler(
 
 		m := mm.Modules[icatypes.ModuleName].(module.HasGenesis)
 		m.InitGenesis(ctx, icatypes.ModuleCdc, bz)
-
+		baseapp.MigrateParams(ctx, baseAppLegacySS, &keepers.ConsensusParamsKeeper)
 		// Leave modules are as-is to avoid running InitGenesis.
 		logger.Debug("running module migrations ...")
 		return mm.RunMigrations(ctx, configurator, vm)

@@ -2,6 +2,8 @@ package v2
 
 import (
 	store "github.com/cosmos/cosmos-sdk/store/types"
+	consensustypes "github.com/cosmos/cosmos-sdk/x/consensus/types"
+	crisistypes "github.com/cosmos/cosmos-sdk/x/crisis/types"
 	icahosttypes "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/host/types"
 	"github.com/planq-network/planq/app/upgrades"
 	erc20types "github.com/planq-network/planq/x/erc20/types"
@@ -19,7 +21,7 @@ var Upgrade = upgrades.Upgrade{
 	UpgradeName:          UpgradeName,
 	CreateUpgradeHandler: CreateUpgradeHandler,
 	StoreUpgrades: store.StoreUpgrades{
-		Added:   []string{icahosttypes.SubModuleName, erc20types.ModuleName},
+		Added:   []string{icahosttypes.SubModuleName, erc20types.ModuleName, crisistypes.ModuleName, consensustypes.ModuleName},
 		Deleted: []string{},
 	},
 }
