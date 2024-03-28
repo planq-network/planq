@@ -6,9 +6,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/runtime"
 	"github.com/planq-network/planq/app/keepers"
 	"github.com/planq-network/planq/app/upgrades"
-	v1_0_1 "github.com/planq-network/planq/app/upgrades/v1_0_1"
-	"github.com/planq-network/planq/app/upgrades/v1_0_5"
-	"github.com/planq-network/planq/app/upgrades/v1_1_0"
 	"io"
 	"net/http"
 	"os"
@@ -226,8 +223,8 @@ var (
 	_ ibctesting.TestingApp   = (*PlanqApp)(nil)
 	_ runtime.AppI            = (*PlanqApp)(nil)
 
-	Upgrades = []upgrades.Upgrade{v1_1_0.Upgrade, v2.Upgrade}
-	Forks    = []upgrades.Fork{v1_0_1.Fork, v1_0_5.Fork}
+	Upgrades = []upgrades.Upgrade{v2.Upgrade}
+	Forks    = []upgrades.Fork{}
 )
 
 // var _ server.Application (*PlanqApp)(nil)
@@ -895,8 +892,7 @@ func (app *PlanqApp) setupUpgradeStoreLoaders() {
 	if err != nil {
 		panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
 	}
-	upgradeInfo.Name = v1_1_0.UpgradeName
-	upgradeInfo.Height = v1_1_0.UpgradeHeight
+
 	if app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
 		return
 	}
@@ -930,9 +926,6 @@ func (app *PlanqApp) ScheduleForkUpgrade(ctx sdk.Context) {
 
 	// handle mainnet forks with their corresponding upgrade name and info
 	switch ctx.BlockHeight() {
-	case v1_1_0.UpgradeHeight:
-		upgradePlan.Name = v1_1_0.UpgradeName
-		upgradePlan.Info = v1_1_0.UpgradeInfo
 	default:
 		// No-op
 		return

@@ -2,9 +2,12 @@ package v2
 
 import (
 	errorsmod "cosmossdk.io/errors"
+	"fmt"
+	"github.com/cometbft/cometbft/libs/log"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
+	authkeeper "github.com/cosmos/cosmos-sdk/x/auth/keeper"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	crisistypes "github.com/cosmos/cosmos-sdk/x/crisis/types"
@@ -36,7 +39,7 @@ func CreateUpgradeHandler(
 ) upgradetypes.UpgradeHandler {
 	return func(ctx sdk.Context, _ upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
 		logger := ctx.Logger().With("upgrade", UpgradeName)
-
+		MigrateEscrowAccounts(ctx, logger, keepers.AccountKeeper)
 		// create ICS27 Controller submodule params, with the controller module NOT enabled
 		gs := &genesistypes.GenesisState{
 			ControllerGenesisState: genesistypes.ControllerGenesisState{},
@@ -113,5 +116,47 @@ func CreateUpgradeHandler(
 		// Leave modules are as-is to avoid running InitGenesis.
 		logger.Debug("running module migrations ...")
 		return mm.RunMigrations(ctx, configurator, vm)
+	}
+
+}
+
+// MigrateEscrowAccounts updates the IBC transfer escrow accounts type to ModuleAccount
+func MigrateEscrowAccounts(ctx sdk.Context, logger log.Logger, ak authkeeper.AccountKeeper) {
+	for i := 0; i <= OpenChannels; i++ {
+		channelID := fmt.Sprintf("channel-%d", i)
+		address := ibctransfertypes.GetEscrowAddress(ibctransfertypes.PortID, channelID)
+
+		// check if account exists
+		existingAcc := ak.GetAccount(ctx, address)
+
+		// account does NOT exist, so don't create it
+		if existingAcc == nil {
+			continue
+		}
+
+		// if existing account is ModuleAccount, no-op
+		if _, isModuleAccount := existingAcc.(authtypes.ModuleAccountI); isModuleAccount {
+			continue
+		}
+
+		// account name based on the address derived by the transfertypes.GetEscrowAddress
+		// this function appends the current IBC transfer module version to the provided port and channel IDs
+		// To pass account validation, need to have address derived from account name
+		accountName := fmt.Sprintf("%s\x00%s/%s", ibctransfertypes.Version, ibctransfertypes.PortID, channelID)
+		baseAcc := authtypes.NewBaseAccountWithAddress(address)
+
+		// Set same account number and sequence as the existing account
+		if err := baseAcc.SetAccountNumber(existingAcc.GetAccountNumber()); err != nil {
+			// log error instead of aborting the upgrade
+			logger.Error("failed to set escrow account number for account", accountName, "error", err.Error())
+		}
+		if err := baseAcc.SetSequence(existingAcc.GetSequence()); err != nil {
+			// log error instead of aborting the upgrade
+			logger.Error("failed to set escrow account sequence for account", accountName, "error", err.Error())
+		}
+
+		// no special permissions defined for the module account
+		acc := authtypes.NewModuleAccount(baseAcc, accountName)
+		ak.SetModuleAccount(ctx, acc)
 	}
 }
