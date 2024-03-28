@@ -29,10 +29,10 @@ import (
 	"github.com/ethereum/go-ethereum/signer/core/apitypes"
 
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
-	"github.com/planq-network/planq/app"
-	cryptocodec "github.com/planq-network/planq/crypto/codec"
-	"github.com/planq-network/planq/ethereum/eip712"
-	"github.com/planq-network/planq/types"
+	"github.com/planq-network/planq/v2/app"
+	cryptocodec "github.com/planq-network/planq/v2/crypto/codec"
+	"github.com/planq-network/planq/v2/ethereum/eip712"
+	"github.com/planq-network/planq/v2/types"
 )
 
 type EIP712TxArgs struct {

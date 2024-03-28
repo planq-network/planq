@@ -6,8 +6,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/app/keepers"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/app/keepers"
 )
 
 // Upgrade defines a struct containing necessary fields that a SoftwareUpgradeProposal

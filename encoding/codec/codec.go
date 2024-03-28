@@ -21,8 +21,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/std"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	cryptocodec "github.com/planq-network/planq/crypto/codec"
-	"github.com/planq-network/planq/types"
+	cryptocodec "github.com/planq-network/planq/v2/crypto/codec"
+	"github.com/planq-network/planq/v2/types"
 )
 
 // RegisterLegacyAminoCodec registers Interfaces from types, crypto, and SDK std.

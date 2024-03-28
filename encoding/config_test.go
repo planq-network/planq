@@ -8,10 +8,10 @@ import (
 
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/encoding"
-	utiltx "github.com/planq-network/planq/testutil/tx"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/encoding"
+	utiltx "github.com/planq-network/planq/v2/testutil/tx"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 func TestTxEncoding(t *testing.T) {

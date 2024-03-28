@@ -10,7 +10,7 @@ import (
 	transfertypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
 	channeltypes "github.com/cosmos/ibc-go/v7/modules/core/04-channel/types"
 	ibctesting "github.com/cosmos/ibc-go/v7/testing"
-	teststypes "github.com/planq-network/planq/types/tests"
+	teststypes "github.com/planq-network/planq/v2/types/tests"
 )
 
 func init() {

@@ -11,10 +11,10 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"github.com/ethereum/go-ethereum/ethclient"
-	"github.com/planq-network/planq/server/config"
-	"github.com/planq-network/planq/testutil/network"
+	"github.com/planq-network/planq/v2/server/config"
+	"github.com/planq-network/planq/v2/testutil/network"
 
-	evmosnetwork "github.com/planq-network/planq/testutil/network"
+	evmosnetwork "github.com/planq-network/planq/v2/testutil/network"
 )
 
 type IntegrationTestSuite struct {

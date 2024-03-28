@@ -13,7 +13,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/staking"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/planq-network/planq/encoding"
+	"github.com/planq-network/planq/v2/encoding"
 )
 
 // NewDefaultGenesisState generates the default state for the application.

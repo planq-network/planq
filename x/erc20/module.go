@@ -32,9 +32,9 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/spf13/cobra"
 
-	"github.com/planq-network/planq/x/erc20/client/cli"
-	"github.com/planq-network/planq/x/erc20/keeper"
-	"github.com/planq-network/planq/x/erc20/types"
+	"github.com/planq-network/planq/v2/x/erc20/client/cli"
+	"github.com/planq-network/planq/v2/x/erc20/keeper"
+	"github.com/planq-network/planq/v2/x/erc20/types"
 )
 
 // type check to ensure the interface is properly implemented

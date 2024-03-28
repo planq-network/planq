@@ -10,7 +10,7 @@ import (
 	math_bits "math/bits"
 
 	_ "github.com/cosmos/gogoproto/gogoproto"
-	"github.com/planq-network/planq/x/erc20/types"
+	"github.com/planq-network/planq/v2/x/erc20/types"
 	proto "github.com/gogo/protobuf/proto"
 )
 

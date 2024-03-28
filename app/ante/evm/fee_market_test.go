@@ -8,12 +8,12 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 
-	"github.com/planq-network/planq/app/ante/evm"
-	"github.com/planq-network/planq/testutil"
-	utiltx "github.com/planq-network/planq/testutil/tx"
-	"github.com/planq-network/planq/types"
-	"github.com/planq-network/planq/utils"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/app/ante/evm"
+	"github.com/planq-network/planq/v2/testutil"
+	utiltx "github.com/planq-network/planq/v2/testutil/tx"
+	"github.com/planq-network/planq/v2/types"
+	"github.com/planq-network/planq/v2/utils"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 func (suite *AnteTestSuite) TestGasWantedDecorator() {

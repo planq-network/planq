@@ -18,9 +18,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/genutil"
 	genutiltypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
 
-	"github.com/planq-network/planq/crypto/hd"
-	ethermint "github.com/planq-network/planq/types"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/crypto/hd"
+	ethermint "github.com/planq-network/planq/v2/types"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 const (

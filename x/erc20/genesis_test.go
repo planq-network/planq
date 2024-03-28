@@ -13,13 +13,13 @@ import (
 	tmversion "github.com/cometbft/cometbft/proto/tendermint/version"
 	"github.com/cometbft/cometbft/version"
 
-	utiltx "github.com/planq-network/planq/testutil/tx"
-	"github.com/planq-network/planq/utils"
-	feemarkettypes "github.com/planq-network/planq/x/feemarket/types"
+	utiltx "github.com/planq-network/planq/v2/testutil/tx"
+	"github.com/planq-network/planq/v2/utils"
+	feemarkettypes "github.com/planq-network/planq/v2/x/feemarket/types"
 
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/x/erc20"
-	"github.com/planq-network/planq/x/erc20/types"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/x/erc20"
+	"github.com/planq-network/planq/v2/x/erc20/types"
 )
 
 type GenesisTestSuite struct {

@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	genutiltypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
-	"github.com/planq-network/planq/crypto/hd"
+	"github.com/planq-network/planq/v2/crypto/hd"
 	"io"
 	"os"
 	"path/filepath"
@@ -39,16 +39,16 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/crisis"
 	genutilcli "github.com/cosmos/cosmos-sdk/x/genutil/client/cli"
 
-	ethermintclient "github.com/planq-network/planq/client"
-	"github.com/planq-network/planq/client/debug"
-	"github.com/planq-network/planq/encoding"
-	"github.com/planq-network/planq/ethereum/eip712"
-	ethermintserver "github.com/planq-network/planq/server"
-	servercfg "github.com/planq-network/planq/server/config"
-	srvflags "github.com/planq-network/planq/server/flags"
+	ethermintclient "github.com/planq-network/planq/v2/client"
+	"github.com/planq-network/planq/v2/client/debug"
+	"github.com/planq-network/planq/v2/encoding"
+	"github.com/planq-network/planq/v2/ethereum/eip712"
+	ethermintserver "github.com/planq-network/planq/v2/server"
+	servercfg "github.com/planq-network/planq/v2/server/config"
+	srvflags "github.com/planq-network/planq/v2/server/flags"
 
-	"github.com/planq-network/planq/app"
-	cmdcfg "github.com/planq-network/planq/cmd/config"
+	"github.com/planq-network/planq/v2/app"
+	cmdcfg "github.com/planq-network/planq/v2/cmd/config"
 )
 
 const (

@@ -3,7 +3,7 @@ package keeper_test
 import (
 	"reflect"
 
-	"github.com/planq-network/planq/x/feemarket/types"
+	"github.com/planq-network/planq/v2/x/feemarket/types"
 )
 
 func (suite *KeeperTestSuite) TestSetGetParams() {

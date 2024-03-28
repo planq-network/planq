@@ -12,7 +12,7 @@
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the Ethermint library. If not, see https://github.com/planq-network/planq/blob/main/LICENSE
+// along with the Ethermint library. If not, see https://github.com/planq-network/planq/v2/blob/main/LICENSE
 package statedb
 
 import (
@@ -20,7 +20,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/params"
-	"github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/x/evm/types"
 )
 
 // TxConfig encapulates the readonly information of current tx for `StateDB`.

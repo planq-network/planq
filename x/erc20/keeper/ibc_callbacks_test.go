@@ -6,8 +6,8 @@ import (
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	"math/big"
 
-	"github.com/planq-network/planq/utils"
-	"github.com/planq-network/planq/x/erc20/keeper"
+	"github.com/planq-network/planq/v2/utils"
+	"github.com/planq-network/planq/v2/x/erc20/keeper"
 
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 
@@ -16,8 +16,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	"github.com/planq-network/planq/crypto/ethsecp256k1"
-	"github.com/planq-network/planq/testutil"
+	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
+	"github.com/planq-network/planq/v2/testutil"
 
 	transfertypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
 	clienttypes "github.com/cosmos/ibc-go/v7/modules/core/02-client/types"
@@ -25,8 +25,8 @@ import (
 	ibcgotesting "github.com/cosmos/ibc-go/v7/testing"
 	ibcmock "github.com/cosmos/ibc-go/v7/testing/mock"
 
-	"github.com/planq-network/planq/contracts"
-	"github.com/planq-network/planq/x/erc20/types"
+	"github.com/planq-network/planq/v2/contracts"
+	"github.com/planq-network/planq/v2/x/erc20/types"
 
 	vestingtypes "github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
 )

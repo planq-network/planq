@@ -26,7 +26,7 @@ import (
 	transfertypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
 	porttypes "github.com/cosmos/ibc-go/v7/modules/core/05-port/types"
 
-	"github.com/planq-network/planq/x/ibc/transfer/types"
+	"github.com/planq-network/planq/v2/x/ibc/transfer/types"
 )
 
 // Keeper defines the modified IBC transfer keeper that embeds the original one.

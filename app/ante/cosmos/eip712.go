@@ -32,11 +32,11 @@ import (
 	ethcrypto "github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/crypto/secp256k1"
 	"github.com/ethereum/go-ethereum/signer/core/apitypes"
-	"github.com/planq-network/planq/crypto/ethsecp256k1"
-	"github.com/planq-network/planq/ethereum/eip712"
-	"github.com/planq-network/planq/types"
+	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
+	"github.com/planq-network/planq/v2/ethereum/eip712"
+	"github.com/planq-network/planq/v2/types"
 
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 var evmosCodec codec.ProtoCodecMarshaler

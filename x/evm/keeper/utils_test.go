@@ -11,10 +11,10 @@ import (
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/planq-network/planq/server/config"
-	"github.com/planq-network/planq/testutil"
-	"github.com/planq-network/planq/x/evm/statedb"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/server/config"
+	"github.com/planq-network/planq/v2/testutil"
+	"github.com/planq-network/planq/v2/x/evm/statedb"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 	"github.com/stretchr/testify/require"
 )
 

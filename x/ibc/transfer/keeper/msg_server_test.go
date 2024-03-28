@@ -9,9 +9,9 @@ import (
 	"github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
 	channeltypes "github.com/cosmos/ibc-go/v7/modules/core/04-channel/types"
 	host "github.com/cosmos/ibc-go/v7/modules/core/24-host"
-	"github.com/planq-network/planq/testutil"
-	erc20types "github.com/planq-network/planq/x/erc20/types"
-	"github.com/planq-network/planq/x/ibc/transfer/keeper"
+	"github.com/planq-network/planq/v2/testutil"
+	erc20types "github.com/planq-network/planq/v2/x/erc20/types"
+	"github.com/planq-network/planq/v2/x/ibc/transfer/keeper"
 	"github.com/stretchr/testify/mock"
 )
 

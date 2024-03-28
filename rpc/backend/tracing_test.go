@@ -12,10 +12,10 @@ import (
 	"github.com/cosmos/cosmos-sdk/crypto"
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	"github.com/planq-network/planq/crypto/ethsecp256k1"
-	"github.com/planq-network/planq/indexer"
-	"github.com/planq-network/planq/rpc/backend/mocks"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
+	"github.com/planq-network/planq/v2/indexer"
+	"github.com/planq-network/planq/v2/rpc/backend/mocks"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 func (suite *BackendTestSuite) TestTraceTransaction() {

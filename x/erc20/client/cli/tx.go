@@ -31,9 +31,9 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 
-	planqtypes "github.com/planq-network/planq/types"
+	planqtypes "github.com/planq-network/planq/v2/types"
 
-	"github.com/planq-network/planq/x/erc20/types"
+	"github.com/planq-network/planq/v2/x/erc20/types"
 )
 
 // NewTxCmd returns a root CLI command handler for erc20 transaction commands

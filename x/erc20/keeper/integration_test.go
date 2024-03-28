@@ -15,12 +15,12 @@ import (
 	govv1beta1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/planq-network/planq/crypto/ethsecp256k1"
-	"github.com/planq-network/planq/utils"
+	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
+	"github.com/planq-network/planq/v2/utils"
 
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/testutil"
-	"github.com/planq-network/planq/x/erc20/types"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/testutil"
+	"github.com/planq-network/planq/v2/x/erc20/types"
 )
 
 var _ = Describe("Performing EVM transactions", Ordered, func() {

@@ -10,8 +10,8 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
-	"github.com/planq-network/planq/tests/e2e/upgrade"
-	"github.com/planq-network/planq/utils"
+	"github.com/planq-network/planq/v2/tests/e2e/upgrade"
+	"github.com/planq-network/planq/v2/utils"
 )
 
 const (

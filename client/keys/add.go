@@ -22,7 +22,7 @@ import (
 	"fmt"
 	"sort"
 
-	cryptohd "github.com/planq-network/planq/crypto/hd"
+	cryptohd "github.com/planq-network/planq/v2/crypto/hd"
 
 	bip39 "github.com/cosmos/go-bip39"
 	"github.com/spf13/cobra"

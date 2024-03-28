@@ -14,13 +14,13 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/auth/ante"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/cmd/config"
-	"github.com/planq-network/planq/encoding"
-	"github.com/planq-network/planq/ethereum/eip712"
-	utiltx "github.com/planq-network/planq/testutil/tx"
-	"github.com/planq-network/planq/types"
-	"github.com/planq-network/planq/utils"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/cmd/config"
+	"github.com/planq-network/planq/v2/encoding"
+	"github.com/planq-network/planq/v2/ethereum/eip712"
+	utiltx "github.com/planq-network/planq/v2/testutil/tx"
+	"github.com/planq-network/planq/v2/types"
+	"github.com/planq-network/planq/v2/utils"
 	"github.com/stretchr/testify/require"
 )
 

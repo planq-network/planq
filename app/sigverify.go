@@ -12,7 +12,7 @@ import (
 	authante "github.com/cosmos/cosmos-sdk/x/auth/ante"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 
-	"github.com/planq-network/planq/crypto/ethsecp256k1"
+	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
 )
 
 var _ authante.SignatureVerificationGasConsumer = SigVerificationGasConsumer

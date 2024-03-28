@@ -12,17 +12,17 @@
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the Ethermint library. If not, see https://github.com/planq-network/planq/blob/main/LICENSE
+// along with the Ethermint library. If not, see https://github.com/planq-network/planq/v2/blob/main/LICENSE
 package cli
 
 import (
-	rpctypes "github.com/planq-network/planq/rpc/types"
+	rpctypes "github.com/planq-network/planq/v2/rpc/types"
 	"github.com/spf13/cobra"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 
-	"github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/x/evm/types"
 )
 
 // GetQueryCmd returns the parent command for all x/bank CLi query commands.

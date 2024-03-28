@@ -12,7 +12,7 @@
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the Ethermint library. If not, see https://github.com/planq-network/planq/blob/main/LICENSE
+// along with the Ethermint library. If not, see https://github.com/planq-network/planq/v2/blob/main/LICENSE
 package rpc
 
 import (
@@ -42,11 +42,11 @@ import (
 	rpcclient "github.com/cometbft/cometbft/rpc/jsonrpc/client"
 	tmtypes "github.com/cometbft/cometbft/types"
 
-	"github.com/planq-network/planq/rpc/ethereum/pubsub"
-	rpcfilters "github.com/planq-network/planq/rpc/namespaces/ethereum/eth/filters"
-	"github.com/planq-network/planq/rpc/types"
-	"github.com/planq-network/planq/server/config"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/rpc/ethereum/pubsub"
+	rpcfilters "github.com/planq-network/planq/v2/rpc/namespaces/ethereum/eth/filters"
+	"github.com/planq-network/planq/v2/rpc/types"
+	"github.com/planq-network/planq/v2/server/config"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 type WebsocketsServer interface {

@@ -12,7 +12,7 @@
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the Ethermint library. If not, see https://github.com/planq-network/planq/blob/main/LICENSE
+// along with the Ethermint library. If not, see https://github.com/planq-network/planq/v2/blob/main/LICENSE
 package backend
 
 import (
@@ -32,10 +32,10 @@ import (
 	"github.com/ethereum/go-ethereum/params"
 	"github.com/ethereum/go-ethereum/rpc"
 	"github.com/ethereum/go-ethereum/signer/core/apitypes"
-	rpctypes "github.com/planq-network/planq/rpc/types"
-	"github.com/planq-network/planq/server/config"
-	ethermint "github.com/planq-network/planq/types"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	rpctypes "github.com/planq-network/planq/v2/rpc/types"
+	"github.com/planq-network/planq/v2/server/config"
+	ethermint "github.com/planq-network/planq/v2/types"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 // BackendI implements the Cosmos and EVM backend.

@@ -6,8 +6,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 
-	utiltx "github.com/planq-network/planq/testutil/tx"
-	"github.com/planq-network/planq/x/erc20/types"
+	utiltx "github.com/planq-network/planq/v2/testutil/tx"
+	"github.com/planq-network/planq/v2/x/erc20/types"
 )
 
 func (suite *KeeperTestSuite) TestMintingEnabled() {

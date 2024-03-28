@@ -26,8 +26,8 @@ import (
 	"github.com/cosmos/ibc-go/v7/modules/core/exported"
 
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/planq-network/planq/ibc"
-	"github.com/planq-network/planq/x/erc20/keeper"
+	"github.com/planq-network/planq/v2/ibc"
+	"github.com/planq-network/planq/v2/x/erc20/keeper"
 )
 
 var _ porttypes.IBCModule = &IBCMiddleware{}

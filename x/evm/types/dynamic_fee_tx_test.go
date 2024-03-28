@@ -10,7 +10,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	"github.com/planq-network/planq/tests"
+	"github.com/planq-network/planq/v2/tests"
 	"github.com/stretchr/testify/suite"
 )
 

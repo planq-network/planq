@@ -5,8 +5,8 @@ import (
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	v4types "github.com/planq-network/planq/x/evm/migrations/v2/types"
-	"github.com/planq-network/planq/x/evm/types"
+	v4types "github.com/planq-network/planq/v2/x/evm/migrations/v2/types"
+	"github.com/planq-network/planq/v2/x/evm/types"
 )
 
 // MigrateStore migrates the x/evm module state from the consensus version 3 to

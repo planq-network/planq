@@ -19,8 +19,8 @@ package testutil
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
-	evm "github.com/planq-network/planq/x/evm/keeper"
-	"github.com/planq-network/planq/x/evm/statedb"
+	evm "github.com/planq-network/planq/v2/x/evm/keeper"
+	"github.com/planq-network/planq/v2/x/evm/statedb"
 )
 
 // NewStateDB returns a new StateDB for testing purposes.

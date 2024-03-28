@@ -10,10 +10,10 @@ import (
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	goethcrypto "github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/signer/core/apitypes"
-	"github.com/planq-network/planq/crypto/ethsecp256k1"
-	"github.com/planq-network/planq/rpc/backend/mocks"
-	"github.com/planq-network/planq/tests"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
+	"github.com/planq-network/planq/v2/rpc/backend/mocks"
+	"github.com/planq-network/planq/v2/tests"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 	"google.golang.org/grpc/metadata"
 )
 

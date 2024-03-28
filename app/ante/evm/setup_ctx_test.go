@@ -3,13 +3,13 @@ package evm_test
 import (
 	"math/big"
 
-	evmante "github.com/planq-network/planq/app/ante/evm"
-	"github.com/planq-network/planq/testutil"
+	evmante "github.com/planq-network/planq/v2/app/ante/evm"
+	"github.com/planq-network/planq/v2/testutil"
 
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	testutiltx "github.com/planq-network/planq/testutil/tx"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	testutiltx "github.com/planq-network/planq/v2/testutil/tx"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 func (suite *AnteTestSuite) TestEthSetupContextDecorator() {

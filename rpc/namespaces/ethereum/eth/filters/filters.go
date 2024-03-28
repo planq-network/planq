@@ -12,7 +12,7 @@
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the Ethermint library. If not, see https://github.com/planq-network/planq/blob/main/LICENSE
+// along with the Ethermint library. If not, see https://github.com/planq-network/planq/v2/blob/main/LICENSE
 package filters
 
 import (
@@ -21,8 +21,8 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/planq-network/planq/rpc/backend"
-	"github.com/planq-network/planq/rpc/types"
+	"github.com/planq-network/planq/v2/rpc/backend"
+	"github.com/planq-network/planq/v2/rpc/types"
 
 	"github.com/cometbft/cometbft/libs/log"
 	tmrpctypes "github.com/cometbft/cometbft/rpc/core/types"

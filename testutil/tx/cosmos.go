@@ -26,8 +26,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/tx/signing"
 	authsigning "github.com/cosmos/cosmos-sdk/x/auth/signing"
 
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/utils"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/utils"
 )
 
 var (

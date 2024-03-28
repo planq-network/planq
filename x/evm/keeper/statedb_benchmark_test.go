@@ -10,7 +10,7 @@ import (
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
 
-	"github.com/planq-network/planq/tests"
+	"github.com/planq-network/planq/v2/tests"
 )
 
 func BenchmarkCreateAccountNew(b *testing.B) {

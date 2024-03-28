@@ -12,7 +12,7 @@
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the Ethermint library. If not, see https://github.com/planq-network/planq/blob/main/LICENSE
+// along with the Ethermint library. If not, see https://github.com/planq-network/planq/v2/blob/main/LICENSE
 package server
 
 import (
@@ -62,11 +62,11 @@ import (
 	pruningtypes "github.com/cosmos/cosmos-sdk/store/pruning/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/planq-network/planq/indexer"
-	ethdebug "github.com/planq-network/planq/rpc/namespaces/ethereum/debug"
-	"github.com/planq-network/planq/server/config"
-	srvflags "github.com/planq-network/planq/server/flags"
-	ethermint "github.com/planq-network/planq/types"
+	"github.com/planq-network/planq/v2/indexer"
+	ethdebug "github.com/planq-network/planq/v2/rpc/namespaces/ethereum/debug"
+	"github.com/planq-network/planq/v2/server/config"
+	srvflags "github.com/planq-network/planq/v2/server/flags"
+	ethermint "github.com/planq-network/planq/v2/types"
 )
 
 // DBOpener is a function to open `application.db`, potentially with customized options.

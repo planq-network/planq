@@ -8,10 +8,10 @@ import (
 	sdktestutil "github.com/cosmos/cosmos-sdk/testutil/testdata"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/feegrant"
-	cosmosante "github.com/planq-network/planq/app/ante/cosmos"
-	"github.com/planq-network/planq/testutil"
-	testutiltx "github.com/planq-network/planq/testutil/tx"
-	"github.com/planq-network/planq/utils"
+	cosmosante "github.com/planq-network/planq/v2/app/ante/cosmos"
+	"github.com/planq-network/planq/v2/testutil"
+	testutiltx "github.com/planq-network/planq/v2/testutil/tx"
+	"github.com/planq-network/planq/v2/utils"
 )
 
 func (suite *AnteTestSuite) TestDeductFeeDecorator() {

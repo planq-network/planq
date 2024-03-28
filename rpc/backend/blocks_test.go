@@ -14,10 +14,10 @@ import (
 	"github.com/ethereum/go-ethereum/trie"
 	"google.golang.org/grpc/metadata"
 
-	"github.com/planq-network/planq/rpc/backend/mocks"
-	ethrpc "github.com/planq-network/planq/rpc/types"
-	"github.com/planq-network/planq/tests"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/rpc/backend/mocks"
+	ethrpc "github.com/planq-network/planq/v2/rpc/types"
+	"github.com/planq-network/planq/v2/tests"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 func (suite *BackendTestSuite) TestBlockNumber() {

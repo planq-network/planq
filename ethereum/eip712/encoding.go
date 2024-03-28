@@ -26,7 +26,7 @@ import (
 	txTypes "github.com/cosmos/cosmos-sdk/types/tx"
 
 	apitypes "github.com/ethereum/go-ethereum/signer/core/apitypes"
-	planqtypes "github.com/planq-network/planq/types"
+	planqtypes "github.com/planq-network/planq/v2/types"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 )

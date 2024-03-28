@@ -21,7 +21,7 @@ import (
 	cryptocodec "github.com/cosmos/cosmos-sdk/crypto/codec"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 
-	"github.com/planq-network/planq/crypto/ethsecp256k1"
+	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
 )
 
 // RegisterCrypto registers all crypto dependency types with the provided Amino

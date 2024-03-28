@@ -12,7 +12,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/auth/migrations/legacytx"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	"github.com/planq-network/planq/ethereum/eip712"
+	"github.com/planq-network/planq/v2/ethereum/eip712"
 
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
@@ -32,15 +32,15 @@ import (
 	authz "github.com/cosmos/cosmos-sdk/x/authz"
 	ibctypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
 	ibcclienttypes "github.com/cosmos/ibc-go/v7/modules/core/02-client/types"
-	"github.com/planq-network/planq/crypto/ethsecp256k1"
+	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
 
 	"github.com/cosmos/cosmos-sdk/crypto/keys/ed25519"
 	evtypes "github.com/cosmos/cosmos-sdk/x/evidence/types"
 	"github.com/cosmos/cosmos-sdk/x/feegrant"
 	govtypesv1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
-	utiltx "github.com/planq-network/planq/testutil/tx"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	utiltx "github.com/planq-network/planq/v2/testutil/tx"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 func (suite *AnteTestSuite) BuildTestEthTx(

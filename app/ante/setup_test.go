@@ -9,12 +9,12 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/client"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/crypto/ethsecp256k1"
-	"github.com/planq-network/planq/encoding"
-	"github.com/planq-network/planq/testutil"
-	"github.com/planq-network/planq/utils"
-	feemarkettypes "github.com/planq-network/planq/x/feemarket/types"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
+	"github.com/planq-network/planq/v2/encoding"
+	"github.com/planq-network/planq/v2/testutil"
+	"github.com/planq-network/planq/v2/utils"
+	feemarkettypes "github.com/planq-network/planq/v2/x/feemarket/types"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 )

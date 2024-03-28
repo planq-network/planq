@@ -12,8 +12,8 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	ethermint "github.com/planq-network/planq/types"
-	"github.com/planq-network/planq/x/evm/types"
+	ethermint "github.com/planq-network/planq/v2/types"
+	"github.com/planq-network/planq/v2/x/evm/types"
 )
 
 func SetupContract(b *testing.B) (*KeeperTestSuite, common.Address) {

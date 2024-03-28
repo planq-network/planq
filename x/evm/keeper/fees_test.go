@@ -8,8 +8,8 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	ethparams "github.com/ethereum/go-ethereum/params"
-	"github.com/planq-network/planq/x/evm/keeper"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/x/evm/keeper"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 func (suite *KeeperTestSuite) TestCheckSenderBalance() {

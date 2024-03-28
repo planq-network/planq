@@ -12,7 +12,7 @@
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the Ethermint library. If not, see https://github.com/planq-network/planq/blob/main/LICENSE
+// along with the Ethermint library. If not, see https://github.com/planq-network/planq/v2/blob/main/LICENSE
 package evm
 
 import (
@@ -33,9 +33,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 
-	"github.com/planq-network/planq/x/evm/client/cli"
-	"github.com/planq-network/planq/x/evm/keeper"
-	"github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/x/evm/client/cli"
+	"github.com/planq-network/planq/v2/x/evm/keeper"
+	"github.com/planq-network/planq/v2/x/evm/types"
 )
 
 var (

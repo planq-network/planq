@@ -4,7 +4,7 @@ import (
 	_ "embed" // embed compiled smart contract
 	"encoding/json"
 
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 var (

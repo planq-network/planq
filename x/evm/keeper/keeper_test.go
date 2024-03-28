@@ -6,10 +6,10 @@ import (
 
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 
-	evmostypes "github.com/planq-network/planq/types"
-	"github.com/planq-network/planq/x/evm/keeper"
-	"github.com/planq-network/planq/x/evm/statedb"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	evmostypes "github.com/planq-network/planq/v2/types"
+	"github.com/planq-network/planq/v2/x/evm/keeper"
+	"github.com/planq-network/planq/v2/x/evm/statedb"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 
 	"github.com/ethereum/go-ethereum/common"
 

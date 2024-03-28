@@ -25,8 +25,8 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
-	clientkeys "github.com/planq-network/planq/client/keys"
-	"github.com/planq-network/planq/crypto/hd"
+	clientkeys "github.com/planq-network/planq/v2/client/keys"
+	"github.com/planq-network/planq/v2/crypto/hd"
 )
 
 // KeyCommands registers a sub-tree of commands to interact with

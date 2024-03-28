@@ -10,9 +10,9 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	"github.com/planq-network/planq/crypto/ethsecp256k1"
-	"github.com/planq-network/planq/testutil"
-	utiltx "github.com/planq-network/planq/testutil/tx"
+	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
+	"github.com/planq-network/planq/v2/testutil"
+	utiltx "github.com/planq-network/planq/v2/testutil/tx"
 
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 )

@@ -20,7 +20,7 @@ import (
 	"github.com/cometbft/cometbft/crypto/tmhash"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
-	planqtypes "github.com/planq-network/planq/types"
+	planqtypes "github.com/planq-network/planq/v2/types"
 )
 
 // NewTokenPair returns an instance of TokenPair

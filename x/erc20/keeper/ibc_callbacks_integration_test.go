@@ -13,12 +13,12 @@ import (
 	channeltypes "github.com/cosmos/ibc-go/v7/modules/core/04-channel/types"
 	"github.com/ethereum/go-ethereum/common"
 	. "github.com/onsi/ginkgo/v2"
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/contracts"
-	ibctesting "github.com/planq-network/planq/ibc/testing"
-	teststypes "github.com/planq-network/planq/types/tests"
-	"github.com/planq-network/planq/utils"
-	"github.com/planq-network/planq/x/erc20/types"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/contracts"
+	ibctesting "github.com/planq-network/planq/v2/ibc/testing"
+	teststypes "github.com/planq-network/planq/v2/types/tests"
+	"github.com/planq-network/planq/v2/utils"
+	"github.com/planq-network/planq/v2/x/erc20/types"
 )
 
 var _ = Describe("Convert receiving IBC to Erc20", Ordered, func() {

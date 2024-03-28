@@ -35,7 +35,7 @@ import (
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	tmtypes "github.com/cometbft/cometbft/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/planq-network/planq/encoding"
+	"github.com/planq-network/planq/v2/encoding"
 )
 
 // EthDefaultConsensusParams defines the default Tendermint consensus params used in

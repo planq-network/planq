@@ -7,10 +7,10 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	evmante "github.com/planq-network/planq/app/ante/evm"
-	"github.com/planq-network/planq/testutil"
-	testutiltx "github.com/planq-network/planq/testutil/tx"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	evmante "github.com/planq-network/planq/v2/app/ante/evm"
+	"github.com/planq-network/planq/v2/testutil"
+	testutiltx "github.com/planq-network/planq/v2/testutil/tx"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 var execTypes = []struct {

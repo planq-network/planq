@@ -12,12 +12,12 @@
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the Ethermint library. If not, see https://github.com/planq-network/planq/blob/main/LICENSE
+// along with the Ethermint library. If not, see https://github.com/planq-network/planq/v2/blob/main/LICENSE
 package types
 
 import (
 	"fmt"
-	"github.com/planq-network/planq/utils"
+	"github.com/planq-network/planq/v2/utils"
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/params"

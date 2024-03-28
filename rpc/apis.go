@@ -12,7 +12,7 @@
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the Ethermint library. If not, see https://github.com/planq-network/planq/blob/main/LICENSE
+// along with the Ethermint library. If not, see https://github.com/planq-network/planq/v2/blob/main/LICENSE
 package rpc
 
 import (
@@ -23,16 +23,16 @@ import (
 
 	"github.com/ethereum/go-ethereum/rpc"
 
-	"github.com/planq-network/planq/rpc/backend"
-	"github.com/planq-network/planq/rpc/namespaces/ethereum/debug"
-	"github.com/planq-network/planq/rpc/namespaces/ethereum/eth"
-	"github.com/planq-network/planq/rpc/namespaces/ethereum/eth/filters"
-	"github.com/planq-network/planq/rpc/namespaces/ethereum/miner"
-	"github.com/planq-network/planq/rpc/namespaces/ethereum/net"
-	"github.com/planq-network/planq/rpc/namespaces/ethereum/personal"
-	"github.com/planq-network/planq/rpc/namespaces/ethereum/txpool"
-	"github.com/planq-network/planq/rpc/namespaces/ethereum/web3"
-	ethermint "github.com/planq-network/planq/types"
+	"github.com/planq-network/planq/v2/rpc/backend"
+	"github.com/planq-network/planq/v2/rpc/namespaces/ethereum/debug"
+	"github.com/planq-network/planq/v2/rpc/namespaces/ethereum/eth"
+	"github.com/planq-network/planq/v2/rpc/namespaces/ethereum/eth/filters"
+	"github.com/planq-network/planq/v2/rpc/namespaces/ethereum/miner"
+	"github.com/planq-network/planq/v2/rpc/namespaces/ethereum/net"
+	"github.com/planq-network/planq/v2/rpc/namespaces/ethereum/personal"
+	"github.com/planq-network/planq/v2/rpc/namespaces/ethereum/txpool"
+	"github.com/planq-network/planq/v2/rpc/namespaces/ethereum/web3"
+	ethermint "github.com/planq-network/planq/v2/types"
 
 	rpcclient "github.com/cometbft/cometbft/rpc/jsonrpc/client"
 )

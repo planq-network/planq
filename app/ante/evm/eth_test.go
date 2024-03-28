@@ -6,14 +6,14 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	ethante "github.com/planq-network/planq/app/ante/evm"
-	"github.com/planq-network/planq/server/config"
-	"github.com/planq-network/planq/testutil"
-	testutiltx "github.com/planq-network/planq/testutil/tx"
-	"github.com/planq-network/planq/types"
-	"github.com/planq-network/planq/utils"
-	"github.com/planq-network/planq/x/evm/statedb"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	ethante "github.com/planq-network/planq/v2/app/ante/evm"
+	"github.com/planq-network/planq/v2/server/config"
+	"github.com/planq-network/planq/v2/testutil"
+	testutiltx "github.com/planq-network/planq/v2/testutil/tx"
+	"github.com/planq-network/planq/v2/types"
+	"github.com/planq-network/planq/v2/utils"
+	"github.com/planq-network/planq/v2/x/evm/statedb"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 )

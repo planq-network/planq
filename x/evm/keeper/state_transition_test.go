@@ -15,10 +15,10 @@ import (
 	"github.com/ethereum/go-ethereum/core"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/params"
-	"github.com/planq-network/planq/tests"
-	"github.com/planq-network/planq/x/evm/keeper"
-	"github.com/planq-network/planq/x/evm/statedb"
-	"github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/tests"
+	"github.com/planq-network/planq/v2/x/evm/keeper"
+	"github.com/planq-network/planq/v2/x/evm/statedb"
+	"github.com/planq-network/planq/v2/x/evm/types"
 )
 
 func (suite *KeeperTestSuite) TestGetHashFn() {

@@ -18,15 +18,15 @@ import (
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/crypto/ethsecp256k1"
-	"github.com/planq-network/planq/crypto/hd"
-	"github.com/planq-network/planq/encoding"
-	"github.com/planq-network/planq/indexer"
-	"github.com/planq-network/planq/rpc/backend/mocks"
-	rpctypes "github.com/planq-network/planq/rpc/types"
-	"github.com/planq-network/planq/tests"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
+	"github.com/planq-network/planq/v2/crypto/hd"
+	"github.com/planq-network/planq/v2/encoding"
+	"github.com/planq-network/planq/v2/indexer"
+	"github.com/planq-network/planq/v2/rpc/backend/mocks"
+	rpctypes "github.com/planq-network/planq/v2/rpc/types"
+	"github.com/planq-network/planq/v2/tests"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 type BackendTestSuite struct {

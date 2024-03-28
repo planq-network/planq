@@ -17,7 +17,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	baseconfig "github.com/planq-network/planq/cmd/config"
+	baseconfig "github.com/planq-network/planq/v2/cmd/config"
 )
 
 const (

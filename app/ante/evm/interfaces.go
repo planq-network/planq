@@ -25,9 +25,9 @@ import (
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/ethereum/go-ethereum/params"
 
-	"github.com/planq-network/planq/x/evm/statedb"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
-	feemarkettypes "github.com/planq-network/planq/x/feemarket/types"
+	"github.com/planq-network/planq/v2/x/evm/statedb"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
+	feemarkettypes "github.com/planq-network/planq/v2/x/feemarket/types"
 )
 
 // EVMKeeper defines the expected keeper interface used on the AnteHandler

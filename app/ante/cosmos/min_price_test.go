@@ -4,10 +4,10 @@ import (
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	cosmosante "github.com/planq-network/planq/app/ante/cosmos"
-	"github.com/planq-network/planq/testutil"
-	testutiltx "github.com/planq-network/planq/testutil/tx"
-	"github.com/planq-network/planq/utils"
+	cosmosante "github.com/planq-network/planq/v2/app/ante/cosmos"
+	"github.com/planq-network/planq/v2/testutil"
+	testutiltx "github.com/planq-network/planq/v2/testutil/tx"
+	"github.com/planq-network/planq/v2/utils"
 )
 
 var execTypes = []struct {

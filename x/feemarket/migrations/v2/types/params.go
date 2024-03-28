@@ -3,7 +3,7 @@ package types
 import (
 	"fmt"
 
-	"github.com/planq-network/planq/x/feemarket/types"
+	"github.com/planq-network/planq/v2/x/feemarket/types"
 
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"

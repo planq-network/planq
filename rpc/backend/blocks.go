@@ -12,7 +12,7 @@
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the Ethermint library. If not, see https://github.com/planq-network/planq/blob/main/LICENSE
+// along with the Ethermint library. If not, see https://github.com/planq-network/planq/v2/blob/main/LICENSE
 package backend
 
 import (
@@ -29,8 +29,8 @@ import (
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/trie"
 	"github.com/pkg/errors"
-	rpctypes "github.com/planq-network/planq/rpc/types"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	rpctypes "github.com/planq-network/planq/v2/rpc/types"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 )

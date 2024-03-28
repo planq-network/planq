@@ -12,7 +12,7 @@
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the Ethermint library. If not, see https://github.com/planq-network/planq/blob/main/LICENSE
+// along with the Ethermint library. If not, see https://github.com/planq-network/planq/v2/blob/main/LICENSE
 package filters
 
 import (
@@ -22,7 +22,7 @@ import (
 	"time"
 
 	"github.com/cosmos/cosmos-sdk/client"
-	"github.com/planq-network/planq/rpc/types"
+	"github.com/planq-network/planq/v2/rpc/types"
 
 	"github.com/cometbft/cometbft/libs/log"
 
@@ -35,7 +35,7 @@ import (
 	"github.com/ethereum/go-ethereum/eth/filters"
 	"github.com/ethereum/go-ethereum/rpc"
 
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 // FilterAPI gathers

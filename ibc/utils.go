@@ -24,7 +24,7 @@ import (
 	transfertypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
 	channeltypes "github.com/cosmos/ibc-go/v7/modules/core/04-channel/types"
 
-	"github.com/planq-network/planq/utils"
+	"github.com/planq-network/planq/v2/utils"
 )
 
 // GetTransferSenderRecipient returns the sender and recipient sdk.AccAddresses

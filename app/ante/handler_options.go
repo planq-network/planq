@@ -11,11 +11,11 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	ibcante "github.com/cosmos/ibc-go/v7/modules/core/ante"
 	ibckeeper "github.com/cosmos/ibc-go/v7/modules/core/keeper"
-	anteutils "github.com/planq-network/planq/app/ante/utils"
+	anteutils "github.com/planq-network/planq/v2/app/ante/utils"
 
-	cosmosante "github.com/planq-network/planq/app/ante/cosmos"
-	evmante "github.com/planq-network/planq/app/ante/evm"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	cosmosante "github.com/planq-network/planq/v2/app/ante/cosmos"
+	evmante "github.com/planq-network/planq/v2/app/ante/evm"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 
 	sdkvesting "github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
 )

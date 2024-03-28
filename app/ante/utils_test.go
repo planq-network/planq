@@ -6,8 +6,8 @@ import (
 
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	"github.com/planq-network/planq/app/ante"
-	"github.com/planq-network/planq/crypto/ethsecp256k1"
+	"github.com/planq-network/planq/v2/app/ante"
+	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
 )
 
 func generatePubKeysAndSignatures(n int, msg []byte, _ bool) (pubkeys []cryptotypes.PubKey, signatures [][]byte) {

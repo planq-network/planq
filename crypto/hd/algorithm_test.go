@@ -13,9 +13,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 
-	cryptocodec "github.com/planq-network/planq/crypto/codec"
-	enccodec "github.com/planq-network/planq/encoding/codec"
-	planqtypes "github.com/planq-network/planq/types"
+	cryptocodec "github.com/planq-network/planq/v2/crypto/codec"
+	enccodec "github.com/planq-network/planq/v2/encoding/codec"
+	planqtypes "github.com/planq-network/planq/v2/types"
 )
 
 var TestCodec amino.Codec

@@ -12,7 +12,7 @@
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the Ethermint library. If not, see https://github.com/planq-network/planq/blob/main/LICENSE
+// along with the Ethermint library. If not, see https://github.com/planq-network/planq/v2/blob/main/LICENSE
 package types
 
 import (
@@ -25,8 +25,8 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/client"
 
-	evmtypes "github.com/planq-network/planq/x/evm/types"
-	feemarkettypes "github.com/planq-network/planq/x/feemarket/types"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
+	feemarkettypes "github.com/planq-network/planq/v2/x/feemarket/types"
 )
 
 // QueryClient defines a gRPC Client used for:

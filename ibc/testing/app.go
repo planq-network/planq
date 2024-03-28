@@ -35,9 +35,9 @@ import (
 
 	ibcgotesting "github.com/cosmos/ibc-go/v7/testing"
 
-	evmosapp "github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/types"
-	"github.com/planq-network/planq/utils"
+	evmosapp "github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/types"
+	"github.com/planq-network/planq/v2/utils"
 )
 
 var DefaultTestingAppInit func() (ibcgotesting.TestingApp, map[string]json.RawMessage) = evmosapp.SetupTestingApp

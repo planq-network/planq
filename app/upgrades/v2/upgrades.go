@@ -26,11 +26,11 @@ import (
 	icatypes "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/types"
 	ibctransfertypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
 	ibctmmigrations "github.com/cosmos/ibc-go/v7/modules/light-clients/07-tendermint/migrations"
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/app/keepers"
-	evmkeeper "github.com/planq-network/planq/x/evm/keeper"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
-	feemarkettypes "github.com/planq-network/planq/x/feemarket/types"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/app/keepers"
+	evmkeeper "github.com/planq-network/planq/v2/x/evm/keeper"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
+	feemarkettypes "github.com/planq-network/planq/v2/x/feemarket/types"
 )
 
 func CreateUpgradeHandler(

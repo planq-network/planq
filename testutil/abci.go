@@ -26,9 +26,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
 
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/encoding"
-	"github.com/planq-network/planq/testutil/tx"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/encoding"
+	"github.com/planq-network/planq/v2/testutil/tx"
 )
 
 // Commit commits a block at a given time. Reminder: At the end of each

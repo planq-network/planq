@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/planq-network/planq/x/evm/keeper"
+	"github.com/planq-network/planq/v2/x/evm/keeper"
 
 	sdkmath "cosmossdk.io/math"
 	"github.com/gogo/protobuf/proto"
@@ -18,7 +18,7 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 
-	feemarkettypes "github.com/planq-network/planq/x/feemarket/types"
+	feemarkettypes "github.com/planq-network/planq/v2/x/feemarket/types"
 
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/common"
@@ -33,13 +33,13 @@ import (
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/crypto/ethsecp256k1"
-	"github.com/planq-network/planq/tests"
-	ethermint "github.com/planq-network/planq/types"
-	"github.com/planq-network/planq/x/evm"
-	"github.com/planq-network/planq/x/evm/statedb"
-	"github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
+	"github.com/planq-network/planq/v2/tests"
+	ethermint "github.com/planq-network/planq/v2/types"
+	"github.com/planq-network/planq/v2/x/evm"
+	"github.com/planq-network/planq/v2/x/evm/statedb"
+	"github.com/planq-network/planq/v2/x/evm/types"
 
 	"github.com/cometbft/cometbft/crypto/tmhash"
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"

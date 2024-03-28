@@ -13,9 +13,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	authtx "github.com/cosmos/cosmos-sdk/x/auth/tx"
 	"github.com/ethereum/go-ethereum/params"
-	"github.com/planq-network/planq/encoding"
-	"github.com/planq-network/planq/types"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/encoding"
+	"github.com/planq-network/planq/v2/types"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 var _ DynamicFeeEVMKeeper = MockEVMKeeper{}

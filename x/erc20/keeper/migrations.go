@@ -19,8 +19,8 @@ package keeper
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
-	v2 "github.com/planq-network/planq/x/erc20/migrations/v2"
-	"github.com/planq-network/planq/x/erc20/types"
+	v2 "github.com/planq-network/planq/v2/x/erc20/migrations/v2"
+	"github.com/planq-network/planq/v2/x/erc20/types"
 )
 
 var _ module.MigrationHandler = Migrator{}.Migrate1to2

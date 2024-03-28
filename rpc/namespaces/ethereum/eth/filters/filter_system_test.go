@@ -13,7 +13,7 @@ import (
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/eth/filters"
 	"github.com/ethereum/go-ethereum/rpc"
-	"github.com/planq-network/planq/rpc/ethereum/pubsub"
+	"github.com/planq-network/planq/v2/rpc/ethereum/pubsub"
 )
 
 func makeSubscription(id, event string) *Subscription {

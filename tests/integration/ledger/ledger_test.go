@@ -9,12 +9,12 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/crypto/hd"
-	"github.com/planq-network/planq/encoding"
-	"github.com/planq-network/planq/tests/integration/ledger/mocks"
-	"github.com/planq-network/planq/testutil"
-	utiltx "github.com/planq-network/planq/testutil/tx"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/crypto/hd"
+	"github.com/planq-network/planq/v2/encoding"
+	"github.com/planq-network/planq/v2/tests/integration/ledger/mocks"
+	"github.com/planq-network/planq/v2/testutil"
+	utiltx "github.com/planq-network/planq/v2/testutil/tx"
 
 	"github.com/spf13/cobra"
 

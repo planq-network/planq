@@ -5,15 +5,15 @@ import (
 
 	sdkmath "cosmossdk.io/math"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	testutiltx "github.com/planq-network/planq/testutil/tx"
+	testutiltx "github.com/planq-network/planq/v2/testutil/tx"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/planq-network/planq/crypto/ethsecp256k1"
-	"github.com/planq-network/planq/testutil"
-	"github.com/planq-network/planq/utils"
+	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
+	"github.com/planq-network/planq/v2/testutil"
+	"github.com/planq-network/planq/v2/utils"
 )
 
 var _ = Describe("when sending a Cosmos transaction", func() {

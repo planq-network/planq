@@ -24,9 +24,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/input"
 	"github.com/cosmos/cosmos-sdk/crypto"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/planq-network/planq/crypto/ethsecp256k1"
+	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
 
-	"github.com/planq-network/planq/crypto/hd"
+	"github.com/planq-network/planq/v2/crypto/hd"
 )
 
 // UnsafeImportKeyCommand imports private keys from a keyfile.

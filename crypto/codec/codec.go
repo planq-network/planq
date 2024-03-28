@@ -19,7 +19,7 @@ import (
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 
-	"github.com/planq-network/planq/crypto/ethsecp256k1"
+	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
 )
 
 // RegisterInterfaces register the Evmos key concrete types.

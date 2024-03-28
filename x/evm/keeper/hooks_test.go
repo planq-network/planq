@@ -9,9 +9,9 @@ import (
 	"github.com/ethereum/go-ethereum/core"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 
-	"github.com/planq-network/planq/x/evm/keeper"
-	"github.com/planq-network/planq/x/evm/statedb"
-	"github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/x/evm/keeper"
+	"github.com/planq-network/planq/v2/x/evm/statedb"
+	"github.com/planq-network/planq/v2/x/evm/types"
 )
 
 // LogRecordHook records all the logs

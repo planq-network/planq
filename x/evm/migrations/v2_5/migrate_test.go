@@ -7,11 +7,11 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
 
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/encoding"
-	v5 "github.com/planq-network/planq/x/evm/migrations/v2_5"
-	v5types "github.com/planq-network/planq/x/evm/migrations/v2_5/types"
-	"github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/encoding"
+	v5 "github.com/planq-network/planq/v2/x/evm/migrations/v2_5"
+	v5types "github.com/planq-network/planq/v2/x/evm/migrations/v2_5/types"
+	"github.com/planq-network/planq/v2/x/evm/types"
 )
 
 func TestMigrate(t *testing.T) {

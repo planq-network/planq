@@ -4,10 +4,10 @@ import (
 	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	anteutils "github.com/planq-network/planq/app/ante/utils"
-	"github.com/planq-network/planq/testutil"
-	testutiltx "github.com/planq-network/planq/testutil/tx"
-	"github.com/planq-network/planq/utils"
+	anteutils "github.com/planq-network/planq/v2/app/ante/utils"
+	"github.com/planq-network/planq/v2/testutil"
+	testutiltx "github.com/planq-network/planq/v2/testutil/tx"
+	"github.com/planq-network/planq/v2/utils"
 )
 
 // TestClaimStakingRewardsIfNecessary tests the ClaimStakingRewardsIfNecessary function

@@ -5,17 +5,17 @@ import (
 
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/encoding"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/encoding"
 
-	v3types "github.com/planq-network/planq/x/erc20/migrations/v3/types"
+	v3types "github.com/planq-network/planq/v2/x/erc20/migrations/v3/types"
 
-	"github.com/planq-network/planq/x/erc20/types"
+	"github.com/planq-network/planq/v2/x/erc20/types"
 	"github.com/stretchr/testify/require"
 
 	"github.com/cosmos/cosmos-sdk/testutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/planq-network/planq/x/erc20/migrations/v3"
+	"github.com/planq-network/planq/v2/x/erc20/migrations/v3"
 )
 
 type mockSubspace struct {

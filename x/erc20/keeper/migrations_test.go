@@ -7,11 +7,11 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/encoding"
-	erc20keeper "github.com/planq-network/planq/x/erc20/keeper"
-	v3types "github.com/planq-network/planq/x/erc20/migrations/v3/types"
-	"github.com/planq-network/planq/x/erc20/types"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/encoding"
+	erc20keeper "github.com/planq-network/planq/v2/x/erc20/keeper"
+	v3types "github.com/planq-network/planq/v2/x/erc20/migrations/v3/types"
+	"github.com/planq-network/planq/v2/x/erc20/types"
 )
 
 type mockSubspace struct {

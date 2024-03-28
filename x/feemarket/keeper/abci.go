@@ -12,7 +12,7 @@
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the Ethermint library. If not, see https://github.com/planq-network/planq/blob/main/LICENSE
+// along with the Ethermint library. If not, see https://github.com/planq-network/planq/v2/blob/main/LICENSE
 package keeper
 
 import (
@@ -20,7 +20,7 @@ import (
 	"fmt"
 
 	abci "github.com/cometbft/cometbft/abci/types"
-	"github.com/planq-network/planq/x/feemarket/types"
+	"github.com/planq-network/planq/v2/x/feemarket/types"
 
 	"github.com/cosmos/cosmos-sdk/telemetry"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -75,7 +75,7 @@ func (k *Keeper) EndBlock(ctx sdk.Context, _ abci.RequestEndBlock) {
 	// to prevent BaseFee manipulation we limit the gasWanted so that
 	// gasWanted = max(gasWanted * MinGasMultiplier, gasUsed)
 	// this will be keep BaseFee protected from un-penalized manipulation
-	// more info here https://github.com/planq-network/planq/pull/1105#discussion_r888798925
+	// more info here https://github.com/planq-network/planq/v2/pull/1105#discussion_r888798925
 	minGasMultiplier := k.GetParams(ctx).MinGasMultiplier
 	limitedGasWanted := sdk.NewDec(gasWanted.Int64()).Mul(minGasMultiplier)
 	updatedGasWanted := sdk.MaxDec(limitedGasWanted, sdk.NewDec(gasUsed.Int64())).TruncateInt().Uint64()

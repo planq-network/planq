@@ -12,7 +12,7 @@
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the Ethermint library. If not, see https://github.com/planq-network/planq/blob/main/LICENSE
+// along with the Ethermint library. If not, see https://github.com/planq-network/planq/v2/blob/main/LICENSE
 package feemarket
 
 import (
@@ -34,9 +34,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 
-	"github.com/planq-network/planq/x/feemarket/client/cli"
-	"github.com/planq-network/planq/x/feemarket/keeper"
-	"github.com/planq-network/planq/x/feemarket/types"
+	"github.com/planq-network/planq/v2/x/feemarket/client/cli"
+	"github.com/planq-network/planq/v2/x/feemarket/keeper"
+	"github.com/planq-network/planq/v2/x/feemarket/types"
 )
 
 var (

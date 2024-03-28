@@ -6,8 +6,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
 
-	utiltx "github.com/planq-network/planq/testutil/tx"
-	"github.com/planq-network/planq/x/erc20/types"
+	utiltx "github.com/planq-network/planq/v2/testutil/tx"
+	"github.com/planq-network/planq/v2/x/erc20/types"
 )
 
 func (suite *KeeperTestSuite) TestTokenPairs() {

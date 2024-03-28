@@ -2,9 +2,9 @@ package backend
 
 import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/planq-network/planq/rpc/backend/mocks"
-	rpc "github.com/planq-network/planq/rpc/types"
-	feemarkettypes "github.com/planq-network/planq/x/feemarket/types"
+	"github.com/planq-network/planq/v2/rpc/backend/mocks"
+	rpc "github.com/planq-network/planq/v2/rpc/types"
+	feemarkettypes "github.com/planq-network/planq/v2/x/feemarket/types"
 )
 
 var _ feemarkettypes.QueryClient = &mocks.FeeMarketQueryClient{}

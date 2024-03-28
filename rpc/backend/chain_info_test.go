@@ -6,17 +6,17 @@ import (
 
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	ethrpc "github.com/ethereum/go-ethereum/rpc"
-	rpc "github.com/planq-network/planq/rpc/types"
-	"github.com/planq-network/planq/tests"
+	rpc "github.com/planq-network/planq/v2/rpc/types"
+	"github.com/planq-network/planq/v2/tests"
 	"google.golang.org/grpc/metadata"
 
 	"github.com/cometbft/cometbft/abci/types"
 	tmrpctypes "github.com/cometbft/cometbft/rpc/core/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/planq-network/planq/rpc/backend/mocks"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
-	feemarkettypes "github.com/planq-network/planq/x/feemarket/types"
+	"github.com/planq-network/planq/v2/rpc/backend/mocks"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
+	feemarkettypes "github.com/planq-network/planq/v2/x/feemarket/types"
 )
 
 func (suite *BackendTestSuite) TestBaseFee() {

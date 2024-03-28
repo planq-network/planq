@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 
 	"github.com/ethereum/go-ethereum/common"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 
-	"github.com/planq-network/planq/x/erc20/types"
+	"github.com/planq-network/planq/v2/x/erc20/types"
 )
 
 // This is an evil token. Whenever an A -> B transfer is called,

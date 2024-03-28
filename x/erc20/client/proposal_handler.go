@@ -19,7 +19,7 @@ package client
 import (
 	govclient "github.com/cosmos/cosmos-sdk/x/gov/client"
 
-	"github.com/planq-network/planq/x/erc20/client/cli"
+	"github.com/planq-network/planq/v2/x/erc20/client/cli"
 )
 
 var (

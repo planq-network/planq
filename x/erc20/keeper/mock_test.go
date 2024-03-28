@@ -8,9 +8,9 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core"
 	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/planq-network/planq/x/erc20/types"
-	"github.com/planq-network/planq/x/evm/statedb"
-	evm "github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/x/erc20/types"
+	"github.com/planq-network/planq/v2/x/evm/statedb"
+	evm "github.com/planq-network/planq/v2/x/evm/types"
 	"github.com/stretchr/testify/mock"
 )
 

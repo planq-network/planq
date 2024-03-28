@@ -15,10 +15,10 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	cosmosante "github.com/planq-network/planq/app/ante/cosmos"
-	testutil "github.com/planq-network/planq/testutil"
-	utiltx "github.com/planq-network/planq/testutil/tx"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	cosmosante "github.com/planq-network/planq/v2/app/ante/cosmos"
+	testutil "github.com/planq-network/planq/v2/testutil"
+	utiltx "github.com/planq-network/planq/v2/testutil/tx"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 func TestAuthzLimiterDecorator(t *testing.T) {

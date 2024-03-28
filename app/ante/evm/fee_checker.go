@@ -24,9 +24,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
 	authante "github.com/cosmos/cosmos-sdk/x/auth/ante"
-	anteutils "github.com/planq-network/planq/app/ante/utils"
-	planqtypes "github.com/planq-network/planq/types"
-	"github.com/planq-network/planq/x/evm/types"
+	anteutils "github.com/planq-network/planq/v2/app/ante/utils"
+	planqtypes "github.com/planq-network/planq/v2/types"
+	"github.com/planq-network/planq/v2/x/evm/types"
 )
 
 // NewDynamicFeeChecker returns a `TxFeeChecker` that applies a dynamic fee to

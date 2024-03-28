@@ -12,7 +12,7 @@
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the Ethermint library. If not, see https://github.com/planq-network/planq/blob/main/LICENSE
+// along with the Ethermint library. If not, see https://github.com/planq-network/planq/v2/blob/main/LICENSE
 package backend
 
 import (
@@ -27,9 +27,9 @@ import (
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/pkg/errors"
-	rpctypes "github.com/planq-network/planq/rpc/types"
-	ethermint "github.com/planq-network/planq/types"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	rpctypes "github.com/planq-network/planq/v2/rpc/types"
+	ethermint "github.com/planq-network/planq/v2/types"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 // GetTransactionByHash returns the Ethereum format transaction identified by Ethereum transaction hash
@@ -136,7 +136,7 @@ func (b *Backend) getTransactionByHashPending(txHash common.Hash) (*rpctypes.RPC
 func (b *Backend) GetGasUsed(res *ethermint.TxResult, price *big.Int, gas uint64) uint64 {
 	// patch gasUsed if tx is reverted and happened before height on which fixed was introduced
 	// to return real gas charged
-	// more info at https://github.com/planq-network/planq/pull/1557
+	// more info at https://github.com/planq-network/planq/v2/pull/1557
 	if res.Failed && res.Height < b.cfg.JSONRPC.FixRevertGasRefundHeight {
 		return new(big.Int).Mul(price, new(big.Int).SetUint64(gas)).Uint64()
 	}

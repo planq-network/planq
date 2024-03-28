@@ -2,8 +2,8 @@ package app
 
 import (
 	"encoding/json"
-	"github.com/planq-network/planq/cmd/config"
-	"github.com/planq-network/planq/utils"
+	"github.com/planq-network/planq/v2/cmd/config"
+	"github.com/planq-network/planq/v2/utils"
 	"os"
 	"testing"
 
@@ -21,8 +21,8 @@ import (
 	"github.com/cometbft/cometbft/libs/log"
 	tmtypes "github.com/cometbft/cometbft/types"
 
-	"github.com/planq-network/planq/encoding"
-	"github.com/planq-network/planq/types"
+	"github.com/planq-network/planq/v2/encoding"
+	"github.com/planq-network/planq/v2/types"
 )
 
 func TestPlanqAppExport(t *testing.T) {

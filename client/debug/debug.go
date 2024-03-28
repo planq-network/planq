@@ -30,8 +30,8 @@ import (
 	authclient "github.com/cosmos/cosmos-sdk/x/auth/client"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/pkg/errors"
-	"github.com/planq-network/planq/ethereum/eip712"
-	evmos "github.com/planq-network/planq/types"
+	"github.com/planq-network/planq/v2/ethereum/eip712"
+	evmos "github.com/planq-network/planq/v2/types"
 	"github.com/spf13/cobra"
 )
 

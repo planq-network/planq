@@ -13,19 +13,19 @@ import (
 	authtx "github.com/cosmos/cosmos-sdk/x/auth/tx"
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/crypto/ethsecp256k1"
-	"github.com/planq-network/planq/encoding"
-	"github.com/planq-network/planq/tests"
-	"github.com/planq-network/planq/testutil"
-	"github.com/planq-network/planq/x/feemarket/types"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
+	"github.com/planq-network/planq/v2/encoding"
+	"github.com/planq-network/planq/v2/tests"
+	"github.com/planq-network/planq/v2/testutil"
+	"github.com/planq-network/planq/v2/x/feemarket/types"
 
 	"cosmossdk.io/simapp"
 	dbm "github.com/cometbft/cometbft-db"
 	abci "github.com/cometbft/cometbft/abci/types"
 	"github.com/cometbft/cometbft/libs/log"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 var _ = Describe("Feemarket", func() {

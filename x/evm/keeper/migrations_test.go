@@ -2,8 +2,8 @@ package keeper_test
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	evmkeeper "github.com/planq-network/planq/x/evm/keeper"
-	"github.com/planq-network/planq/x/evm/types"
+	evmkeeper "github.com/planq-network/planq/v2/x/evm/keeper"
+	"github.com/planq-network/planq/v2/x/evm/types"
 )
 
 type mockSubspace struct {

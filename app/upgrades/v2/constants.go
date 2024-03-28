@@ -5,7 +5,7 @@ import (
 	consensustypes "github.com/cosmos/cosmos-sdk/x/consensus/types"
 	crisistypes "github.com/cosmos/cosmos-sdk/x/crisis/types"
 	icahosttypes "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/host/types"
-	"github.com/planq-network/planq/app/upgrades"
+	"github.com/planq-network/planq/v2/app/upgrades"
 )
 
 const (

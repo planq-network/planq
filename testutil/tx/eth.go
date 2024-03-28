@@ -31,10 +31,10 @@ import (
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/server/config"
-	"github.com/planq-network/planq/utils"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/server/config"
+	"github.com/planq-network/planq/v2/utils"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 // PrepareEthTx creates an ethereum tx and signs it with the provided messages and private key.

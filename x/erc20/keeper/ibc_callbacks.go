@@ -29,8 +29,8 @@ import (
 	"github.com/cosmos/ibc-go/v7/modules/core/exported"
 	"github.com/ethereum/go-ethereum/common"
 
-	"github.com/planq-network/planq/ibc"
-	"github.com/planq-network/planq/x/erc20/types"
+	"github.com/planq-network/planq/v2/ibc"
+	"github.com/planq-network/planq/v2/x/erc20/types"
 )
 
 // OnRecvPacket performs the ICS20 middleware receive callback for automatically

@@ -1,12 +1,12 @@
 package ante_test
 
 import (
-	ethante "github.com/planq-network/planq/app/ante/evm"
-	"github.com/planq-network/planq/encoding"
-	"github.com/planq-network/planq/types"
+	ethante "github.com/planq-network/planq/v2/app/ante/evm"
+	"github.com/planq-network/planq/v2/encoding"
+	"github.com/planq-network/planq/v2/types"
 
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/app/ante"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/app/ante"
 )
 
 func (suite *AnteTestSuite) TestValidateHandlerOptions() {

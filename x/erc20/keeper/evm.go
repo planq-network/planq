@@ -29,11 +29,11 @@ import (
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/planq-network/planq/server/config"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/server/config"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 
-	"github.com/planq-network/planq/contracts"
-	"github.com/planq-network/planq/x/erc20/types"
+	"github.com/planq-network/planq/v2/contracts"
+	"github.com/planq-network/planq/v2/x/erc20/types"
 )
 
 // DeployERC20Contract creates and deploys an ERC20 contract on the EVM with the

@@ -37,16 +37,16 @@ import (
 	govv1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/planq-network/planq/crypto/hd"
-	"github.com/planq-network/planq/server/config"
-	srvflags "github.com/planq-network/planq/server/flags"
+	"github.com/planq-network/planq/v2/crypto/hd"
+	"github.com/planq-network/planq/v2/server/config"
+	srvflags "github.com/planq-network/planq/v2/server/flags"
 
-	ethermint "github.com/planq-network/planq/types"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	ethermint "github.com/planq-network/planq/v2/types"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 
-	cmdcfg "github.com/planq-network/planq/cmd/config"
-	evmoskr "github.com/planq-network/planq/crypto/keyring"
-	"github.com/planq-network/planq/testutil/network"
+	cmdcfg "github.com/planq-network/planq/v2/cmd/config"
+	evmoskr "github.com/planq-network/planq/v2/crypto/keyring"
+	"github.com/planq-network/planq/v2/testutil/network"
 )
 
 var (

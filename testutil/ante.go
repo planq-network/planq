@@ -2,8 +2,8 @@ package testutil
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/encoding"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/encoding"
 )
 
 // NextFn is a no-op function that returns the context and no error in order to mock

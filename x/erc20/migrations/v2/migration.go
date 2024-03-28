@@ -19,8 +19,8 @@ package v2
 import (
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	v2types "github.com/planq-network/planq/x/erc20/migrations/v2/types"
-	"github.com/planq-network/planq/x/erc20/types"
+	v2types "github.com/planq-network/planq/v2/x/erc20/migrations/v2/types"
+	"github.com/planq-network/planq/v2/x/erc20/types"
 )
 
 var isTrue = []byte{0x01}

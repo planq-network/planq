@@ -13,11 +13,11 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 
-	utiltx "github.com/planq-network/planq/testutil/tx"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	utiltx "github.com/planq-network/planq/v2/testutil/tx"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 
-	"github.com/planq-network/planq/x/erc20/keeper"
-	"github.com/planq-network/planq/x/erc20/types"
+	"github.com/planq-network/planq/v2/x/erc20/keeper"
+	"github.com/planq-network/planq/v2/x/erc20/types"
 )
 
 const (

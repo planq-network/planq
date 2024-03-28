@@ -18,10 +18,10 @@ import (
 	upgradekeeper "github.com/cosmos/cosmos-sdk/x/upgrade/keeper"
 	icahostkeeper "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/host/keeper"
 	ibckeeper "github.com/cosmos/ibc-go/v7/modules/core/keeper"
-	erc20keeper "github.com/planq-network/planq/x/erc20/keeper"
-	evmkeeper "github.com/planq-network/planq/x/evm/keeper"
-	feemarketkeeper "github.com/planq-network/planq/x/feemarket/keeper"
-	ibctransferkeeper "github.com/planq-network/planq/x/ibc/transfer/keeper"
+	erc20keeper "github.com/planq-network/planq/v2/x/erc20/keeper"
+	evmkeeper "github.com/planq-network/planq/v2/x/evm/keeper"
+	feemarketkeeper "github.com/planq-network/planq/v2/x/feemarket/keeper"
+	ibctransferkeeper "github.com/planq-network/planq/v2/x/ibc/transfer/keeper"
 )
 
 type AppKeepers struct {

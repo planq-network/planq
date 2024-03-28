@@ -53,13 +53,13 @@ import (
 	mintypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/planq-network/planq/crypto/hd"
-	"github.com/planq-network/planq/server/config"
-	srvflags "github.com/planq-network/planq/server/flags"
-	planqtypes "github.com/planq-network/planq/types"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/crypto/hd"
+	"github.com/planq-network/planq/v2/server/config"
+	srvflags "github.com/planq-network/planq/v2/server/flags"
+	planqtypes "github.com/planq-network/planq/v2/types"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 
-	"github.com/planq-network/planq/testutil/network"
+	"github.com/planq-network/planq/v2/testutil/network"
 )
 
 var (

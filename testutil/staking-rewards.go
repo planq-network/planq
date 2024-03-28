@@ -29,9 +29,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/staking"
 	teststaking "github.com/cosmos/cosmos-sdk/x/staking/testutil"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	"github.com/planq-network/planq/app"
-	testutiltx "github.com/planq-network/planq/testutil/tx"
-	"github.com/planq-network/planq/utils"
+	"github.com/planq-network/planq/v2/app"
+	testutiltx "github.com/planq-network/planq/v2/testutil/tx"
+	"github.com/planq-network/planq/v2/utils"
 )
 
 // PrepareAccountsForDelegationRewards prepares the test suite for testing to withdraw delegation rewards.

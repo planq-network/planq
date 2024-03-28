@@ -12,8 +12,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/x/feemarket/types"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/x/feemarket/types"
 	"github.com/stretchr/testify/suite"
 )
 

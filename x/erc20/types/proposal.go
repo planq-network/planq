@@ -26,7 +26,7 @@ import (
 	cdc "github.com/cosmos/cosmos-sdk/x/gov/codec"
 	v1beta1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 	ibctransfertypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
-	planqtypes "github.com/planq-network/planq/types"
+	planqtypes "github.com/planq-network/planq/v2/types"
 )
 
 // constants

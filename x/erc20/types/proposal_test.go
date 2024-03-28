@@ -9,8 +9,8 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	length "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 
-	utiltx "github.com/planq-network/planq/testutil/tx"
-	"github.com/planq-network/planq/x/erc20/types"
+	utiltx "github.com/planq-network/planq/v2/testutil/tx"
+	"github.com/planq-network/planq/v2/x/erc20/types"
 )
 
 type ProposalTestSuite struct {

@@ -12,7 +12,7 @@
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the Evmos packages. If not, see https://github.com/planq-network/planq/blob/main/LICENSE
+// along with the Evmos packages. If not, see https://github.com/planq-network/planq/v2/blob/main/LICENSE
 
 package contracts
 
@@ -21,9 +21,9 @@ import (
 	"encoding/json"
 
 	"github.com/ethereum/go-ethereum/common"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 
-	"github.com/planq-network/planq/x/erc20/types"
+	"github.com/planq-network/planq/v2/x/erc20/types"
 )
 
 var (

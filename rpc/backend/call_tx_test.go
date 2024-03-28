@@ -9,10 +9,10 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/planq-network/planq/rpc/backend/mocks"
-	rpctypes "github.com/planq-network/planq/rpc/types"
-	"github.com/planq-network/planq/tests"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/rpc/backend/mocks"
+	rpctypes "github.com/planq-network/planq/v2/rpc/types"
+	"github.com/planq-network/planq/v2/tests"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 	"google.golang.org/grpc/metadata"
 )
 

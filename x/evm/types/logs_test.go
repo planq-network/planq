@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/planq-network/planq/tests"
+	"github.com/planq-network/planq/v2/tests"
 
 	"github.com/ethereum/go-ethereum/common"
 )

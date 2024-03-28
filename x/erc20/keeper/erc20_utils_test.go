@@ -6,9 +6,9 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/planq-network/planq/contracts"
-	"github.com/planq-network/planq/x/erc20/types"
-	evm "github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/contracts"
+	"github.com/planq-network/planq/v2/x/erc20/types"
+	evm "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 func (suite *KeeperTestSuite) MintERC20Token(contractAddr, from, to common.Address, amount *big.Int) *evm.MsgEthereumTx {

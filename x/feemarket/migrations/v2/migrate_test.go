@@ -5,10 +5,10 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/testutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/encoding"
-	v4 "github.com/planq-network/planq/x/feemarket/migrations/v4"
-	"github.com/planq-network/planq/x/feemarket/types"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/encoding"
+	v4 "github.com/planq-network/planq/v2/x/feemarket/migrations/v4"
+	"github.com/planq-network/planq/v2/x/feemarket/types"
 	"github.com/stretchr/testify/require"
 )
 

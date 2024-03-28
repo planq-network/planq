@@ -5,7 +5,7 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/planq-network/planq/utils"
+	"github.com/planq-network/planq/v2/utils"
 
 	sdkmath "cosmossdk.io/math"
 	"cosmossdk.io/simapp"
@@ -21,14 +21,14 @@ import (
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
 
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/crypto/ethsecp256k1"
-	"github.com/planq-network/planq/encoding"
-	"github.com/planq-network/planq/testutil"
-	utiltx "github.com/planq-network/planq/testutil/tx"
-	planqtypes "github.com/planq-network/planq/types"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
-	"github.com/planq-network/planq/x/feemarket/types"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
+	"github.com/planq-network/planq/v2/encoding"
+	"github.com/planq-network/planq/v2/testutil"
+	utiltx "github.com/planq-network/planq/v2/testutil/tx"
+	planqtypes "github.com/planq-network/planq/v2/types"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
+	"github.com/planq-network/planq/v2/x/feemarket/types"
 
 	"github.com/stretchr/testify/require"
 

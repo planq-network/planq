@@ -10,11 +10,11 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtx "github.com/cosmos/cosmos-sdk/x/auth/tx"
 	proto "github.com/gogo/protobuf/proto"
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/encoding"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/encoding"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 
-	"github.com/planq-network/planq/tests"
+	"github.com/planq-network/planq/v2/tests"
 
 	"github.com/stretchr/testify/require"
 

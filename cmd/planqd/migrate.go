@@ -32,7 +32,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/version"
 	genutiltypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
 
-	"github.com/planq-network/planq/utils"
+	"github.com/planq-network/planq/v2/utils"
 )
 
 // FlagGenesisTime defines the genesis time in string format

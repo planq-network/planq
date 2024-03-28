@@ -20,7 +20,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	bankkeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
-	"github.com/planq-network/planq/utils"
+	"github.com/planq-network/planq/v2/utils"
 )
 
 // FundAccount is a utility function that funds an account by minting and

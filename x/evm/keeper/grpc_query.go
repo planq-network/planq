@@ -12,7 +12,7 @@
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the Ethermint library. If not, see https://github.com/planq-network/planq/blob/main/LICENSE
+// along with the Ethermint library. If not, see https://github.com/planq-network/planq/v2/blob/main/LICENSE
 package keeper
 
 import (
@@ -39,9 +39,9 @@ import (
 	"github.com/ethereum/go-ethereum/core/vm"
 	ethparams "github.com/ethereum/go-ethereum/params"
 
-	ethermint "github.com/planq-network/planq/types"
-	"github.com/planq-network/planq/x/evm/statedb"
-	"github.com/planq-network/planq/x/evm/types"
+	ethermint "github.com/planq-network/planq/v2/types"
+	"github.com/planq-network/planq/v2/x/evm/statedb"
+	"github.com/planq-network/planq/v2/x/evm/types"
 )
 
 var _ types.QueryServer = Keeper{}

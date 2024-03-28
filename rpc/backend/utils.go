@@ -12,7 +12,7 @@
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the Ethermint library. If not, see https://github.com/planq-network/planq/blob/main/LICENSE
+// along with the Ethermint library. If not, see https://github.com/planq-network/planq/v2/blob/main/LICENSE
 package backend
 
 import (
@@ -38,8 +38,8 @@ import (
 	tmrpctypes "github.com/cometbft/cometbft/rpc/core/types"
 
 	"github.com/cometbft/cometbft/proto/tendermint/crypto"
-	"github.com/planq-network/planq/rpc/types"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/rpc/types"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 type txGasAndReward struct {

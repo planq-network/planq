@@ -3,7 +3,7 @@ package cli
 import (
 	"testing"
 
-	"github.com/planq-network/planq/x/erc20/types"
+	"github.com/planq-network/planq/v2/x/erc20/types"
 	"github.com/stretchr/testify/require"
 )
 

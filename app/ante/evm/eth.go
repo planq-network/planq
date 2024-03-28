@@ -26,11 +26,11 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
 
-	anteutils "github.com/planq-network/planq/app/ante/utils"
-	"github.com/planq-network/planq/types"
-	"github.com/planq-network/planq/x/evm/keeper"
-	"github.com/planq-network/planq/x/evm/statedb"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	anteutils "github.com/planq-network/planq/v2/app/ante/utils"
+	"github.com/planq-network/planq/v2/types"
+	"github.com/planq-network/planq/v2/x/evm/keeper"
+	"github.com/planq-network/planq/v2/x/evm/statedb"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"

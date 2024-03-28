@@ -2,7 +2,7 @@ package app
 
 import (
 	"encoding/json"
-	"github.com/planq-network/planq/utils"
+	"github.com/planq-network/planq/v2/utils"
 	"time"
 
 	"cosmossdk.io/simapp"
@@ -22,11 +22,11 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/planq-network/planq/encoding"
-	feemarkettypes "github.com/planq-network/planq/x/feemarket/types"
+	"github.com/planq-network/planq/v2/encoding"
+	feemarkettypes "github.com/planq-network/planq/v2/x/feemarket/types"
 
-	"github.com/planq-network/planq/cmd/config"
-	"github.com/planq-network/planq/types"
+	"github.com/planq-network/planq/v2/cmd/config"
+	"github.com/planq-network/planq/v2/types"
 )
 
 func init() {

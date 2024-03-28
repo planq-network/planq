@@ -12,11 +12,11 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/planq-network/planq/indexer"
-	"github.com/planq-network/planq/rpc/backend/mocks"
-	rpctypes "github.com/planq-network/planq/rpc/types"
-	ethermint "github.com/planq-network/planq/types"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/indexer"
+	"github.com/planq-network/planq/v2/rpc/backend/mocks"
+	rpctypes "github.com/planq-network/planq/v2/rpc/types"
+	ethermint "github.com/planq-network/planq/v2/types"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 	"google.golang.org/grpc/metadata"
 )
 

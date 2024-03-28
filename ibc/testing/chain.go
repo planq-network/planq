@@ -34,10 +34,10 @@ import (
 	ibcgotesting "github.com/cosmos/ibc-go/v7/testing"
 	"github.com/cosmos/ibc-go/v7/testing/mock"
 
-	"github.com/planq-network/planq/crypto/ethsecp256k1"
-	planqtypes "github.com/planq-network/planq/types"
-	"github.com/planq-network/planq/utils"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
+	planqtypes "github.com/planq-network/planq/v2/types"
+	"github.com/planq-network/planq/v2/utils"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 // ChainIDPrefix defines the default chain ID prefix for Evmos test chains

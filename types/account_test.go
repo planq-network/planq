@@ -12,10 +12,10 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 
-	cryptocodec "github.com/planq-network/planq/crypto/codec"
-	"github.com/planq-network/planq/crypto/ethsecp256k1"
-	ethermintcodec "github.com/planq-network/planq/encoding/codec"
-	"github.com/planq-network/planq/types"
+	cryptocodec "github.com/planq-network/planq/v2/crypto/codec"
+	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
+	ethermintcodec "github.com/planq-network/planq/v2/encoding/codec"
+	"github.com/planq-network/planq/v2/types"
 )
 
 func init() {

@@ -13,14 +13,14 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	ethlogger "github.com/ethereum/go-ethereum/eth/tracers/logger"
 	ethparams "github.com/ethereum/go-ethereum/params"
-	"github.com/planq-network/planq/tests"
-	"github.com/planq-network/planq/x/evm/statedb"
+	"github.com/planq-network/planq/v2/tests"
+	"github.com/planq-network/planq/v2/x/evm/statedb"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/planq-network/planq/server/config"
-	ethermint "github.com/planq-network/planq/types"
-	"github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/server/config"
+	ethermint "github.com/planq-network/planq/v2/types"
+	"github.com/planq-network/planq/v2/x/evm/types"
 )
 
 // Not valid Ethereum address

@@ -65,13 +65,13 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/cosmos/cosmos-sdk/x/genutil"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/crypto/hd"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/crypto/hd"
 
-	"github.com/planq-network/planq/encoding"
-	"github.com/planq-network/planq/server/config"
-	planqtypes "github.com/planq-network/planq/types"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/encoding"
+	"github.com/planq-network/planq/v2/server/config"
+	planqtypes "github.com/planq-network/planq/v2/types"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 // package-wide network lock to only allow one test network at a time

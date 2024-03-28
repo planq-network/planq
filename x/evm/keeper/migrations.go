@@ -12,14 +12,14 @@
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the Ethermint library. If not, see https://github.com/planq-network/planq/blob/main/LICENSE
+// along with the Ethermint library. If not, see https://github.com/planq-network/planq/v2/blob/main/LICENSE
 package keeper
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	v2 "github.com/planq-network/planq/x/evm/migrations/v2"
-	v2_5 "github.com/planq-network/planq/x/evm/migrations/v2_5"
-	"github.com/planq-network/planq/x/evm/types"
+	v2 "github.com/planq-network/planq/v2/x/evm/migrations/v2"
+	v2_5 "github.com/planq-network/planq/v2/x/evm/migrations/v2_5"
+	"github.com/planq-network/planq/v2/x/evm/types"
 )
 
 // Migrator is a struct for handling in-place store migrations.

@@ -21,7 +21,7 @@ import (
 	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
-	evmante "github.com/planq-network/planq/app/ante/evm"
+	evmante "github.com/planq-network/planq/v2/app/ante/evm"
 )
 
 // MinGasPriceDecorator will check if the transaction's fee is at least as large

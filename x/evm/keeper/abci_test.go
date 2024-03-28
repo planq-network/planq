@@ -2,7 +2,7 @@ package keeper_test
 
 import (
 	"github.com/cometbft/cometbft/abci/types"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 func (suite *KeeperTestSuite) TestEndBlock() {

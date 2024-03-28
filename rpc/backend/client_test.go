@@ -15,9 +15,9 @@ import (
 	"github.com/cometbft/cometbft/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/planq-network/planq/rpc/backend/mocks"
-	rpc "github.com/planq-network/planq/rpc/types"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/rpc/backend/mocks"
+	rpc "github.com/planq-network/planq/v2/rpc/types"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 	mock "github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 )

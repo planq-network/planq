@@ -12,10 +12,10 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 
-	"github.com/planq-network/planq/x/erc20/keeper"
-	"github.com/planq-network/planq/x/erc20/types"
-	"github.com/planq-network/planq/x/evm/statedb"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/x/erc20/keeper"
+	"github.com/planq-network/planq/v2/x/erc20/types"
+	"github.com/planq-network/planq/v2/x/evm/statedb"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 func (suite *KeeperTestSuite) TestConvertCoinNativeCoin() {

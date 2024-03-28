@@ -3,9 +3,9 @@ package evm_test
 import (
 	"math/big"
 
-	utiltx "github.com/planq-network/planq/testutil/tx"
-	"github.com/planq-network/planq/x/evm/statedb"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
+	utiltx "github.com/planq-network/planq/v2/testutil/tx"
+	"github.com/planq-network/planq/v2/x/evm/statedb"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 
 func (suite *AnteTestSuite) TestSignatures() {

@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
-	"github.com/planq-network/planq/types"
+	"github.com/planq-network/planq/v2/types"
 )
 
 func BenchmarkEthSecp256k1Algo_Derive(b *testing.B) {

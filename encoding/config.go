@@ -22,7 +22,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	"github.com/cosmos/cosmos-sdk/x/auth/tx"
 
-	enccodec "github.com/planq-network/planq/encoding/codec"
+	enccodec "github.com/planq-network/planq/v2/encoding/codec"
 )
 
 // MakeConfig creates an EncodingConfig for testing

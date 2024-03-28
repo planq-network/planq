@@ -5,14 +5,14 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/planq-network/planq/x/evm/types"
+	"github.com/planq-network/planq/v2/x/evm/types"
 
 	"github.com/cosmos/cosmos-sdk/testutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/encoding"
-	v4 "github.com/planq-network/planq/x/evm/migrations/v4"
-	v4types "github.com/planq-network/planq/x/evm/migrations/v4/types"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/encoding"
+	v4 "github.com/planq-network/planq/v2/x/evm/migrations/v4"
+	v4types "github.com/planq-network/planq/v2/x/evm/migrations/v4/types"
 )
 
 type mockSubspace struct {

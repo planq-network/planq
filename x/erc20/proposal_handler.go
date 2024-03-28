@@ -23,8 +23,8 @@ import (
 	govv1beta1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 	"github.com/ethereum/go-ethereum/common"
 
-	"github.com/planq-network/planq/x/erc20/keeper"
-	"github.com/planq-network/planq/x/erc20/types"
+	"github.com/planq-network/planq/v2/x/erc20/keeper"
+	"github.com/planq-network/planq/v2/x/erc20/types"
 )
 
 // NewErc20ProposalHandler creates a governance handler to manage new proposal types.

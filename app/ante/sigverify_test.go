@@ -16,10 +16,10 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/auth/migrations/legacytx"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 
-	"github.com/planq-network/planq/app"
-	"github.com/planq-network/planq/app/ante"
-	"github.com/planq-network/planq/crypto/ethsecp256k1"
-	"github.com/planq-network/planq/encoding"
+	"github.com/planq-network/planq/v2/app"
+	"github.com/planq-network/planq/v2/app/ante"
+	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
+	"github.com/planq-network/planq/v2/encoding"
 )
 
 func TestConsumeSignatureVerificationGas(t *testing.T) {

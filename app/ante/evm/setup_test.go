@@ -15,13 +15,13 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/planq-network/planq/app"
-	ante "github.com/planq-network/planq/app/ante"
-	"github.com/planq-network/planq/encoding"
-	"github.com/planq-network/planq/ethereum/eip712"
-	"github.com/planq-network/planq/utils"
-	evmtypes "github.com/planq-network/planq/x/evm/types"
-	feemarkettypes "github.com/planq-network/planq/x/feemarket/types"
+	"github.com/planq-network/planq/v2/app"
+	ante "github.com/planq-network/planq/v2/app/ante"
+	"github.com/planq-network/planq/v2/encoding"
+	"github.com/planq-network/planq/v2/ethereum/eip712"
+	"github.com/planq-network/planq/v2/utils"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
+	feemarkettypes "github.com/planq-network/planq/v2/x/feemarket/types"
 )
 
 type AnteTestSuite struct {

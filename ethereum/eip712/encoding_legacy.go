@@ -26,7 +26,7 @@ import (
 	txTypes "github.com/cosmos/cosmos-sdk/types/tx"
 
 	apitypes "github.com/ethereum/go-ethereum/signer/core/apitypes"
-	evmos "github.com/planq-network/planq/types"
+	evmos "github.com/planq-network/planq/v2/types"
 )
 
 type aminoMessage struct {

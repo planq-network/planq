@@ -27,7 +27,7 @@ import (
 	ibchelpers "github.com/cosmos/cosmos-sdk/testutil/sims"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	ibctesting "github.com/cosmos/ibc-go/v7/testing"
-	"github.com/planq-network/planq/app"
+	"github.com/planq-network/planq/v2/app"
 	"github.com/stretchr/testify/require"
 )
 

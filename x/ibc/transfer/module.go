@@ -24,7 +24,7 @@ import (
 	ibctransfer "github.com/cosmos/ibc-go/v7/modules/apps/transfer"
 	ibctransferkeeper "github.com/cosmos/ibc-go/v7/modules/apps/transfer/keeper"
 	"github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
-	"github.com/planq-network/planq/x/ibc/transfer/keeper"
+	"github.com/planq-network/planq/v2/x/ibc/transfer/keeper"
 )
 
 var (

@@ -1,4 +1,4 @@
-module github.com/planq-network/planq
+module github.com/planq-network/planq/v2
 
 go 1.22
 
