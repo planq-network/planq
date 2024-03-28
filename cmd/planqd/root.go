@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	genutiltypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
+	"github.com/planq-network/planq/crypto/hd"
 	"io"
 	"os"
 	"path/filepath"
@@ -48,7 +49,6 @@ import (
 
 	"github.com/planq-network/planq/app"
 	cmdcfg "github.com/planq-network/planq/cmd/config"
-	evmoskr "github.com/planq-network/planq/crypto/keyring"
 )
 
 const (
@@ -68,7 +68,7 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 		WithAccountRetriever(types.AccountRetriever{}).
 		WithBroadcastMode(flags.FlagBroadcastMode).
 		WithHomeDir(app.DefaultNodeHome).
-		WithKeyringOptions(evmoskr.Option()).
+		WithKeyringOptions(hd.EthSecp256k1Option()).
 		WithViper(EnvPrefix).
 		WithLedgerHasProtobuf(true)
 	eip712.SetEncodingConfig(encodingConfig)

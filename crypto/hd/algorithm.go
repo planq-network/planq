@@ -16,9 +16,8 @@
 package hd
 
 import (
+	"github.com/btcsuite/btcd/btcutil/hdkeychain"
 	"github.com/btcsuite/btcd/chaincfg"
-	"github.com/btcsuite/btcutil/hdkeychain"
-	"github.com/tendermint/btcd/btcec"
 	bip39 "github.com/tyler-smith/go-bip39"
 
 	"github.com/ethereum/go-ethereum/accounts"
