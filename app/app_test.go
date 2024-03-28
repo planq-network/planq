@@ -9,8 +9,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"cosmossdk.io/simapp"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
+	simtestutil "github.com/cosmos/cosmos-sdk/testutil/sims"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
@@ -22,7 +22,6 @@ import (
 	tmtypes "github.com/cometbft/cometbft/types"
 
 	"github.com/planq-network/planq/v2/encoding"
-	"github.com/planq-network/planq/v2/types"
 )
 
 func TestPlanqAppExport(t *testing.T) {
@@ -62,7 +61,7 @@ func TestPlanqAppExport(t *testing.T) {
 	app.Commit()
 
 	// Making a new app object with the db, so that initchain hasn't been called
-	app2 := NewPlanqApp(log.NewTMLogger(log.NewSyncWriter(os.Stdout)), db, nil, true, map[int64]bool{}, DefaultNodeHome, 0, encoding.MakeConfig(ModuleBasics), simapp.EmptyAppOptions{})
-	_, err = app2.ExportAppStateAndValidators(false, []string{})
+	app2 := NewPlanqApp(log.NewTMLogger(log.NewSyncWriter(os.Stdout)), db, nil, true, map[int64]bool{}, DefaultNodeHome, 0, encoding.MakeConfig(ModuleBasics), simtestutil.NewAppOptionsWithFlagHome(DefaultNodeHome))
+	_, err = app2.ExportAppStateAndValidators(false, []string{}, []string{})
 	require.NoError(t, err, "ExportAppStateAndValidators should not have an error")
 }

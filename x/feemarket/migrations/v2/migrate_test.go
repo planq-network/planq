@@ -7,7 +7,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/planq-network/planq/v2/app"
 	"github.com/planq-network/planq/v2/encoding"
-	v4 "github.com/planq-network/planq/v2/x/feemarket/migrations/v4"
+	v2 "github.com/planq-network/planq/v2/x/feemarket/migrations/v2"
 	"github.com/planq-network/planq/v2/x/feemarket/types"
 	"github.com/stretchr/testify/require"
 )
@@ -38,10 +38,10 @@ func TestMigrate(t *testing.T) {
 	kvStore := ctx.KVStore(storeKey)
 
 	legacySubspaceEmpty := newMockSubspaceEmpty()
-	require.Error(t, v4.MigrateStore(ctx, storeKey, legacySubspaceEmpty, cdc))
+	require.Error(t, v2.MigrateStore(ctx, storeKey, legacySubspaceEmpty, cdc))
 
 	legacySubspace := newMockSubspace(types.DefaultParams())
-	require.NoError(t, v4.MigrateStore(ctx, storeKey, legacySubspace, cdc))
+	require.NoError(t, v2.MigrateStore(ctx, storeKey, legacySubspace, cdc))
 
 	paramsBz := kvStore.Get(types.ParamsKey)
 	var params types.Params

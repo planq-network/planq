@@ -12,7 +12,7 @@ import (
 	"github.com/ethereum/go-ethereum/signer/core/apitypes"
 	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
 	"github.com/planq-network/planq/v2/rpc/backend/mocks"
-	"github.com/planq-network/planq/v2/tests"
+	testutil "github.com/planq-network/planq/v2/testutil/tx"
 	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 	"google.golang.org/grpc/metadata"
 )
@@ -21,7 +21,7 @@ func (suite *BackendTestSuite) TestSendTransaction() {
 	gasPrice := new(hexutil.Big)
 	gas := hexutil.Uint64(1)
 	zeroGas := hexutil.Uint64(0)
-	toAddr := tests.GenerateAddress()
+	toAddr := testutil.GenerateAddress()
 	priv, _ := ethsecp256k1.GenerateKey()
 	from := common.BytesToAddress(priv.PubKey().Address().Bytes())
 	nonce := hexutil.Uint64(1)
@@ -166,7 +166,7 @@ func (suite *BackendTestSuite) TestSendTransaction() {
 }
 
 func (suite *BackendTestSuite) TestSign() {
-	from, priv := tests.NewAddrKey()
+	from, priv := testutil.NewAddrKey()
 	testCases := []struct {
 		name         string
 		registerMock func()
@@ -212,7 +212,7 @@ func (suite *BackendTestSuite) TestSign() {
 }
 
 func (suite *BackendTestSuite) TestSignTypedData() {
-	from, priv := tests.NewAddrKey()
+	from, priv := testutil.NewAddrKey()
 	testCases := []struct {
 		name           string
 		registerMock   func()

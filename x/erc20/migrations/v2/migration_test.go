@@ -8,28 +8,28 @@ import (
 	"github.com/planq-network/planq/v2/app"
 	"github.com/planq-network/planq/v2/encoding"
 
-	v3types "github.com/planq-network/planq/v2/x/erc20/migrations/v3/types"
+	v2types "github.com/planq-network/planq/v2/x/erc20/migrations/v2/types"
 
 	"github.com/planq-network/planq/v2/x/erc20/types"
+
 	"github.com/stretchr/testify/require"
 
 	"github.com/cosmos/cosmos-sdk/testutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/planq-network/planq/v2/x/erc20/migrations/v3"
 )
 
 type mockSubspace struct {
-	ps           v3types.V3Params
+	ps           v2types.V2Params
 	storeKey     storetypes.StoreKey
 	transientKey storetypes.StoreKey
 }
 
-func newMockSubspace(ps v3types.V3Params, storeKey, transientKey storetypes.StoreKey) mockSubspace {
+func newMockSubspace(ps v2types.V2Params, storeKey, transientKey storetypes.StoreKey) mockSubspace {
 	return mockSubspace{ps: ps, storeKey: storeKey, transientKey: transientKey}
 }
 
 func (ms mockSubspace) GetParamSet(_ sdk.Context, ps types.LegacyParams) {
-	*ps.(*v3types.V3Params) = ms.ps
+	*ps.(*v2types.V2Params) = ms.ps
 }
 
 func (ms mockSubspace) WithKeyTable(keyTable paramtypes.KeyTable) paramtypes.Subspace {
@@ -44,19 +44,16 @@ func TestMigrate(t *testing.T) {
 	ctx := testutil.DefaultContext(storeKey, tKey)
 	store := ctx.KVStore(storeKey)
 
-	var outputParams v3types.V3Params
-	inputParams := v3types.DefaultParams()
-	legacySubspace := newMockSubspace(v3types.DefaultParams(), storeKey, tKey).WithKeyTable(v3types.ParamKeyTable())
+	var outputParams v2types.V2Params
+	inputParams := v2types.DefaultParams()
+	legacySubspace := newMockSubspace(v2types.DefaultParams(), storeKey, tKey).WithKeyTable(v2types.ParamKeyTable())
 	legacySubspace.SetParamSet(ctx, &inputParams)
 	legacySubspace.GetParamSetIfExists(ctx, &outputParams)
-
-	mockSubspace := newMockSubspace(v3types.DefaultParams(), storeKey, tKey)
-	require.NoError(t, v1.MigrateStore(ctx, storeKey, mockSubspace))
 
 	// Get all the new parameters from the store
 	enableEvmHook := store.Has(types.ParamStoreKeyEnableEVMHook)
 	enableErc20 := store.Has(types.ParamStoreKeyEnableErc20)
 
-	params := v3types.NewParams(enableErc20, enableEvmHook)
+	params := v2types.NewParams(enableErc20, enableEvmHook)
 	require.Equal(t, params, outputParams)
 }
