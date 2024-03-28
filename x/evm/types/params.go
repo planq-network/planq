@@ -64,7 +64,7 @@ func DefaultParams() Params {
 		EnableCreate:        DefaultEnableCreate,
 		EnableCall:          DefaultEnableCall,
 		ChainConfig:         DefaultChainConfig(),
-		ExtraEIPs:           nil,
+		ExtraEIPs:           []int64{3855},
 		AllowUnprotectedTxs: DefaultAllowUnprotectedTxs,
 	}
 }

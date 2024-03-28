@@ -27,6 +27,7 @@ import (
 	ibctransfertypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
 	"github.com/planq-network/planq/app/keepers"
 	"github.com/planq-network/planq/app/upgrades"
+	evmkeeper "github.com/planq-network/planq/x/evm/keeper"
 	evmtypes "github.com/planq-network/planq/x/evm/types"
 	feemarkettypes "github.com/planq-network/planq/x/feemarket/types"
 )
@@ -39,7 +40,10 @@ func CreateUpgradeHandler(
 ) upgradetypes.UpgradeHandler {
 	return func(ctx sdk.Context, _ upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
 		logger := ctx.Logger().With("upgrade", UpgradeName)
+		logger.Info("migrate ibc escrow accounts")
 		MigrateEscrowAccounts(ctx, logger, keepers.AccountKeeper)
+
+		logger.Info("create ICA module")
 		// create ICS27 Controller submodule params, with the controller module NOT enabled
 		gs := &genesistypes.GenesisState{
 			ControllerGenesisState: genesistypes.ControllerGenesisState{},
@@ -76,6 +80,7 @@ func CreateUpgradeHandler(
 		m := mm.Modules[icatypes.ModuleName].(module.HasGenesis)
 		m.InitGenesis(ctx, icatypes.ModuleCdc, bz)
 
+		logger.Info("migrating legacy params")
 		for _, subspace := range keepers.ParamsKeeper.GetSubspaces() {
 			var keyTable paramstypes.KeyTable
 			switch subspace.Name() {
@@ -108,10 +113,15 @@ func CreateUpgradeHandler(
 				subspace.WithKeyTable(keyTable)
 			}
 		}
-		
+
 		baseAppLegacySS := keepers.ParamsKeeper.Subspace(baseapp.Paramspace).WithKeyTable(paramstypes.ConsensusParamsKeyTable())
 		baseapp.MigrateParams(ctx, baseAppLegacySS, &keepers.ConsensusParamsKeeper)
 
+		logger.Info("adding EIP 3855 to EVM parameters")
+		evmErr := EnableEIPs(ctx, keepers.EvmKeeper, 3855)
+		if evmErr != nil {
+			logger.Error("error while enabling EIPs", "error", err)
+		}
 		// Leave modules are as-is to avoid running InitGenesis.
 		logger.Debug("running module migrations ...")
 		return mm.RunMigrations(ctx, configurator, vm)
@@ -158,4 +168,11 @@ func MigrateEscrowAccounts(ctx sdk.Context, logger log.Logger, ak authkeeper.Acc
 		acc := authtypes.NewModuleAccount(baseAcc, accountName)
 		ak.SetModuleAccount(ctx, acc)
 	}
+}
+
+func EnableEIPs(ctx sdk.Context, ek *evmkeeper.Keeper, eips ...int64) error {
+	evmParams := ek.GetParams(ctx)
+	evmParams.ExtraEIPs = append(evmParams.ExtraEIPs, eips...)
+
+	return ek.SetParams(ctx, evmParams)
 }
