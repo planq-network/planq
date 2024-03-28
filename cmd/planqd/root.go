@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	genutiltypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
 	"io"
 	"os"
 	"path/filepath"
@@ -17,6 +18,7 @@ import (
 	"github.com/cometbft/cometbft/libs/log"
 
 	"cosmossdk.io/simapp/params"
+	rosettaCmd "cosmossdk.io/tools/rosetta/cmd"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/config"
@@ -64,7 +66,7 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 		WithLegacyAmino(encodingConfig.Amino).
 		WithInput(os.Stdin).
 		WithAccountRetriever(types.AccountRetriever{}).
-		WithBroadcastMode(flags.BroadcastBlock).
+		WithBroadcastMode(flags.FlagBroadcastMode).
 		WithHomeDir(app.DefaultNodeHome).
 		WithKeyringOptions(evmoskr.Option()).
 		WithViper(EnvPrefix).
@@ -104,7 +106,6 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 	cfg := sdk.GetConfig()
 	cfg.Seal()
 
-	// TODO: fix ASAP with proper upgrade
 	validateGenesisAppModuleBasics := make(map[string]sdkmodule.AppModuleBasic)
 	for k, v := range app.ModuleBasics {
 		validateGenesisAppModuleBasics[k] = v
@@ -115,7 +116,7 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 		ethermintclient.ValidateChainID(
 			InitCmd(app.ModuleBasics, app.DefaultNodeHome),
 		),
-		genutilcli.CollectGenTxsCmd(banktypes.GenesisBalancesIterator{}, app.DefaultNodeHome),
+		genutilcli.CollectGenTxsCmd(banktypes.GenesisBalancesIterator{}, app.DefaultNodeHome, genutiltypes.DefaultMessageValidator),
 		MigrateGenesisCmd(),
 		genutilcli.GenTxCmd(app.ModuleBasics, encodingConfig.TxConfig, banktypes.GenesisBalancesIterator{}, app.DefaultNodeHome),
 		genutilcli.ValidateGenesisCmd(validateGenesisAppModuleBasics),
@@ -145,7 +146,7 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 	}
 	rootCmd.AddCommand(pruning.PruningCmd(a.newApp))
 	// add rosetta
-	rootCmd.AddCommand(sdkserver.RosettaCommand(encodingConfig.InterfaceRegistry, encodingConfig.Codec))
+	rootCmd.AddCommand(rosettaCmd.RosettaCommand(encodingConfig.InterfaceRegistry, encodingConfig.Codec))
 
 	return rootCmd, encodingConfig
 }
@@ -285,7 +286,7 @@ func (a appCreator) newApp(logger log.Logger, db dbm.DB, traceStore io.Writer, a
 // and exports state.
 func (a appCreator) appExport(
 	logger log.Logger, db dbm.DB, traceStore io.Writer, height int64, forZeroHeight bool, jailAllowedAddrs []string,
-	appOpts servertypes.AppOptions,
+	appOpts servertypes.AppOptions, modulesToExport []string,
 ) (servertypes.ExportedApp, error) {
 	var planqApp *app.PlanqApp
 	homePath, ok := appOpts.Get(flags.FlagHome).(string)
@@ -303,7 +304,7 @@ func (a appCreator) appExport(
 		planqApp = app.NewPlanqApp(logger, db, traceStore, true, map[int64]bool{}, "", uint(1), a.encCfg, appOpts)
 	}
 
-	return planqApp.ExportAppStateAndValidators(forZeroHeight, jailAllowedAddrs)
+	return planqApp.ExportAppStateAndValidators(forZeroHeight, jailAllowedAddrs, modulesToExport)
 }
 
 // initTendermintConfig helps to override default Tendermint Config values.
