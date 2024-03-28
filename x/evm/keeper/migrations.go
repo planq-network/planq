@@ -18,7 +18,7 @@ package keeper
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	v2 "github.com/planq-network/planq/x/evm/migrations/v2"
-	v2_5 "github.com/planq-network/planq/x/evm/migrations/v2.5"
+	v2_5 "github.com/planq-network/planq/x/evm/migrations/v2_5"
 	"github.com/planq-network/planq/x/evm/types"
 )
 
