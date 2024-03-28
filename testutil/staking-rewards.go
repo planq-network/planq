@@ -18,6 +18,7 @@ package testutil
 
 import (
 	"fmt"
+	"github.com/stretchr/testify/require"
 	"testing"
 
 	sdkmath "cosmossdk.io/math"
@@ -26,7 +27,7 @@ import (
 	distributionkeeper "github.com/cosmos/cosmos-sdk/x/distribution/keeper"
 	distributiontypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	"github.com/cosmos/cosmos-sdk/x/staking"
-	"github.com/cosmos/cosmos-sdk/x/staking/teststaking"
+	teststaking "github.com/cosmos/cosmos-sdk/x/staking/testutil"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/planq-network/planq/app"
 	testutiltx "github.com/planq-network/planq/testutil/tx"
@@ -100,9 +101,10 @@ func PrepareAccountsForDelegationRewards(t *testing.T, ctx sdk.Context, app *app
 		stakingParams := app.StakingKeeper.GetParams(ctx)
 		stakingParams.BondDenom = utils.BaseDenom
 		stakingParams.MinCommissionRate = zeroDec
-		app.StakingKeeper.SetParams(ctx, stakingParams)
+		err = app.StakingKeeper.SetParams(ctx, stakingParams)
+		require.NoError(t, err)
 
-		stakingHelper := teststaking.NewHelper(t, ctx, app.StakingKeeper)
+		stakingHelper := teststaking.NewHelper(t, ctx, &app.StakingKeeper)
 		stakingHelper.Commission = stakingtypes.NewCommissionRates(zeroDec, zeroDec, zeroDec)
 		stakingHelper.Denom = utils.BaseDenom
 
@@ -114,7 +116,7 @@ func PrepareAccountsForDelegationRewards(t *testing.T, ctx sdk.Context, app *app
 
 		// end block to bond validator and increase block height
 		// Not using Commit() here because code panics due to invalid block height
-		staking.EndBlocker(ctx, app.StakingKeeper)
+		staking.EndBlocker(ctx, &app.StakingKeeper)
 
 		// allocate rewards to validator (of these 50% will be paid out to the delegator)
 		validator := app.StakingKeeper.Validator(ctx, valAddr)
@@ -128,7 +130,8 @@ func PrepareAccountsForDelegationRewards(t *testing.T, ctx sdk.Context, app *app
 // GetTotalDelegationRewards returns the total delegation rewards that are currently
 // outstanding for the given address.
 func GetTotalDelegationRewards(ctx sdk.Context, distributionKeeper distributionkeeper.Keeper, addr sdk.AccAddress) (sdk.DecCoins, error) {
-	resp, err := distributionKeeper.DelegationTotalRewards(
+	querier := distributionkeeper.NewQuerier(distributionKeeper)
+	resp, err := querier.DelegationTotalRewards(
 		ctx,
 		&distributiontypes.QueryDelegationTotalRewardsRequest{
 			DelegatorAddress: addr.String(),
