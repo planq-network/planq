@@ -76,8 +76,6 @@ func CreateUpgradeHandler(
 		m := mm.Modules[icatypes.ModuleName].(module.HasGenesis)
 		m.InitGenesis(ctx, icatypes.ModuleCdc, bz)
 
-		baseAppLegacySS := keepers.ParamsKeeper.Subspace(baseapp.Paramspace).WithKeyTable(paramstypes.ConsensusParamsKeyTable())
-
 		for _, subspace := range keepers.ParamsKeeper.GetSubspaces() {
 			var keyTable paramstypes.KeyTable
 			switch subspace.Name() {
@@ -110,7 +108,8 @@ func CreateUpgradeHandler(
 				subspace.WithKeyTable(keyTable)
 			}
 		}
-
+		
+		baseAppLegacySS := keepers.ParamsKeeper.Subspace(baseapp.Paramspace).WithKeyTable(paramstypes.ConsensusParamsKeyTable())
 		baseapp.MigrateParams(ctx, baseAppLegacySS, &keepers.ConsensusParamsKeeper)
 
 		// Leave modules are as-is to avoid running InitGenesis.
