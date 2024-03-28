@@ -8,6 +8,8 @@ require (
 	cosmossdk.io/math v1.3.0
 	cosmossdk.io/simapp v0.0.0-20230608160436-666c345ad23d
 	cosmossdk.io/tools/rosetta v0.2.1
+	github.com/btcsuite/btcd v0.23.4
+	github.com/btcsuite/btcd/btcutil v1.1.3
 	github.com/cometbft/cometbft v0.37.5
 	github.com/cometbft/cometbft-db v0.8.0
 	github.com/cosmos/cosmos-sdk v0.47.10
@@ -22,6 +24,7 @@ require (
 	github.com/spf13/viper v1.18.1
 	github.com/stretchr/testify v1.8.4
 	google.golang.org/grpc v1.60.1
+	google.golang.org/protobuf v1.33.0
 )
 
 require (
@@ -45,10 +48,8 @@ require (
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bgentry/go-netrc v0.0.0-20140422174119-9fd32a8b3d3d // indirect
 	github.com/bgentry/speakeasy v0.1.1-0.20220910012023-760eaf8b6816 // indirect
-	github.com/btcsuite/btcd v0.23.4 // indirect
 	github.com/btcsuite/btcd/btcec/v2 v2.3.2 // indirect
 	github.com/btcsuite/btcd/chaincfg/chainhash v1.0.1 // indirect
-	github.com/btcsuite/btcutil v1.0.3-0.20201208143702-a53e38424cce // indirect
 	github.com/cenkalti/backoff/v4 v4.1.3 // indirect
 	github.com/cespare/xxhash v1.1.0 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
@@ -60,9 +61,8 @@ require (
 	github.com/cosmos/cosmos-proto v1.0.0-beta.4 // indirect
 	github.com/cosmos/gogoproto v1.4.11 // indirect
 	github.com/cosmos/gorocksdb v1.2.0 // indirect
-	github.com/cosmos/iavl v1.0.0 // indirect
-	github.com/cosmos/ledger-cosmos-go v0.12.4 // indirect
-	github.com/cosmos/ledger-go v0.9.2 // indirect
+	github.com/cosmos/iavl v0.20.1 // indirect
+	github.com/cosmos/ledger-cosmos-go v0.13.1 // indirect
 	github.com/creachadair/taskgroup v0.4.2 // indirect
 	github.com/danieljoos/wincred v1.1.2 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
@@ -92,7 +92,6 @@ require (
 	github.com/gogo/protobuf v1.3.3 // indirect
 	github.com/golang/glog v1.1.2 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
-	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/btree v1.1.2 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
@@ -195,7 +194,6 @@ require (
 	google.golang.org/genproto v0.0.0-20240102182953-50ed04b92917 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20231212172506-995d672761c0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240108191215-35c7eff3a6b1 // indirect
-	google.golang.org/protobuf v1.32.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
@@ -206,6 +204,7 @@ require (
 
 replace (
 	github.com/99designs/keyring => github.com/cosmos/keyring v1.1.7-0.20210622111912-ef00f8ac3d76
+	github.com/btcsuite/btcd => github.com/btcsuite/btcd v0.23.4
 
 	// ics23 patch for dragonberry
 	github.com/confio/ics23/go => github.com/cosmos/cosmos-sdk/ics23/go v0.8.0
