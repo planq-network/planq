@@ -16,7 +16,7 @@ import (
 
 	"github.com/planq-network/planq/v2/rpc/backend/mocks"
 	ethrpc "github.com/planq-network/planq/v2/rpc/types"
-	"github.com/planq-network/planq/v2/tests"
+	tests "github.com/planq-network/planq/v2/testutil/tx"
 	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 )
 

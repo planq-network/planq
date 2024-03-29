@@ -11,7 +11,7 @@ import (
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/planq-network/planq/v2/rpc/backend/mocks"
 	rpctypes "github.com/planq-network/planq/v2/rpc/types"
-	"github.com/planq-network/planq/v2/tests"
+	tests "github.com/planq-network/planq/v2/testutil/tx"
 	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 	"google.golang.org/grpc/metadata"
 )

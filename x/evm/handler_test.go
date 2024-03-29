@@ -35,7 +35,7 @@ import (
 
 	"github.com/planq-network/planq/v2/app"
 	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
-	"github.com/planq-network/planq/v2/tests"
+	tests "github.com/planq-network/planq/v2/testutil/tx"
 	ethermint "github.com/planq-network/planq/v2/types"
 	"github.com/planq-network/planq/v2/x/evm"
 	"github.com/planq-network/planq/v2/x/evm/statedb"

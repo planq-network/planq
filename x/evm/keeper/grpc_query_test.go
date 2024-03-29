@@ -13,7 +13,7 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	ethlogger "github.com/ethereum/go-ethereum/eth/tracers/logger"
 	ethparams "github.com/ethereum/go-ethereum/params"
-	"github.com/planq-network/planq/v2/tests"
+	tests "github.com/planq-network/planq/v2/testutil/tx"
 	"github.com/planq-network/planq/v2/x/evm/statedb"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"

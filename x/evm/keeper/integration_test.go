@@ -16,8 +16,8 @@ import (
 	"github.com/planq-network/planq/v2/app"
 	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
 	"github.com/planq-network/planq/v2/encoding"
-	"github.com/planq-network/planq/v2/tests"
 	"github.com/planq-network/planq/v2/testutil"
+	tests "github.com/planq-network/planq/v2/testutil/tx"
 	"github.com/planq-network/planq/v2/x/feemarket/types"
 
 	"cosmossdk.io/simapp"

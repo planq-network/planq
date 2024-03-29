@@ -13,7 +13,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/planq-network/planq/v2/rpc/backend/mocks"
 	rpc "github.com/planq-network/planq/v2/rpc/types"
-	"github.com/planq-network/planq/v2/tests"
+	tests "github.com/planq-network/planq/v2/testutil/tx"
 	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 	mock "github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"

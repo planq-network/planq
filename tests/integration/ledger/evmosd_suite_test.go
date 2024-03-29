@@ -10,7 +10,6 @@ import (
 
 	"cosmossdk.io/simapp/params"
 	"github.com/cosmos/cosmos-sdk/client"
-	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/keys"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	"github.com/cosmos/cosmos-sdk/crypto/types"
@@ -30,10 +29,8 @@ import (
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	tmversion "github.com/cometbft/cometbft/proto/tendermint/version"
 	rpcclientmock "github.com/cometbft/cometbft/rpc/client/mock"
-	cosmosledger "github.com/cosmos/cosmos-sdk/crypto/ledger"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	clientkeys "github.com/planq-network/planq/v2/client/keys"
-	evmoskeyring "github.com/planq-network/planq/v2/crypto/keyring"
 	feemarkettypes "github.com/planq-network/planq/v2/x/feemarket/types"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -119,7 +116,6 @@ func (suite *LedgerTestSuite) NewKeyringAndCtxs(krHome string, input io.Reader, 
 		krHome,
 		input,
 		encCfg.Codec,
-		s.MockKeyringOption(),
 	)
 	s.Require().NoError(err)
 	s.accRetriever = mocks.NewAccountRetriever(s.T())
@@ -146,12 +142,6 @@ func (suite *LedgerTestSuite) NewKeyringAndCtxs(krHome string, input io.Reader, 
 func (suite *LedgerTestSuite) evmosAddKeyCmd() *cobra.Command {
 	cmd := keys.AddKeyCommand()
 
-	algoFlag := cmd.Flag(flags.FlagKeyAlgorithm)
-	algoFlag.DefValue = string(hd.EthSecp256k1Type)
-
-	err := algoFlag.Value.Set(string(hd.EthSecp256k1Type))
-	suite.Require().NoError(err)
-
 	cmd.Flags().AddFlagSet(keys.Commands("home").PersistentFlags())
 
 	cmd.RunE = func(cmd *cobra.Command, args []string) error {
@@ -164,17 +154,6 @@ func (suite *LedgerTestSuite) evmosAddKeyCmd() *cobra.Command {
 		return clientkeys.RunAddCmd(clientCtx, cmd, args, buf)
 	}
 	return cmd
-}
-
-func (suite *LedgerTestSuite) MockKeyringOption() keyring.Option {
-	return func(options *keyring.Options) {
-		options.SupportedAlgos = evmoskeyring.SupportedAlgorithms
-		options.SupportedAlgosLedger = evmoskeyring.SupportedAlgorithmsLedger
-		options.LedgerDerivation = func() (cosmosledger.SECP256K1, error) { return suite.ledger, nil }
-		options.LedgerCreateKey = evmoskeyring.CreatePubkey
-		options.LedgerAppName = evmoskeyring.AppName
-		options.LedgerSigSkipDERConv = evmoskeyring.SkipDERConversion
-	}
 }
 
 func (suite *LedgerTestSuite) FormatFlag(flag string) string {

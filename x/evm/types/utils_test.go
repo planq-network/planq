@@ -14,7 +14,7 @@ import (
 	"github.com/planq-network/planq/v2/encoding"
 	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 
-	"github.com/planq-network/planq/v2/tests"
+	tests "github.com/planq-network/planq/v2/testutil/tx"
 
 	"github.com/stretchr/testify/require"
 
