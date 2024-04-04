@@ -6,7 +6,6 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
-	"github.com/planq-network/planq/v2/app"
 	"github.com/planq-network/planq/v2/app/keepers"
 )
 
@@ -19,7 +18,7 @@ type Upgrade struct {
 	UpgradeName string
 
 	// CreateUpgradeHandler defines the function that creates an upgrade handler
-	CreateUpgradeHandler func(*module.Manager, module.Configurator, *app.PlanqApp, *keepers.AppKeepers) upgradetypes.UpgradeHandler
+	CreateUpgradeHandler func(*module.Manager, module.Configurator, *keepers.AppKeepers) upgradetypes.UpgradeHandler
 
 	// Store upgrades, should be used for any new modules introduced, new modules deleted, or store names renamed.
 	StoreUpgrades store.StoreUpgrades

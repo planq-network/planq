@@ -25,8 +25,6 @@ import (
 	icahosttypes "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/host/types"
 	icatypes "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/types"
 	ibctransfertypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
-	ibctmmigrations "github.com/cosmos/ibc-go/v7/modules/light-clients/07-tendermint/migrations"
-	"github.com/planq-network/planq/v2/app"
 	"github.com/planq-network/planq/v2/app/keepers"
 	evmkeeper "github.com/planq-network/planq/v2/x/evm/keeper"
 	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
@@ -36,7 +34,6 @@ import (
 func CreateUpgradeHandler(
 	mm *module.Manager,
 	configurator module.Configurator,
-	planqApp *app.PlanqApp,
 	keepers *keepers.AppKeepers,
 ) upgradetypes.UpgradeHandler {
 	return func(ctx sdk.Context, _ upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
@@ -122,12 +119,6 @@ func CreateUpgradeHandler(
 		evmErr := EnableEIPs(ctx, keepers.EvmKeeper, 3855)
 		if evmErr != nil {
 			logger.Error("error while enabling EIPs", "error", err)
-		}
-
-		logger.Info("pruning expired IBC states")
-		_, ibcErr := ibctmmigrations.PruneExpiredConsensusStates(ctx, planqApp.AppCodec(), keepers.IBCKeeper.ClientKeeper)
-		if ibcErr != nil {
-			return nil, err
 		}
 
 		// Leave modules are as-is to avoid running InitGenesis.

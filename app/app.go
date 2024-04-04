@@ -911,7 +911,6 @@ func (app *PlanqApp) setupUpgradeHandlers() {
 			upgrade.CreateUpgradeHandler(
 				app.mm,
 				app.configurator,
-				app,
 				&app.AppKeepers,
 			),
 		)
