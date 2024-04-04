@@ -1,4 +1,4 @@
-package v2_test
+package v4_test
 
 import (
 	"testing"
@@ -7,7 +7,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/planq-network/planq/v2/app"
 	"github.com/planq-network/planq/v2/encoding"
-	v2 "github.com/planq-network/planq/v2/x/feemarket/migrations/v2"
+	v2 "github.com/planq-network/planq/v2/x/feemarket/migrations/v4"
 	"github.com/planq-network/planq/v2/x/feemarket/types"
 	"github.com/stretchr/testify/require"
 )

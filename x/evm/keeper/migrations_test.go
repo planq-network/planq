@@ -27,7 +27,7 @@ func (suite *KeeperTestSuite) TestMigrations() {
 		migrateFunc func(ctx sdk.Context) error
 	}{
 		{
-			"Run Migrate3to5",
+			"Run Migrate3to4",
 			migrator.Migrate3to5,
 		},
 	}

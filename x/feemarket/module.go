@@ -19,8 +19,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"math/rand"
-
 	"github.com/gorilla/mux"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/spf13/cobra"
@@ -139,23 +137,9 @@ func (am AppModule) RegisterServices(cfg module.Configurator) {
 	types.RegisterMsgServer(cfg.MsgServer(), &am.keeper)
 
 	m := keeper.NewMigrator(am.keeper, am.legacySubspace)
-	if err := cfg.RegisterMigration(types.ModuleName, 1, m.Migrate1to2); err != nil {
+	if err := cfg.RegisterMigration(types.ModuleName, 3, m.Migrate3to4); err != nil {
 		panic(err)
 	}
-}
-
-// Route returns the message routing key for the fee market module.
-func (am AppModule) Route() sdk.Route {
-	return sdk.NewRoute(types.RouterKey, NewHandler(&am.keeper))
-}
-
-// QuerierRoute returns the fee market module's querier route name.
-func (AppModule) QuerierRoute() string { return types.RouterKey }
-
-// LegacyQuerierHandler returns nil as the fee market module doesn't expose a legacy
-// Querier.
-func (am AppModule) LegacyQuerierHandler(_ *codec.LegacyAmino) sdk.Querier {
-	return nil
 }
 
 // BeginBlock returns the begin block for the fee market module.
