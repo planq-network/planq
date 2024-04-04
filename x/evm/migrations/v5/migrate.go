@@ -1,4 +1,4 @@
-package v2_5
+package v5
 
 import (
 	"github.com/cosmos/cosmos-sdk/codec"
@@ -6,7 +6,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/planq-network/planq/v2/x/evm/types"
 
-	v2_5types "github.com/planq-network/planq/v2/x/evm/migrations/v2_5/types"
+	v2_5types "github.com/planq-network/planq/v2/x/evm/migrations/v5/types"
 )
 
 // MigrateStore migrates the x/evm module state from the consensus version 4 to
@@ -19,7 +19,7 @@ func MigrateStore(
 	cdc codec.BinaryCodec,
 ) error {
 	var (
-		extraEIPs   v2_5types.V2_5ExtraEIPs
+		extraEIPs   v2_5types.V5ExtraEIPs
 		chainConfig types.ChainConfig
 		params      types.Params
 	)

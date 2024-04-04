@@ -17,8 +17,8 @@ package keeper
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	v2 "github.com/planq-network/planq/v2/x/evm/migrations/v2"
-	v2_5 "github.com/planq-network/planq/v2/x/evm/migrations/v2_5"
+	v4 "github.com/planq-network/planq/v2/x/evm/migrations/v4"
+	v5 "github.com/planq-network/planq/v2/x/evm/migrations/v5"
 	"github.com/planq-network/planq/v2/x/evm/types"
 )
 
@@ -36,11 +36,11 @@ func NewMigrator(keeper Keeper, legacySubspace types.Subspace) Migrator {
 	}
 }
 
-// Migrate1to2 migrates the store from consensus version 1 to 2
-func (m Migrator) Migrate1to2(ctx sdk.Context) error {
-	err := v2.MigrateStore(ctx, m.keeper.storeKey, m.legacySubspace, m.keeper.cdc)
+// Migrate3to5 migrates the store from consensus version 1 to 2
+func (m Migrator) Migrate3to5(ctx sdk.Context) error {
+	err := v4.MigrateStore(ctx, m.keeper.storeKey, m.legacySubspace, m.keeper.cdc)
 	if err != nil {
 		return err
 	}
-	return v2_5.MigrateStore(ctx, m.keeper.storeKey, m.keeper.cdc)
+	return v5.MigrateStore(ctx, m.keeper.storeKey, m.keeper.cdc)
 }

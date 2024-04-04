@@ -1,11 +1,11 @@
-package v2
+package v4
 
 import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	v4types "github.com/planq-network/planq/v2/x/evm/migrations/v2/types"
+	v4types "github.com/planq-network/planq/v2/x/evm/migrations/v4/types"
 	"github.com/planq-network/planq/v2/x/evm/types"
 )
 

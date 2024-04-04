@@ -23,22 +23,22 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// V2_5ExtraEIPs represents extra EIPs for the vm.Config
-type V2_5ExtraEIPs struct {
+// V5ExtraEIPs represents extra EIPs for the vm.Config
+type V5ExtraEIPs struct {
 	// eips defines the additional EIPs for the vm.Config
 	EIPs []int64 `protobuf:"varint,1,rep,packed,name=eips,proto3" json:"eips,omitempty" yaml:"eips"`
 }
 
-func (m *V2_5ExtraEIPs) Reset()         { *m = V2_5ExtraEIPs{} }
-func (m *V2_5ExtraEIPs) String() string { return proto.CompactTextString(m) }
-func (*V2_5ExtraEIPs) ProtoMessage()    {}
-func (*V2_5ExtraEIPs) Descriptor() ([]byte, []int) {
+func (m *V5ExtraEIPs) Reset()         { *m = V5ExtraEIPs{} }
+func (m *V5ExtraEIPs) String() string { return proto.CompactTextString(m) }
+func (*V5ExtraEIPs) ProtoMessage()    {}
+func (*V5ExtraEIPs) Descriptor() ([]byte, []int) {
 	return fileDescriptor_d21ecc92c8c8583e, []int{1}
 }
-func (m *V2_5ExtraEIPs) XXX_Unmarshal(b []byte) error {
+func (m *V5ExtraEIPs) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *V2_5ExtraEIPs) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *V5ExtraEIPs) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_V5ExtraEIPs.Marshal(b, m, deterministic)
 	} else {
@@ -50,30 +50,27 @@ func (m *V2_5ExtraEIPs) XXX_Marshal(b []byte, deterministic bool) ([]byte, error
 		return b[:n], nil
 	}
 }
-func (m *V2_5ExtraEIPs) XXX_Merge(src proto.Message) {
+func (m *V5ExtraEIPs) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_V5ExtraEIPs.Merge(m, src)
 }
-func (m *V2_5ExtraEIPs) XXX_Size() int {
+func (m *V5ExtraEIPs) XXX_Size() int {
 	return m.Size()
 }
-func (m *V2_5ExtraEIPs) XXX_DiscardUnknown() {
+func (m *V5ExtraEIPs) XXX_DiscardUnknown() {
 	xxx_messageInfo_V5ExtraEIPs.DiscardUnknown(m)
 }
 
 var xxx_messageInfo_V5ExtraEIPs proto.InternalMessageInfo
 
-func (m *V2_5ExtraEIPs) GetEIPs() []int64 {
+func (m *V5ExtraEIPs) GetEIPs() []int64 {
 	if m != nil {
 		return m.EIPs
 	}
 	return nil
 }
 
-
-
-
 func init() {
-	proto.RegisterType((*V2_5ExtraEIPs)(nil), "ethermint.evm.v1.V2_5ExtraEIPs")
+	proto.RegisterType((*V5ExtraEIPs)(nil), "ethermint.evm.v1.V5ExtraEIPs")
 }
 
 func init() { proto.RegisterFile("ethermint/evm/v1/evm.proto", fileDescriptor_d21ecc92c8c8583e) }
@@ -185,8 +182,7 @@ var fileDescriptor_d21ecc92c8c8583e = []byte{
 	0x00, 0x00, 0xff, 0xff, 0x68, 0xce, 0x8e, 0x23, 0x7a, 0x10, 0x00, 0x00,
 }
 
-
-func (m *V2_5ExtraEIPs) Marshal() (dAtA []byte, err error) {
+func (m *V5ExtraEIPs) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -196,12 +192,12 @@ func (m *V2_5ExtraEIPs) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *V2_5ExtraEIPs) MarshalTo(dAtA []byte) (int, error) {
+func (m *V5ExtraEIPs) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *V2_5ExtraEIPs) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *V5ExtraEIPs) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -228,7 +224,6 @@ func (m *V2_5ExtraEIPs) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-
 func encodeVarintEvm(dAtA []byte, offset int, v uint64) int {
 	offset -= sovEvm(v)
 	base := offset
@@ -241,7 +236,7 @@ func encodeVarintEvm(dAtA []byte, offset int, v uint64) int {
 	return base
 }
 
-func (m *V2_5ExtraEIPs) Size() (n int) {
+func (m *V5ExtraEIPs) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -257,7 +252,6 @@ func (m *V2_5ExtraEIPs) Size() (n int) {
 	return n
 }
 
-
 func sovEvm(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
@@ -265,7 +259,7 @@ func sozEvm(x uint64) (n int) {
 	return sovEvm(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
 
-func (m *V2_5ExtraEIPs) Unmarshal(dAtA []byte) error {
+func (m *V5ExtraEIPs) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -288,10 +282,10 @@ func (m *V2_5ExtraEIPs) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: V2_5ExtraEIPs: wiretype end group for non-group")
+			return fmt.Errorf("proto: V5ExtraEIPs: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: V2_5ExtraEIPs: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: V5ExtraEIPs: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:

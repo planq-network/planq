@@ -1,4 +1,4 @@
-package v2_test
+package v4_test
 
 import (
 	"testing"
@@ -11,8 +11,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/planq-network/planq/v2/app"
 	"github.com/planq-network/planq/v2/encoding"
-	v2 "github.com/planq-network/planq/v2/x/evm/migrations/v2"
-	v2types "github.com/planq-network/planq/v2/x/evm/migrations/v2/types"
+	v2 "github.com/planq-network/planq/v2/x/evm/migrations/v4"
+	v2types "github.com/planq-network/planq/v2/x/evm/migrations/v4/types"
 )
 
 type mockSubspace struct {

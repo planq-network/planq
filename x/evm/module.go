@@ -141,7 +141,7 @@ func (am AppModule) RegisterServices(cfg module.Configurator) {
 	types.RegisterQueryServer(cfg.QueryServer(), am.keeper)
 
 	m := keeper.NewMigrator(*am.keeper, am.legacySubspace)
-	err := cfg.RegisterMigration(types.ModuleName, 1, m.Migrate1to2)
+	err := cfg.RegisterMigration(types.ModuleName, 3, m.Migrate3to5)
 	if err != nil {
 		panic(err)
 	}

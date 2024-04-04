@@ -1,4 +1,4 @@
-package v2_5_test
+package v5_test
 
 import (
 	"testing"
@@ -9,8 +9,8 @@ import (
 
 	"github.com/planq-network/planq/v2/app"
 	"github.com/planq-network/planq/v2/encoding"
-	v5 "github.com/planq-network/planq/v2/x/evm/migrations/v2_5"
-	v5types "github.com/planq-network/planq/v2/x/evm/migrations/v2_5/types"
+	v5 "github.com/planq-network/planq/v2/x/evm/migrations/v5"
+	v5types "github.com/planq-network/planq/v2/x/evm/migrations/v5/types"
 	"github.com/planq-network/planq/v2/x/evm/types"
 )
 
@@ -23,7 +23,7 @@ func TestMigrate(t *testing.T) {
 	ctx := testutil.DefaultContext(storeKey, tKey)
 	kvStore := ctx.KVStore(storeKey)
 
-	extraEIPs := v5types.V2_5ExtraEIPs{EIPs: types.AvailableExtraEIPs}
+	extraEIPs := v5types.V5ExtraEIPs{EIPs: types.AvailableExtraEIPs}
 	extraEIPsBz := cdc.MustMarshal(&extraEIPs)
 	chainConfig := types.DefaultChainConfig()
 	chainConfigBz := cdc.MustMarshal(&chainConfig)
