@@ -45,8 +45,8 @@ f_print_done() {
 
 f_ensure_tools() {
     test=!$(which curl &>/dev/null)
-    if [[ $test ]] 
-    then f_abort 2 "couldn't find curl, aborting" else true 
+    if [[ $test ]]
+    then f_abort 2 "couldn't find curl, aborting" else true
     fi
 }
 

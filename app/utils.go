@@ -2,6 +2,7 @@ package app
 
 import (
 	"encoding/json"
+	simtestutil "github.com/cosmos/cosmos-sdk/testutil/sims"
 	"github.com/planq-network/planq/v2/utils"
 	"time"
 
@@ -26,7 +27,6 @@ import (
 	feemarkettypes "github.com/planq-network/planq/v2/x/feemarket/types"
 
 	"github.com/planq-network/planq/v2/cmd/config"
-	"github.com/planq-network/planq/v2/types"
 )
 
 func init() {
@@ -85,7 +85,7 @@ func Setup(
 	}
 
 	db := dbm.NewMemDB()
-	app := NewPlanqApp(log.NewNopLogger(), db, nil, true, map[int64]bool{}, DefaultNodeHome, 5, encoding.MakeConfig(ModuleBasics), simapp.EmptyAppOptions{})
+	app := NewPlanqApp(log.NewNopLogger(), db, nil, true, map[int64]bool{}, DefaultNodeHome, 5, encoding.MakeConfig(ModuleBasics), simtestutil.NewAppOptionsWithFlagHome(DefaultNodeHome))
 	if !isCheckTx {
 		// init chain must be called to stop deliverState from being nil
 		genesisState := NewDefaultGenesisState()
@@ -186,6 +186,6 @@ func GenesisStateWithValSet(app *PlanqApp, genesisState simapp.GenesisState,
 func SetupTestingApp() (ibctesting.TestingApp, map[string]json.RawMessage) {
 	db := dbm.NewMemDB()
 	cfg := encoding.MakeConfig(ModuleBasics)
-	app := NewPlanqApp(log.NewNopLogger(), db, nil, true, map[int64]bool{}, DefaultNodeHome, 5, cfg, simapp.EmptyAppOptions{})
+	app := NewPlanqApp(log.NewNopLogger(), db, nil, true, map[int64]bool{}, DefaultNodeHome, 5, cfg, simtestutil.NewAppOptionsWithFlagHome(DefaultNodeHome))
 	return app, NewDefaultGenesisState()
 }
