@@ -4,8 +4,8 @@
 package types
 
 import (
-	fmt "fmt"
 	types "github.com/cosmos/cosmos-sdk/x/bank/types"
+	fmt "fmt"
 	_ "github.com/cosmos/gogoproto/gogoproto"
 	proto "github.com/cosmos/gogoproto/proto"
 	io "io"

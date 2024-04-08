@@ -444,94 +444,81 @@ format:
 ###                                Protobuf                                 ###
 ###############################################################################
 
-# ------
-# NOTE: Link to the tendermintdev/sdk-proto-gen docker images:
-#       https://hub.docker.com/r/tendermintdev/sdk-proto-gen/tags
-#
-protoVer=v0.7
-protoImageName=tendermintdev/sdk-proto-gen:$(protoVer)
-protoImage=$(DOCKER) run --network host --rm -v $(CURDIR):/workspace --workdir /workspace $(protoImageName)
-# ------
-# NOTE: cosmos/proto-builder image is needed because clang-format is not installed
-#       on the tendermintdev/sdk-proto-gen docker image.
-#		Link to the cosmos/proto-builder docker images:
-#       https://github.com/cosmos/cosmos-sdk/pkgs/container/proto-builder
-#
-protoCosmosVer=0.11.6
-protoCosmosName=ghcr.io/cosmos/proto-builder:$(protoCosmosVer)
-protoCosmosImage=$(DOCKER) run --network host --rm -v $(CURDIR):/workspace --workdir /workspace $(protoCosmosName)
-# ------
-# NOTE: Link to the yoheimuta/protolint docker images:
-#       https://hub.docker.com/r/yoheimuta/protolint/tags
-#
-protolintVer=0.42.2
-protolintName=yoheimuta/protolint:$(protolintVer)
-protolintImage=$(DOCKER) run --network host --rm -v $(CURDIR):/workspace --workdir /workspace $(protolintName)
-
-
+protoVer=0.13.0
+protoImageName=ghcr.io/cosmos/proto-builder:$(protoVer)
+protoImage=$(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace $(protoImageName)
 
 proto-all: proto-format proto-lint proto-gen
 
 proto-gen:
 	@echo "Generating Protobuf files"
-	$(protoCosmosImage) sh ./scripts/protocgen.sh
+	@$(protoImage) sh ./scripts/protocgen.sh
 
-    # TODO: Rethink API docs generation
-    # proto-swagger-gen:
-    # 	@echo "Generating Protobuf Swagger"
-    # 	$(protoImage) sh ./scripts/protoc-swagger-gen.sh
+proto-swagger-gen:
+	@echo "Generating Protobuf Swagger"
+	@make proto-update-deps
+	@$(protoImage) sh ./scripts/protoc-swagger-gen.sh
+	$(MAKE) update-swagger-docs
 
 proto-format:
-	@echo "Formatting Protobuf files"
-	$(protoCosmosImage) find ./ -name *.proto -exec clang-format -i {} \;
+	@$(protoImage) find ./ -name "*.proto" -exec clang-format -i {} \;
 
 proto-lint:
-	@echo "Linting Protobuf files"
-	$(protolintImage) lint ./proto
+	@$(protoImage) buf lint --error-format=json
 
 proto-check-breaking:
-	@echo "Checking Protobuf files for breaking changes"
-	$(protoCosmosImage) buf breaking --against $(HTTPS_GIT)#branch=main
+	@$(protoImage) buf breaking --against $(HTTPS_GIT)#branch=main
 
+CMT_URL              = https://raw.githubusercontent.com/cometbft/cometbft/v0.37.0/proto/tendermint
 
-TM_URL              = https://raw.githubusercontent.com/tendermint/tendermint/v0.34.20/proto/tendermint
-GOGO_PROTO_URL      = https://raw.githubusercontent.com/regen-network/protobuf/cosmos
-COSMOS_SDK_URL      = https://raw.githubusercontent.com/cosmos/cosmos-sdk/v0.46.0
-ETHERMINT_URL       = https://raw.githubusercontent.com/planq-network/planq/v0.6.1
-IBC_GO_URL          = https://raw.githubusercontent.com/cosmos/ibc-go/v5.0.0-beta1
-COSMOS_PROTO_URL    = https://raw.githubusercontent.com/regen-network/cosmos-proto/master
+THIRD_PARTY_DIR=./swagger-proto/third_party
 
-TM_CRYPTO_TYPES     = third_party/proto/tendermint/crypto
-TM_ABCI_TYPES       = third_party/proto/tendermint/abci
-TM_TYPES            = third_party/proto/tendermint/types
-
-GOGO_PROTO_TYPES    = third_party/proto/gogoproto
-COSMOS_PROTO_TYPES  = third_party/proto/cosmos_proto
+TM_CRYPTO_TYPES     = $(THIRD_PARTY_DIR)/tendermint/crypto
+TM_ABCI_TYPES       = $(THIRD_PARTY_DIR)/tendermint/abci
+TM_TYPES            = $(THIRD_PARTY_DIR)/tendermint/types
+TM_VERSION          = $(THIRD_PARTY_DIR)/tendermint/version
+TM_LIBS             = $(THIRD_PARTY_DIR)/tendermint/libs/bits
+TM_P2P              = $(THIRD_PARTY_DIR)/tendermint/p2p
 
 proto-update-deps:
-	@mkdir -p $(GOGO_PROTO_TYPES)
-	@curl -sSL $(GOGO_PROTO_URL)/gogoproto/gogo.proto > $(GOGO_PROTO_TYPES)/gogo.proto
+	@echo "Updating Protobuf dependencies"
 
-	@mkdir -p $(COSMOS_PROTO_TYPES)
-	@curl -sSL $(COSMOS_PROTO_URL)/cosmos.proto > $(COSMOS_PROTO_TYPES)/cosmos.proto
-
-## Importing of tendermint protobuf definitions currently requires the
-## use of `sed` in order to build properly with cosmos-sdk's proto file layout
-## (which is the standard Buf.build FILE_LAYOUT)
-## Issue link: https://github.com/cometbft/cometbft/issues/5021
 	@mkdir -p $(TM_ABCI_TYPES)
-	@curl -sSL $(TM_URL)/abci/types.proto > $(TM_ABCI_TYPES)/types.proto
+	@curl -sSL $(CMT_URL)/abci/types.proto > $(TM_ABCI_TYPES)/types.proto
+
+	@mkdir -p $(TM_VERSION)
+	@curl -sSL $(CMT_URL)/version/types.proto > $(TM_VERSION)/types.proto
 
 	@mkdir -p $(TM_TYPES)
-	@curl -sSL $(TM_URL)/types/types.proto > $(TM_TYPES)/types.proto
+	@curl -sSL $(CMT_URL)/types/types.proto > $(TM_TYPES)/types.proto
+	@curl -sSL $(CMT_URL)/types/evidence.proto > $(TM_TYPES)/evidence.proto
+	@curl -sSL $(CMT_URL)/types/params.proto > $(TM_TYPES)/params.proto
+	@curl -sSL $(CMT_URL)/types/validator.proto > $(TM_TYPES)/validator.proto
+	@curl -sSL $(CMT_URL)/types/block.proto > $(TM_TYPES)/block.proto
 
 	@mkdir -p $(TM_CRYPTO_TYPES)
-	@curl -sSL $(TM_URL)/crypto/proof.proto > $(TM_CRYPTO_TYPES)/proof.proto
-	@curl -sSL $(TM_URL)/crypto/keys.proto > $(TM_CRYPTO_TYPES)/keys.proto
+	@curl -sSL $(CMT_URL)/crypto/proof.proto > $(TM_CRYPTO_TYPES)/proof.proto
+	@curl -sSL $(CMT_URL)/crypto/keys.proto > $(TM_CRYPTO_TYPES)/keys.proto
 
+	@mkdir -p $(TM_LIBS)
+	@curl -sSL $(CMT_URL)/libs/bits/types.proto > $(TM_LIBS)/types.proto
 
+	@mkdir -p $(TM_P2P)
+	@curl -sSL $(CMT_URL)/p2p/types.proto > $(TM_P2P)/types.proto
 
-.PHONY: proto-all proto-gen proto-gen-any proto-swagger-gen proto-format proto-lint proto-check-breaking proto-update-deps
+	@mkdir -p "$(THIRD_PARTY_DIR)/gogoproto" && \
+	@curl -SSL https://raw.githubusercontent.com/cosmos/gogoproto/main/gogoproto/gogo.proto > "$(THIRD_PARTY_DIR)/gogoproto/gogo.proto"
+
+	@mkdir -p "$(THIRD_PARTY_DIR)/google/api" && \
+	@curl -sSL https://raw.githubusercontent.com/googleapis/googleapis/master/google/api/annotations.proto > "$(THIRD_PARTY_DIR)/google/api/annotations.proto"
+	@curl -sSL https://raw.githubusercontent.com/googleapis/googleapis/master/google/api/http.proto > "$(THIRD_PARTY_DIR)/google/api/http.proto"
+
+	@mkdir -p "$(THIRD_PARTY_DIR)/cosmos/ics23/v1" && \
+	@curl -sSL https://raw.githubusercontent.com/cosmos/ics23/master/proto/cosmos/ics23/v1/proofs.proto > "$(THIRD_PARTY_DIR)/cosmos/ics23/v1/proofs.proto"
+
+	$(DOCKER) run --rm -v $(CURDIR)/proto:/workspace --workdir /workspace $(protoImageName) buf mod update
+
+.PHONY: proto-all proto-gen proto-swagger-gen proto-format proto-lint proto-check-breaking proto-update-deps
 
 ###############################################################################
 ###                                Localnet                                 ###
