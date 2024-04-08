@@ -12,7 +12,7 @@ import (
 // MigrateStore migrates the x/evm module state from the consensus version 4 to
 // version 5. Specifically, it takes the parameters that are currently stored
 // in separate keys and stores them directly into the x/evm module state using
-// a single params key.
+// a single params key. Adds Shanghai and Cancun block to chainConfig.
 func MigrateStore(
 	ctx sdk.Context,
 	storeKey storetypes.StoreKey,
@@ -25,7 +25,7 @@ func MigrateStore(
 	)
 
 	store := ctx.KVStore(storeKey)
-
+	defaultConfig := types.DefaultChainConfig()
 	denom := string(store.Get(types.ParamStoreKeyEVMDenom))
 
 	extraEIPsBz := store.Get(types.ParamStoreKeyExtraEIPs)
@@ -33,6 +33,9 @@ func MigrateStore(
 
 	chainCfgBz := store.Get(types.ParamStoreKeyChainConfig)
 	cdc.MustUnmarshal(chainCfgBz, &chainConfig)
+
+	chainConfig.ShanghaiBlock = defaultConfig.ShanghaiBlock
+	chainConfig.CancunBlock = defaultConfig.CancunBlock
 
 	params.EvmDenom = denom
 	params.ExtraEIPs = extraEIPs.EIPs
