@@ -19,7 +19,7 @@ import (
 	"context"
 	"fmt"
 
-	rpcclient "github.com/cometbft/cometbft/rpc/client"
+	cmrpcclient "github.com/cometbft/cometbft/rpc/client"
 	"github.com/cosmos/cosmos-sdk/client"
 	ethermint "github.com/planq-network/planq/v2/types"
 )
@@ -27,7 +27,7 @@ import (
 // PublicAPI is the eth_ prefixed set of APIs in the Web3 JSON-RPC spec.
 type PublicAPI struct {
 	networkVersion uint64
-	tmClient       rpcclient.Client
+	tmClient       cmrpcclient.Client
 }
 
 // NewPublicAPI creates an instance of the public Net Web3 API.
@@ -40,7 +40,7 @@ func NewPublicAPI(clientCtx client.Context) *PublicAPI {
 
 	return &PublicAPI{
 		networkVersion: chainIDEpoch.Uint64(),
-		tmClient:       clientCtx.Client,
+		tmClient:       clientCtx.Client.(cmrpcclient.Client),
 	}
 }
 

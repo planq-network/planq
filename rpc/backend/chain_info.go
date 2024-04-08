@@ -20,7 +20,8 @@ import (
 	"math/big"
 	"strconv"
 
-	tmrpctypes "github.com/cometbft/cometbft/rpc/core/types"
+	cmrpcclient "github.com/cometbft/cometbft/rpc/client"
+	cmrpctypes "github.com/cometbft/cometbft/rpc/core/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
@@ -75,7 +76,7 @@ func (b *Backend) GlobalMinGasPrice() (sdk.Dec, error) {
 // If the base fee is not enabled globally, the query returns nil.
 // If the London hard fork is not activated at the current height, the query will
 // return nil.
-func (b *Backend) BaseFee(blockRes *tmrpctypes.ResultBlockResults) (*big.Int, error) {
+func (b *Backend) BaseFee(blockRes *cmrpctypes.ResultBlockResults) (*big.Int, error) {
 	// return BaseFee if London hard fork is activated and feemarket is enabled
 	res, err := b.queryClient.BaseFee(rpctypes.ContextWithHeight(blockRes.Height), &evmtypes.QueryBaseFeeRequest{})
 	if err != nil || res.BaseFee == nil {
@@ -111,7 +112,7 @@ func (b *Backend) CurrentHeader() *ethtypes.Header {
 // PendingTransactions returns the transactions that are in the transaction pool
 // and have a from address that is one of the accounts this node manages.
 func (b *Backend) PendingTransactions() ([]*sdk.Tx, error) {
-	res, err := b.clientCtx.Client.UnconfirmedTxs(b.ctx, nil)
+	res, err := b.clientCtx.Client.(cmrpcclient.MempoolClient).UnconfirmedTxs(b.ctx, nil)
 	if err != nil {
 		return nil, err
 	}
