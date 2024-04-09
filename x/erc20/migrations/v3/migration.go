@@ -14,12 +14,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the Evmos packages. If not, see https://github.com/evmos/evmos/blob/main/LICENSE
 
-package v2
+package v3
 
 import (
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	v2types "github.com/planq-network/planq/v2/x/erc20/migrations/v2/types"
+	v3types "github.com/planq-network/planq/v2/x/erc20/migrations/v3/types"
 	"github.com/planq-network/planq/v2/x/erc20/types"
 )
 
@@ -34,9 +34,9 @@ func MigrateStore(
 	legacySubspace types.Subspace,
 ) error {
 	store := ctx.KVStore(storeKey)
-	var params v2types.V2Params
+	var params v3types.V3Params
 
-	legacySubspace = legacySubspace.WithKeyTable(v2types.ParamKeyTable())
+	legacySubspace = legacySubspace.WithKeyTable(v3types.ParamKeyTable())
 	legacySubspace.GetParamSet(ctx, &params)
 
 	if err := params.Validate(); err != nil {
@@ -44,11 +44,11 @@ func MigrateStore(
 	}
 
 	if params.EnableErc20 {
-		store.Set(v2types.ParamStoreKeyEnableErc20, isTrue)
+		store.Set(v3types.ParamStoreKeyEnableErc20, isTrue)
 	}
 
 	if params.EnableEVMHook {
-		store.Set(v2types.ParamStoreKeyEnableEVMHook, isTrue)
+		store.Set(v3types.ParamStoreKeyEnableEVMHook, isTrue)
 	}
 
 	return nil

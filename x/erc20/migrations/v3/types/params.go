@@ -23,7 +23,7 @@ import (
 	"github.com/planq-network/planq/v2/x/erc20/types"
 )
 
-var _ types.LegacyParams = &V2Params{}
+var _ types.LegacyParams = &V3Params{}
 
 var (
 	DefaultErc20   = true
@@ -38,11 +38,11 @@ var (
 
 // ParamKeyTable returns the parameter key table.
 func ParamKeyTable() paramtypes.KeyTable {
-	return paramtypes.NewKeyTable().RegisterParamSet(&V2Params{})
+	return paramtypes.NewKeyTable().RegisterParamSet(&V3Params{})
 }
 
 // ParamSetPairs returns the parameter set pairs.
-func (p *V2Params) ParamSetPairs() paramtypes.ParamSetPairs {
+func (p *V3Params) ParamSetPairs() paramtypes.ParamSetPairs {
 	return paramtypes.ParamSetPairs{
 		paramtypes.NewParamSetPair(ParamStoreKeyEnableErc20, &p.EnableErc20, validateBool),
 		paramtypes.NewParamSetPair(ParamStoreKeyEnableEVMHook, &p.EnableEVMHook, validateBool),
@@ -53,15 +53,15 @@ func (p *V2Params) ParamSetPairs() paramtypes.ParamSetPairs {
 func NewParams(
 	enableErc20 bool,
 	enableEVMHook bool,
-) V2Params {
-	return V2Params{
+) V3Params {
+	return V3Params{
 		EnableErc20:   enableErc20,
 		EnableEVMHook: enableEVMHook,
 	}
 }
 
-func DefaultParams() V2Params {
-	return V2Params{
+func DefaultParams() V3Params {
+	return V3Params{
 		EnableErc20:   DefaultErc20,
 		EnableEVMHook: DefaultEVMHook,
 	}
@@ -76,7 +76,7 @@ func validateBool(i interface{}) error {
 	return nil
 }
 
-func (p V2Params) Validate() error {
+func (p V3Params) Validate() error {
 	if err := validateBool(p.EnableEVMHook); err != nil {
 		return err
 	}

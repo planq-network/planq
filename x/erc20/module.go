@@ -143,7 +143,7 @@ func (am AppModule) RegisterServices(cfg module.Configurator) {
 	// since the last release
 
 	// register v1 -> v2 migration
-	if err := cfg.RegisterMigration(types.ModuleName, 1, migrator.Migrate1to2); err != nil {
+	if err := cfg.RegisterMigration(types.ModuleName, 1, migrator.Migrate2to3); err != nil {
 		panic(fmt.Errorf("failed to migrate %s to v2: %w", types.ModuleName, err))
 	}
 }

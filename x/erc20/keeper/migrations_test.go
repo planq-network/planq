@@ -56,7 +56,7 @@ func (suite *KeeperTestSuite) TestMigrations() {
 	}{
 		{
 			"Run Migrate3to4",
-			migrator.Migrate1to2,
+			migrator.Migrate2to3,
 		},
 	}
 
