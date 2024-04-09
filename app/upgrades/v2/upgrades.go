@@ -79,6 +79,7 @@ func CreateUpgradeHandler(
 		m.InitGenesis(ctx, icatypes.ModuleCdc, bz)
 
 		logger.Info("migrating legacy params")
+		// https://github.com/cosmos/cosmos-sdk/blob/v0.47.10/simapp/upgrades.go#L32
 		for _, subspace := range keepers.ParamsKeeper.GetSubspaces() {
 			var keyTable paramstypes.KeyTable
 			switch subspace.Name() {
