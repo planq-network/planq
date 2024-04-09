@@ -14,8 +14,7 @@ const (
 	// UpgradeInfo defines the binaries that will be used for the upgrade
 	UpgradeInfo = `''`
 
-	// TODO: Define open channels for migration
-	OpenChannels = 0
+	OpenChannels = 62
 )
 
 var Upgrade = upgrades.Upgrade{
