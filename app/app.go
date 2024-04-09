@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/cosmos/cosmos-sdk/runtime"
+	"github.com/cosmos/cosmos-sdk/x/consensus"
 	"github.com/planq-network/planq/v2/app/keepers"
 	"github.com/planq-network/planq/v2/app/upgrades"
 	"io"
@@ -198,6 +199,7 @@ var (
 		evm.AppModuleBasic{},
 		feemarket.AppModuleBasic{},
 		erc20.AppModuleBasic{},
+		consensus.AppModuleBasic{},
 	)
 
 	// module account permissions
@@ -506,7 +508,8 @@ func NewPlanqApp(
 		evidence.NewAppModule(app.EvidenceKeeper),
 		params.NewAppModule(app.ParamsKeeper),
 		authzmodule.NewAppModule(appCodec, app.AuthzKeeper, app.AccountKeeper, app.BankKeeper, app.interfaceRegistry),
-
+		consensus.NewAppModule(appCodec, app.ConsensusParamsKeeper),
+		
 		// ibc modules
 		ibc.NewAppModule(app.IBCKeeper),
 		ica.NewAppModule(nil, &app.ICAHostKeeper),
