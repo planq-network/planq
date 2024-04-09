@@ -14,7 +14,7 @@ import (
 	"github.com/planq-network/planq/v2/server/config"
 	"github.com/planq-network/planq/v2/testutil/network"
 
-	evmosnetwork "github.com/planq-network/planq/v2/testutil/network"
+	planqnetwork "github.com/planq-network/planq/v2/testutil/network"
 )
 
 type IntegrationTestSuite struct {
@@ -27,7 +27,7 @@ func (s *IntegrationTestSuite) SetupSuite() {
 	s.T().Log("setting up integration test suite")
 
 	var err error
-	cfg := evmosnetwork.DefaultConfig()
+	cfg := planqnetwork.DefaultConfig()
 	cfg.JSONRPCAddress = config.DefaultJSONRPCAddress
 	cfg.NumValidators = 1
 
