@@ -381,6 +381,8 @@ func NewPlanqApp(
 		stakingtypes.NewMultiStakingHooks(app.DistrKeeper.Hooks(), app.SlashingKeeper.Hooks()),
 	)
 
+	app.StakingKeeper = *stakingKeeper
+
 	app.AuthzKeeper = authzkeeper.NewKeeper(keys[authzkeeper.StoreKey], appCodec, app.MsgServiceRouter(), app.AccountKeeper)
 
 	tracer := cast.ToString(appOpts.Get(srvflags.EVMTracer))
@@ -509,7 +511,7 @@ func NewPlanqApp(
 		params.NewAppModule(app.ParamsKeeper),
 		authzmodule.NewAppModule(appCodec, app.AuthzKeeper, app.AccountKeeper, app.BankKeeper, app.interfaceRegistry),
 		consensus.NewAppModule(appCodec, app.ConsensusParamsKeeper),
-		
+
 		// ibc modules
 		ibc.NewAppModule(app.IBCKeeper),
 		ica.NewAppModule(nil, &app.ICAHostKeeper),
