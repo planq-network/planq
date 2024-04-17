@@ -9,6 +9,8 @@ const (
 	// UpgradeHeight defines the block height at which the Planq v1_0_5 upgrade is
 	// triggered.
 	UpgradeHeight = 1_763_000
+
+	UpgradeHeightTestnet = 2
 )
 
 var Fork = upgrades.Fork{

@@ -41,8 +41,8 @@ type Fork struct {
 	// Upgrade version name, for the upgrade handler, e.g. `v7`
 	UpgradeName string
 	// height the upgrade occurs at
-	UpgradeHeight int64
-
+	UpgradeHeight        int64
+	UpgradeHeightTestnet int64
 	// Function that runs some custom state transition code at the beginning of a fork.
 	BeginForkLogic func(ctx sdk.Context, keepers *keepers.AppKeepers, baseApp *baseapp.BaseApp)
 }

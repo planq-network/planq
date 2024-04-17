@@ -12,6 +12,8 @@ const (
 	UpgradeHeight = 7_516_700 // (24 * 60 * 60) / 5 + 7101660
 	// UpgradeInfo defines the binaries that will be used for the upgrade
 	UpgradeInfo = `0` // current binary will do the upgrade via schedule upgrade
+
+	UpgradeHeightTestnet = 3
 )
 
 var Upgrade = upgrades.Upgrade{

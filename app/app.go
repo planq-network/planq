@@ -387,7 +387,7 @@ func NewPlanqApp(
 
 	app.GovKeeper = *govKeeper.SetHooks(
 		govtypes.NewMultiGovHooks(
-		// register the governance hooks
+			// register the governance hooks
 		),
 	)
 
@@ -806,8 +806,7 @@ func (app *PlanqApp) setupUpgradeStoreLoaders() {
 	if err != nil {
 		panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
 	}
-	upgradeInfo.Name = v1_1_0.UpgradeName
-	upgradeInfo.Height = v1_1_0.UpgradeHeight
+
 	if app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
 		return
 	}
@@ -840,16 +839,29 @@ func (app *PlanqApp) ScheduleForkUpgrade(ctx sdk.Context) {
 	}
 
 	// handle mainnet forks with their corresponding upgrade name and info
-	switch ctx.BlockHeight() {
-	case v1_1_0.UpgradeHeight:
-		upgradePlan.Name = v1_1_0.UpgradeName
-		upgradePlan.Info = v1_1_0.UpgradeInfo
+	switch ctx.ChainID() {
+	case "planq_7070-2":
+		switch ctx.BlockHeight() {
+		case v1_1_0.UpgradeHeight:
+			upgradePlan.Name = v1_1_0.UpgradeName
+			upgradePlan.Info = v1_1_0.UpgradeInfo
+		default:
+			// No-op
+			return
+		}
+		break
 	default:
-		// No-op
-		return
+		switch ctx.BlockHeight() {
+		case v1_1_0.UpgradeHeightTestnet:
+			upgradePlan.Name = v1_1_0.UpgradeName
+			upgradePlan.Info = v1_1_0.UpgradeInfo
+		default:
+			// No-op
+			return
+		}
 	}
 
-	// schedule the upgrade plan to the current block hight, effectively performing
+	// schedule the upgrade plan to the current block height, effectively performing
 	// a hard fork that uses the upgrade handler to manage the migration.
 	if err := app.UpgradeKeeper.ScheduleUpgrade(ctx, upgradePlan); err != nil {
 		panic(
