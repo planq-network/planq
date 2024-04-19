@@ -802,6 +802,7 @@ github.com/planq-network/cosmos-sdk v0.46.0-rc3.0.20240403120418-73b2f1fb035a h1
 github.com/planq-network/cosmos-sdk v0.46.0-rc3.0.20240403120418-73b2f1fb035a/go.mod h1:JKbfQ83wy8jrrq3LLlLp6SFOjdK0kZYoGwGxnR1fd3I=
 github.com/planq-network/ethermint v0.0.0-20240403124123-3734f010cd76 h1:u8J/Ia44aLAWbDMgiH5NT/od2bUAJL2f25wKjHqzoSQ=
 github.com/planq-network/ethermint v0.0.0-20240403124123-3734f010cd76/go.mod h1:TDDuNmVvsxrx5ubIxY/2HXjI4ePrzCVcFLAYNKSvD/E=
+github.com/planq-network/ethermint v0.0.0-20240419084155-fec7c6c4a149/go.mod h1:TDDuNmVvsxrx5ubIxY/2HXjI4ePrzCVcFLAYNKSvD/E=
 github.com/planq-network/ibc-go/v5 v5.0.2 h1:ZijaLEJWyqvHNOOK0iT/r2dC16RlHc88A64sz+F7ync=
 github.com/planq-network/ibc-go/v5 v5.0.2/go.mod h1:LX0DHLW3dfi/1e4BJzi8MGLWmQ4DSraPEgVjyo3VzAo=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
