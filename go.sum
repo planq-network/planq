@@ -800,8 +800,7 @@ github.com/planq-network/cometbft v0.34.33-0.20240403115407-dd147c50ba54 h1:ktuz
 github.com/planq-network/cometbft v0.34.33-0.20240403115407-dd147c50ba54/go.mod h1:25SXMPtyfSWIh172/UGa08/Kra7yrhK2Hm4IKs5X4AQ=
 github.com/planq-network/cosmos-sdk v0.46.0-rc3.0.20240403120418-73b2f1fb035a h1:2AhBCk93BFzmvi2Q/RfAHdrIHJgKwaiw57nbnasibPU=
 github.com/planq-network/cosmos-sdk v0.46.0-rc3.0.20240403120418-73b2f1fb035a/go.mod h1:JKbfQ83wy8jrrq3LLlLp6SFOjdK0kZYoGwGxnR1fd3I=
-github.com/planq-network/ethermint v0.0.0-20240403124123-3734f010cd76 h1:u8J/Ia44aLAWbDMgiH5NT/od2bUAJL2f25wKjHqzoSQ=
-github.com/planq-network/ethermint v0.0.0-20240403124123-3734f010cd76/go.mod h1:TDDuNmVvsxrx5ubIxY/2HXjI4ePrzCVcFLAYNKSvD/E=
+github.com/planq-network/ethermint v0.0.0-20240419084155-fec7c6c4a149 h1:3x07NY+kmeOvtTn9z0myXUcMRZrUEUgx2/0b8VTwOi8=
 github.com/planq-network/ethermint v0.0.0-20240419084155-fec7c6c4a149/go.mod h1:TDDuNmVvsxrx5ubIxY/2HXjI4ePrzCVcFLAYNKSvD/E=
 github.com/planq-network/ibc-go/v5 v5.0.2 h1:ZijaLEJWyqvHNOOK0iT/r2dC16RlHc88A64sz+F7ync=
 github.com/planq-network/ibc-go/v5 v5.0.2/go.mod h1:LX0DHLW3dfi/1e4BJzi8MGLWmQ4DSraPEgVjyo3VzAo=
