@@ -34,7 +34,7 @@ Ref: https://keepachangelog.com/en/1.0.0/
 -->
 
 # Changelog
-## [v2.2.0] - TBA
+## [v2.0.0] - TBA
 ### State Machine Breaking
 * (deps) Bump cosmos-sdk to v0.47.10
 * (deps) Bump ibc-go to v7.4.0
