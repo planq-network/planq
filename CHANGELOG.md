@@ -34,6 +34,18 @@ Ref: https://keepachangelog.com/en/1.0.0/
 -->
 
 # Changelog
+## [v2.2.0] - TBA
+### State Machine Breaking
+* (deps) Bump cosmos-sdk to v0.47.10
+* (deps) Bump ibc-go to v7.4.0
+* (ica) Add ICA host submodule
+* Deprecate usage of x/params in every module
+* Automatic conversion of IBC coins to their ERC20 representation upon receiving
+* Support for ERC20 token transfers via IBC
+* ERC20 proposals to register ERC20 tokens and Cosmos coins now can receive multiple denominations
+* Prioritized mempool support for Cosmos and Ethereum txs
+* EIP-1559 support for native Cosmos transactions
+* (ante) Enable fees to be deducted from unclaimed staking rewards
 ## [v1.1.0] - 2024-02-05
 ### State Machine Breaking
 * (erc20) [#567d3779](https://github.com/planq-network/planq/commit/567d3779) re-add erc20 cli commands
