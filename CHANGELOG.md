@@ -34,9 +34,9 @@ Ref: https://keepachangelog.com/en/1.0.0/
 -->
 
 # Changelog
-## [v2.0.0] - TBA
+## [v2.0.3] - 2024-10-17
 ### State Machine Breaking
-* (deps) Bump cosmos-sdk to v0.47.10
+* (deps) Bump cosmos-sdk to v0.47.14
 * (deps) Bump ibc-go to v7.4.0
 * (ica) Add ICA host submodule
 * Deprecate usage of x/params in every module
