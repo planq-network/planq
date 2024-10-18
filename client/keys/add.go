@@ -76,10 +76,21 @@ func RunAddCmd(ctx client.Context, cmd *cobra.Command, args []string, inBuf *buf
 	interactive, _ := cmd.Flags().GetBool(flagInteractive)
 	noBackup, _ := cmd.Flags().GetBool(flagNoBackup)
 	useLedger, _ := cmd.Flags().GetBool(flags.FlagUseLedger)
+	algoStr, _ := cmd.Flags().GetString(flags.FlagKeyType)
 
 	showMnemonic := !noBackup
 	kb := ctx.Keyring
 	outputFormat := ctx.OutputFormat
+
+	keyringAlgos, ledgerAlgos := kb.SupportedAlgorithms()
+
+	// check if the provided signing algorithm is supported by the keyring or
+	// ledger
+	if useLedger {
+		algo, err = keyring.NewSigningAlgoFromString(algoStr, ledgerAlgos)
+	} else {
+		algo, err = keyring.NewSigningAlgoFromString(algoStr, keyringAlgos)
+	}
 
 	if err != nil {
 		return err
