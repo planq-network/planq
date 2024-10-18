@@ -34,6 +34,9 @@ Ref: https://keepachangelog.com/en/1.0.0/
 -->
 
 # Changelog
+## [v2.0.4] - 2024-10-18
+* fix state sync memory leak via iavl backport
+* fix build by downgrading ledger-cosmos-go dep
 ## [v2.0.3] - 2024-10-17
 ### State Machine Breaking
 * (deps) Bump cosmos-sdk to v0.47.14
