@@ -6,7 +6,7 @@ order: 1
 
 Learn about the EvmosJS Library for connecting clients to Planq. {synopsis}
 
-[`evmosjs`](https://github.com/evmos/evmosjs) is a JavaScript and TypeScript client library for [Evmos](https://github.com/evmos/evmos), [Planq](https://github.com/planq-network/planq) and [Ethermint](https://github.com/evmos/ethermint) nodes.
+[`evmosjs`](https://github.com/evmos/evmosjs) is a JavaScript and TypeScript client library for [Evmos](https://github.com/evmos/evmos), [Planq](https://github.com/planq-network/planq) and [Ethermint](https://github.com/planq-network/planq) nodes.
 
 ## Tools
 

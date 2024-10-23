@@ -444,10 +444,10 @@ schema = 3
   [mod."github.com/tendermint/go-amino"]
     version = "v0.16.0"
     hash = "sha256-JW4zO/0vMzf1dXLePOqaMtiLUZgNbuIseh9GV+jQlf0="
-  [mod."github.com/tendermint/tendermint"]
+  [mod."github.com/cometbft/cometbft"]
     version = "v0.34.21"
     hash = "sha256-C1KW6Wd4TwsFC09IHt8Jo3dozEk/Q2ZVdTapM8btEJ0="
-  [mod."github.com/tendermint/tm-db"]
+  [mod."github.com/cometbft/cometbft-db"]
     version = "v0.6.7"
     hash = "sha256-hl/3RrBrpkk2zA6dmrNlIYKs1/GfqegSscDSkA5Pjlo="
   [mod."github.com/tklauser/go-sysconf"]

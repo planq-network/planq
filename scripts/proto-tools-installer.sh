@@ -45,8 +45,8 @@ f_print_done() {
 
 f_ensure_tools() {
     test=!$(which curl &>/dev/null)
-    if [[ $test ]] 
-    then f_abort 2 "couldn't find curl, aborting" else true 
+    if [[ $test ]]
+    then f_abort 2 "couldn't find curl, aborting" else true
     fi
 }
 
@@ -88,13 +88,7 @@ f_install_buf() {
 
 f_install_protoc_gen_gocosmos() {
     f_print_installing_with_padding protoc-gen-gocosmos
-    
-    if ! grep "github.com/gogo/protobuf => github.com/regen-network/protobuf" go.mod &>/dev/null ; then
-        echo -e "\tPlease run this command from somewhere inside the planq folder."
-        return 1
-    fi
-    
-    go install github.com/regen-network/cosmos-proto/protoc-gen-gocosmos@latest 2>/dev/null
+    go install github.com/cosmos/gogoproto/protoc-gen-gocosmos@latest
     f_print_done
 }
 

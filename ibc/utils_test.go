@@ -7,9 +7,10 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	transfertypes "github.com/cosmos/ibc-go/v5/modules/apps/transfer/types"
-	channeltypes "github.com/cosmos/ibc-go/v5/modules/core/04-channel/types"
-	ibctesting "github.com/cosmos/ibc-go/v5/testing"
+	transfertypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
+	channeltypes "github.com/cosmos/ibc-go/v7/modules/core/04-channel/types"
+	ibctesting "github.com/cosmos/ibc-go/v7/testing"
+	teststypes "github.com/planq-network/planq/v2/types/tests"
 )
 
 func init() {
@@ -55,7 +56,7 @@ func TestGetTransferSenderRecipient(t *testing.T) {
 				Data: transfertypes.ModuleCdc.MustMarshalJSON(
 					&transfertypes.FungibleTokenPacketData{
 						Sender:   "cosmos1",
-						Receiver: "plq1hjz2lf7e7lxgx9rgucrkk57yvnm5ft3m43rchp",
+						Receiver: "plq1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
 						Amount:   "123456",
 					},
 				),
@@ -78,48 +79,48 @@ func TestGetTransferSenderRecipient(t *testing.T) {
 			true,
 		},
 		{
-			"valid - cosmos sender, evmos recipient",
+			"valid - cosmos sender, plq recipient",
 			channeltypes.Packet{
 				Data: transfertypes.ModuleCdc.MustMarshalJSON(
 					&transfertypes.FungibleTokenPacketData{
 						Sender:   "cosmos1qql8ag4cluz6r4dz28p3w00dnc9w8ueulg2gmc",
-						Receiver: "plq1hjz2lf7e7lxgx9rgucrkk57yvnm5ft3m43rchp",
+						Receiver: "plq1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
 						Amount:   "123456",
 					},
 				),
 			},
-			"plq1qql8ag4cluz6r4dz28p3w00dnc9w8ueuks65at",
-			"plq1hjz2lf7e7lxgx9rgucrkk57yvnm5ft3m43rchp",
+			"plq1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
+			"plq1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
 			false,
 		},
 		{
-			"valid - evmos sender, cosmos recipient",
+			"valid - plq sender, cosmos recipient",
 			channeltypes.Packet{
 				Data: transfertypes.ModuleCdc.MustMarshalJSON(
 					&transfertypes.FungibleTokenPacketData{
-						Sender:   "plq1hjz2lf7e7lxgx9rgucrkk57yvnm5ft3m43rchp",
+						Sender:   "plq1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
 						Receiver: "cosmos1qql8ag4cluz6r4dz28p3w00dnc9w8ueulg2gmc",
 						Amount:   "123456",
 					},
 				),
 			},
-			"plq1hjz2lf7e7lxgx9rgucrkk57yvnm5ft3m43rchp",
-			"plq1qql8ag4cluz6r4dz28p3w00dnc9w8ueuks65at",
+			"plq1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
+			"plq1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
 			false,
 		},
 		{
-			"valid - osmosis sender, evmos recipient",
+			"valid - osmosis sender, plq recipient",
 			channeltypes.Packet{
 				Data: transfertypes.ModuleCdc.MustMarshalJSON(
 					&transfertypes.FungibleTokenPacketData{
 						Sender:   "osmo1qql8ag4cluz6r4dz28p3w00dnc9w8ueuhnecd2",
-						Receiver: "plq1hjz2lf7e7lxgx9rgucrkk57yvnm5ft3m43rchp",
+						Receiver: "plq1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
 						Amount:   "123456",
 					},
 				),
 			},
-			"plq1qql8ag4cluz6r4dz28p3w00dnc9w8ueuks65at",
-			"plq1hjz2lf7e7lxgx9rgucrkk57yvnm5ft3m43rchp",
+			"plq1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
+			"plq1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
 			false,
 		},
 	}
@@ -209,5 +210,109 @@ func TestGetTransferAmount(t *testing.T) {
 			require.NoError(t, err, tc.name)
 			require.Equal(t, tc.expAmount, amt)
 		}
+	}
+}
+
+func TestGetReceivedCoin(t *testing.T) {
+	testCases := []struct {
+		name       string
+		srcPort    string
+		srcChannel string
+		dstPort    string
+		dstChannel string
+		rawDenom   string
+		rawAmount  string
+		expCoin    sdk.Coin
+	}{
+		{
+			"transfer unwrapped coin to destination which is not its source",
+			"transfer",
+			"channel-0",
+			"transfer",
+			"channel-0",
+			"uosmo",
+			"10",
+			sdk.Coin{Denom: teststypes.UosmoIbcdenom, Amount: sdk.NewInt(10)},
+		},
+		{
+			"transfer ibc wrapped coin to destination which is its source",
+			"transfer",
+			"channel-0",
+			"transfer",
+			"channel-0",
+			"transfer/channel-0/aplanq",
+			"10",
+			sdk.Coin{Denom: "aplanq", Amount: sdk.NewInt(10)},
+		},
+		{
+			"transfer 2x ibc wrapped coin to destination which is its source",
+			"transfer",
+			"channel-0",
+			"transfer",
+			"channel-2",
+			"transfer/channel-0/transfer/channel-1/uatom",
+			"10",
+			sdk.Coin{Denom: teststypes.UatomIbcdenom, Amount: sdk.NewInt(10)},
+		},
+		{
+			"transfer ibc wrapped coin to destination which is not its source",
+			"transfer",
+			"channel-0",
+			"transfer",
+			"channel-0",
+			"transfer/channel-1/uatom",
+			"10",
+			sdk.Coin{Denom: teststypes.UatomOsmoIbcdenom, Amount: sdk.NewInt(10)},
+		},
+	}
+
+	for _, tc := range testCases {
+		coin := GetReceivedCoin(tc.srcPort, tc.srcChannel, tc.dstPort, tc.dstChannel, tc.rawDenom, tc.rawAmount)
+		require.Equal(t, tc.expCoin, coin)
+	}
+}
+
+func TestGetSentCoin(t *testing.T) {
+	testCases := []struct {
+		name      string
+		rawDenom  string
+		rawAmount string
+		expCoin   sdk.Coin
+	}{
+		{
+			"get unwrapped aplanq coin",
+			"aplanq",
+			"10",
+			sdk.Coin{Denom: "aplanq", Amount: sdk.NewInt(10)},
+		},
+		{
+			"get ibc wrapped aplanq coin",
+			"transfer/channel-0/aplanq",
+			"10",
+			sdk.Coin{Denom: teststypes.AplanqIbcdenom, Amount: sdk.NewInt(10)},
+		},
+		{
+			"get ibc wrapped uosmo coin",
+			"transfer/channel-0/uosmo",
+			"10",
+			sdk.Coin{Denom: teststypes.UosmoIbcdenom, Amount: sdk.NewInt(10)},
+		},
+		{
+			"get ibc wrapped uatom coin",
+			"transfer/channel-1/uatom",
+			"10",
+			sdk.Coin{Denom: teststypes.UatomIbcdenom, Amount: sdk.NewInt(10)},
+		},
+		{
+			"get 2x ibc wrapped uatom coin",
+			"transfer/channel-0/transfer/channel-1/uatom",
+			"10",
+			sdk.Coin{Denom: teststypes.UatomOsmoIbcdenom, Amount: sdk.NewInt(10)},
+		},
+	}
+
+	for _, tc := range testCases {
+		coin := GetSentCoin(tc.rawDenom, tc.rawAmount)
+		require.Equal(t, tc.expCoin, coin)
 	}
 }

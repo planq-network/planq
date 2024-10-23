@@ -1,58 +1,27 @@
 #!/usr/bin/env bash
 
-set -eo pipefail
+set -e
 
-protoc_gen_gocosmos() {
-  if ! grep "github.com/gogo/protobuf => github.com/regen-network/protobuf" go.mod &>/dev/null ; then
-    echo -e "\tPlease run this command from somewhere inside the sommelier folder."
-    return 1
-  fi
-
-  go get github.com/regen-network/cosmos-proto/protoc-gen-gocosmos 2>/dev/null
-}
-
-protoc_gen_doc() {
-  go get -u github.com/pseudomuto/protoc-gen-doc/cmd/protoc-gen-doc 2>/dev/null
-}
-
-protoc_gen_gocosmos
-protoc_gen_doc
-
-# need to install statik on the docker image
-go install github.com/rakyll/statik
-
-# create temporary folder to store intermediate results from `buf build` + `buf generate`
-mkdir -p ./tmp-swagger-gen
-
-# build .proto files and generate code for the proto/ directory
-#buf build proto
-#buf generate proto --template buf.gen.proto.yaml
-
-# create additional swagger files on an individual basis  w/ `buf build` and `buf generate` (needed for `swagger-combine`)
-proto_dir="./third_party/proto"
-proto_dirs=$(find "${proto_dir}/cosmos" "${proto_dir}/ethermint" "${proto_dir}/ibc" "${proto_dir}/evmos" -path -prune -o -name '*.proto' -print0 | xargs -0 -n1 dirname | sort | uniq)
-printf $proto_dirs
+echo "Generating gogo proto code"
+cd proto
+proto_dirs=$(find ./evmos ./ethermint -path -prune -o -name '*.proto' -print0 | xargs -0 -n1 dirname | sort | uniq)
 for dir in $proto_dirs; do
-
-  # generate swagger files (filter query files)
-  query_file=$(find "${dir}" -maxdepth 1 \( -name 'query.proto' -o -name 'service.proto' \))
-  if [[ ! -z "$query_file" ]]; then
-    buf build --path "$query_file"
-    buf generate --path "$query_file" --template buf.gen.swagger.yaml
-  fi
+  for file in in $(find "${dir}" -maxdepth 1 -name '*.proto'); do
+    # this regex checks if a proto file has its go_package set to cosmossdk.io/api/...
+    # gogo proto files SHOULD ONLY be generated if this is false
+    # we don't want gogo proto to run for proto files which are natively built for google.golang.org/protobuf
+    if grep -q "option go_package" "$file" && grep -H -o -c 'option go_package.*cosmossdk.io/api' "$file" | grep -q ':0$'; then
+      buf generate --template buf.gen.gogo.yaml $file
+    fi
+  done
 done
 
+cd ..
+
 # move resulting files to the right places
-#cp -r github.com/planq-network/planq/x/* x/
-rm -rf github.com
+cp -r proto/github.com/planq-network/planq/v*/* ./
+rm -rf proto/github.com
 
-# combine swagger files
-# uses nodejs package `swagger-combine`.
-# all the individual swagger files need to be configured in `config.json` for merging
-swagger-combine ./client/docs/config.json -o ./client/docs/swagger-ui/swagger.yaml -f yaml --continueOnConflictingPaths true --includeDefinitions true
+go mod tidy
 
-# clean swagger files
-rm -rf ./tmp-swagger-gen
-
-# generate binary for static server (use -f flag to replace current binary)
-statik -f -src=./client/docs/swagger-ui -dest=./client/docs
+./scripts/protocgen-pulsar.sh
