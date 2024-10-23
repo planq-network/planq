@@ -41,7 +41,7 @@ require (
 	github.com/tidwall/gjson v1.14.0
 	github.com/tidwall/sjson v1.2.4
 	github.com/tyler-smith/go-bip39 v1.1.0
-	golang.org/x/net v0.23.0
+	golang.org/x/net v0.24.0
 	golang.org/x/text v0.14.0
 	google.golang.org/genproto/googleapis/api v0.0.0-20240401170217-c3f982113cda
 	google.golang.org/grpc v1.62.1
@@ -178,7 +178,7 @@ require (
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.1.0-rc2 // indirect
-	github.com/opencontainers/runc v1.1.5 // indirect
+	github.com/opencontainers/runc v1.1.14 // indirect
 	github.com/pelletier/go-toml/v2 v2.1.0 // indirect
 	github.com/petermattis/goid v0.0.0-20230317030725-371a4b8eda08 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
