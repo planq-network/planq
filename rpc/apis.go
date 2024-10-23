@@ -34,7 +34,7 @@ import (
 	"github.com/planq-network/planq/v2/rpc/namespaces/ethereum/web3"
 	ethermint "github.com/planq-network/planq/v2/types"
 
-	rpcclient "github.com/cometbft/cometbft/rpc/jsonrpc/client"
+	rpcclient "github.com/cometbft/cometbft/rpc/client"
 )
 
 // RPC namespaces and API version
@@ -60,7 +60,7 @@ const (
 type APICreator = func(
 	ctx *server.Context,
 	clientCtx client.Context,
-	tendermintWebsocketClient *rpcclient.WSClient,
+	tendermintWebsocketClient rpcclient.EventsClient,
 	allowUnprotectedTxs bool,
 	indexer ethermint.EVMTxIndexer,
 ) []rpc.API
@@ -72,7 +72,7 @@ func init() {
 	apiCreators = map[string]APICreator{
 		EthNamespace: func(ctx *server.Context,
 			clientCtx client.Context,
-			tmWSClient *rpcclient.WSClient,
+			tmWSClient rpcclient.EventsClient,
 			allowUnprotectedTxs bool,
 			indexer ethermint.EVMTxIndexer,
 		) []rpc.API {
@@ -92,7 +92,7 @@ func init() {
 				},
 			}
 		},
-		Web3Namespace: func(*server.Context, client.Context, *rpcclient.WSClient, bool, ethermint.EVMTxIndexer) []rpc.API {
+		Web3Namespace: func(*server.Context, client.Context, rpcclient.EventsClient, bool, ethermint.EVMTxIndexer) []rpc.API {
 			return []rpc.API{
 				{
 					Namespace: Web3Namespace,
@@ -102,7 +102,7 @@ func init() {
 				},
 			}
 		},
-		NetNamespace: func(_ *server.Context, clientCtx client.Context, _ *rpcclient.WSClient, _ bool, _ ethermint.EVMTxIndexer) []rpc.API {
+		NetNamespace: func(_ *server.Context, clientCtx client.Context, _ rpcclient.EventsClient, _ bool, _ ethermint.EVMTxIndexer) []rpc.API {
 			return []rpc.API{
 				{
 					Namespace: NetNamespace,
@@ -114,7 +114,7 @@ func init() {
 		},
 		PersonalNamespace: func(ctx *server.Context,
 			clientCtx client.Context,
-			_ *rpcclient.WSClient,
+			_ rpcclient.EventsClient,
 			allowUnprotectedTxs bool,
 			indexer ethermint.EVMTxIndexer,
 		) []rpc.API {
@@ -128,7 +128,7 @@ func init() {
 				},
 			}
 		},
-		TxPoolNamespace: func(ctx *server.Context, _ client.Context, _ *rpcclient.WSClient, _ bool, _ ethermint.EVMTxIndexer) []rpc.API {
+		TxPoolNamespace: func(ctx *server.Context, _ client.Context, _ rpcclient.EventsClient, _ bool, _ ethermint.EVMTxIndexer) []rpc.API {
 			return []rpc.API{
 				{
 					Namespace: TxPoolNamespace,
@@ -140,7 +140,7 @@ func init() {
 		},
 		DebugNamespace: func(ctx *server.Context,
 			clientCtx client.Context,
-			_ *rpcclient.WSClient,
+			_ rpcclient.EventsClient,
 			allowUnprotectedTxs bool,
 			indexer ethermint.EVMTxIndexer,
 		) []rpc.API {
@@ -156,7 +156,7 @@ func init() {
 		},
 		MinerNamespace: func(ctx *server.Context,
 			clientCtx client.Context,
-			_ *rpcclient.WSClient,
+			_ rpcclient.EventsClient,
 			allowUnprotectedTxs bool,
 			indexer ethermint.EVMTxIndexer,
 		) []rpc.API {
@@ -176,7 +176,7 @@ func init() {
 // GetRPCAPIs returns the list of all APIs
 func GetRPCAPIs(ctx *server.Context,
 	clientCtx client.Context,
-	tmWSClient *rpcclient.WSClient,
+	tmWSClient rpcclient.EventsClient,
 	allowUnprotectedTxs bool,
 	indexer ethermint.EVMTxIndexer,
 	selectedAPIs []string,

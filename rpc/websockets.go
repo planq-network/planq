@@ -39,7 +39,7 @@ import (
 	"github.com/ethereum/go-ethereum/rpc"
 
 	"github.com/cometbft/cometbft/libs/log"
-	rpcclient "github.com/cometbft/cometbft/rpc/jsonrpc/client"
+	rpcclient "github.com/cometbft/cometbft/rpc/client"
 	tmtypes "github.com/cometbft/cometbft/types"
 
 	"github.com/planq-network/planq/v2/rpc/ethereum/pubsub"
@@ -90,7 +90,7 @@ type websocketsServer struct {
 	logger   log.Logger
 }
 
-func NewWebsocketsServer(clientCtx client.Context, logger log.Logger, tmWSClient *rpcclient.WSClient, cfg *config.Config) WebsocketsServer {
+func NewWebsocketsServer(clientCtx client.Context, logger log.Logger, tmWSClient rpcclient.EventsClient, cfg *config.Config) WebsocketsServer {
 	logger = logger.With("api", "websocket-server")
 	_, port, _ := net.SplitHostPort(cfg.JSONRPC.Address)
 
@@ -359,7 +359,7 @@ type pubSubAPI struct {
 }
 
 // newPubSubAPI creates an instance of the ethereum PubSub API.
-func newPubSubAPI(clientCtx client.Context, logger log.Logger, tmWSClient *rpcclient.WSClient) *pubSubAPI {
+func newPubSubAPI(clientCtx client.Context, logger log.Logger, tmWSClient rpcclient.EventsClient) *pubSubAPI {
 	logger = logger.With("module", "websocket-client")
 	return &pubSubAPI{
 		events:    rpcfilters.NewEventSystem(logger, tmWSClient),
