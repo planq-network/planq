@@ -37,6 +37,26 @@ var (
 	DefaultEnableCall = true
 )
 
+var PhysicaFactoryAddress = map[string]string{
+	"7070": "0xFF4F8f857fd60142a135aB139C16370da89c76c2",
+}
+
+var PhysicaNFTPositionManagerAddress = map[string]string{
+	"7070": "0xD119534C876320dd92F69ae54B35b56A9a4E139b",
+}
+
+var PhysicaSwapRouterAddress = map[string]string{
+	"7070": "0xb24245Be1eC5d48C4Bb2895FC6aA9d5CfA8B1CDF",
+}
+
+var PhysicaQuoterAddress = map[string]string{
+	"7070": "0x948ADCA277D8269ccfA2a8CF863409a255b5C006",
+}
+
+var PhysicaQuoterV2Address = map[string]string{
+	"7070": "0xb6d726634dd685E6d2DFaCefd1100E5a21bd8eB3",
+}
+
 // AvailableExtraEIPs define the list of all EIPs that can be enabled by the
 // EVM interpreter. These EIPs are applied in order and can override the
 // instruction sets from the latest hard fork enabled by the ChainConfig. For
