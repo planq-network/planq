@@ -41,6 +41,10 @@ var PhysicaFactoryAddress = map[string]string{
 	"7070": "0xFF4F8f857fd60142a135aB139C16370da89c76c2",
 }
 
+var GasManager = map[string]string{
+	"7070": "0x7Be309e751206b84Eb3227Ca682ef40A0cc61236",
+}
+
 var PhysicaNFTPositionManagerAddress = map[string]string{
 	"7070": "0xD119534C876320dd92F69ae54B35b56A9a4E139b",
 }
