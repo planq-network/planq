@@ -247,7 +247,6 @@ require (
 replace (
 	github.com/99designs/keyring => github.com/cosmos/keyring v1.2.0
 	github.com/btcsuite/btcd => github.com/btcsuite/btcd v0.23.4
-
 	github.com/cosmos/iavl => github.com/planq-network/iavl v0.21.0-alpha.1.0.20241018082450-05a752de1caa
 
 	// Fix upstream GHSA-h395-qcrw-5vmq vulnerability.

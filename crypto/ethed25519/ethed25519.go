@@ -3,14 +3,18 @@ package ethed25519
 import (
 	"bytes"
 	errorsmod "cosmossdk.io/errors"
+	"crypto/hmac"
+	"crypto/sha512"
 	"crypto/subtle"
+	"filippo.io/edwards25519"
 	"fmt"
+	"github.com/btcsuite/btcd/btcutil/hdkeychain"
+	"github.com/btcsuite/btcd/chaincfg"
 	"github.com/cosmos/cosmos-sdk/codec"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
-	"io"
-
 	"golang.org/x/crypto/ed25519"
+	"io"
 
 	"github.com/cometbft/cometbft/crypto"
 	"github.com/cometbft/cometbft/crypto/tmhash"
@@ -175,7 +179,7 @@ func (pubKey PubKey) VerifySignature(msg []byte, sig []byte) bool {
 		return false
 	}
 
-	return ed25519.Verify(ed25519.PublicKey(pubKey.Key), msg, sig)
+	return Verify(ed25519.PublicKey(pubKey.Key), msg, sig)
 }
 
 func (pubKey PubKey) String() string {
@@ -215,4 +219,77 @@ func (pubKey PubKey) MarshalAminoJSON() ([]byte, error) {
 // UnmarshalAminoJSON overrides Amino JSON marshaling.
 func (pubKey *PubKey) UnmarshalAminoJSON(bz []byte) error {
 	return pubKey.UnmarshalAmino(bz)
+}
+
+func Verify(publicKey ed25519.PublicKey, message, sig []byte) bool {
+	if l := len(publicKey); l != ed25519.PublicKeySize {
+		return false
+	}
+
+	if len(sig) != ed25519.SignatureSize || sig[63]&224 != 0 {
+		return false
+	}
+
+	// ZIP215: this works because SetBytes does not check that encodings are canonical.
+	A, err := new(edwards25519.Point).SetBytes(publicKey)
+	if err != nil {
+		return false
+	}
+	A.Negate(A)
+
+	h := sha512.New()
+	h.Write(sig[:32])
+	h.Write(publicKey[:])
+	h.Write(message)
+	var digest [64]byte
+	h.Sum(digest[:0])
+
+	hReduced, err := new(edwards25519.Scalar).SetUniformBytes(digest[:])
+	if err != nil {
+		return false
+	}
+
+	// ZIP215: this works because SetBytes does not check that encodings are canonical.
+	checkR, err := new(edwards25519.Point).SetBytes(sig[:32])
+	if err != nil {
+		return false
+	}
+
+	// https://tools.ietf.org/html/rfc8032#section-5.1.7 requires that s be in
+	// the range [0, order) in order to prevent signature malleability.
+	// ZIP215: This is also required by ZIP215.
+	s, err := new(edwards25519.Scalar).SetCanonicalBytes(sig[32:])
+	if err != nil {
+		return false
+	}
+
+	R := new(edwards25519.Point).VarTimeDoubleScalarBaseMult(hReduced, A, s)
+
+	// ZIP215: We want to check [8](R - checkR) == 0
+	p := new(edwards25519.Point).Subtract(R, checkR) // p = R - checkR
+	p.MultByCofactor(p)
+	return p.Equal(edwards25519.NewIdentityPoint()) == 1 // p == 0
+}
+
+func NewMaster(seed []byte, net *chaincfg.Params) (*hdkeychain.ExtendedKey, error) {
+	// Per [BIP32], the seed must be in range [MinSeedBytes, MaxSeedBytes].
+	if len(seed) < hdkeychain.MinSeedBytes || len(seed) > hdkeychain.MaxSeedBytes {
+		return nil, hdkeychain.ErrInvalidSeedLen
+	}
+
+	// First take the HMAC-SHA512 of the master key and the seed data:
+	//   I = HMAC-SHA512(Key = "Bitcoin seed", Data = S)
+	hmac512 := hmac.New(sha512.New, []byte("ed25519 seed"))
+	_, _ = hmac512.Write(seed)
+	lr := hmac512.Sum(nil)
+
+	// Split "I" into two 32-byte sequences Il and Ir where:
+	//   Il = master secret key
+	//   Ir = master chain code
+	secretKey := lr[:len(lr)/2]
+	chainCode := lr[len(lr)/2:]
+	
+	parentFP := []byte{0x00, 0x00, 0x00, 0x00}
+	return hdkeychain.NewExtendedKey(net.HDPrivateKeyID[:], secretKey, chainCode,
+		parentFP, 0, 0, true), nil
 }

@@ -18,7 +18,6 @@ package hd
 import (
 	"github.com/btcsuite/btcd/btcutil/hdkeychain"
 	"github.com/btcsuite/btcd/chaincfg"
-	"github.com/planq-network/planq/v2/crypto/ed25519"
 	"github.com/planq-network/planq/v2/crypto/ethed25519"
 
 	bip39 "github.com/tyler-smith/go-bip39"
@@ -87,7 +86,7 @@ func (s ed25519Algo) Derive() hd.DeriveFn {
 		}
 
 		// create a BTC-utils hd-derivation key chain
-		masterKey, err := hdkeychain.NewMaster(seed, &chaincfg.MainNetParams)
+		masterKey, err := ethed25519.NewMaster(seed, &chaincfg.MainNetParams)
 		if err != nil {
 			return nil, err
 		}
