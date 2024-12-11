@@ -18,6 +18,7 @@ package ante
 
 import (
 	"fmt"
+	"github.com/planq-network/planq/v2/crypto/ethed25519"
 
 	errorsmod "cosmossdk.io/errors"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/ed25519"
@@ -53,14 +54,14 @@ func SigVerificationGasConsumer(
 	pubkey := sig.PubKey
 	switch pubkey := pubkey.(type) {
 
-	case *ethsecp256k1.PubKey:
+	case *ethsecp256k1.PubKey, *ethed25519.PubKey:
 		// Ethereum keys
 		meter.ConsumeGas(Secp256k1VerifyCost, "ante verify: eth_secp256k1")
 		return nil
 	case *ed25519.PubKey:
 		// Validator keys
 		meter.ConsumeGas(params.SigVerifyCostED25519, "ante verify: ed25519")
-		return nil
+		return errorsmod.Wrap(errortypes.ErrInvalidPubKey, "ED25519 public keys are unsupported")
 
 	case multisig.PubKey:
 		// Multisig keys

@@ -20,6 +20,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec/legacy"
 	cryptocodec "github.com/cosmos/cosmos-sdk/crypto/codec"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
+	"github.com/planq-network/planq/v2/crypto/ethed25519"
 
 	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
 )
@@ -31,6 +32,10 @@ func RegisterCrypto(cdc *codec.LegacyAmino) {
 		ethsecp256k1.PubKeyName, nil)
 	cdc.RegisterConcrete(&ethsecp256k1.PrivKey{},
 		ethsecp256k1.PrivKeyName, nil)
+	cdc.RegisterConcrete(&ethed25519.PubKey{},
+		ethed25519.PubKeyName, nil)
+	cdc.RegisterConcrete(&ethed25519.PrivKey{},
+		ethed25519.PrivKeyName, nil)
 
 	keyring.RegisterLegacyAminoCodec(cdc)
 	cryptocodec.RegisterCrypto(cdc)
