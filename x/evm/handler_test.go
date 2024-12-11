@@ -53,7 +53,7 @@ type EvmTestSuite struct {
 
 	ctx     sdk.Context
 	handler sdk.Handler
-	app     *app.EthermintApp
+	app     *app.PlanqApp
 	codec   codec.Codec
 	chainID *big.Int
 
@@ -80,7 +80,7 @@ func (suite *EvmTestSuite) DoSetupTest(t require.TestingT) {
 	require.NoError(t, err)
 	consAddress := sdk.ConsAddress(priv.PubKey().Address())
 
-	suite.app = app.Setup(checkTx, func(app *app.EthermintApp, genesis simapp.GenesisState) simapp.GenesisState {
+	suite.app = app.Setup(checkTx, func(app *app.PlanqApp, genesis simapp.GenesisState) simapp.GenesisState {
 		if suite.dynamicTxFee {
 			feemarketGenesis := feemarkettypes.DefaultGenesisState()
 			feemarketGenesis.Params.EnableHeight = 1
