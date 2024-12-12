@@ -18,6 +18,7 @@ package codec
 import (
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
+	"github.com/planq-network/planq/v2/crypto/ethed25519"
 
 	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
 )
@@ -26,4 +27,6 @@ import (
 func RegisterInterfaces(registry codectypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*cryptotypes.PubKey)(nil), &ethsecp256k1.PubKey{})
 	registry.RegisterImplementations((*cryptotypes.PrivKey)(nil), &ethsecp256k1.PrivKey{})
+	registry.RegisterImplementations((*cryptotypes.PubKey)(nil), &ethed25519.PubKey{})
+	registry.RegisterImplementations((*cryptotypes.PrivKey)(nil), &ethed25519.PrivKey{})
 }

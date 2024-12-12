@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"github.com/planq-network/planq/v2/crypto/ethed25519"
 	"strings"
 
 	"github.com/planq-network/planq/v2/crypto/ethsecp256k1"
@@ -37,7 +38,7 @@ func IsTestnet(chainID string) bool {
 // NOTE: Nested multisigs are not supported.
 func IsSupportedKey(pubkey cryptotypes.PubKey) bool {
 	switch pubkey := pubkey.(type) {
-	case *ethsecp256k1.PubKey, *ed25519.PubKey:
+	case *ethsecp256k1.PubKey, *ed25519.PubKey, *ethed25519.PubKey:
 		return true
 	case multisig.PubKey:
 		if len(pubkey.GetPubKeys()) == 0 {
@@ -46,7 +47,7 @@ func IsSupportedKey(pubkey cryptotypes.PubKey) bool {
 
 		for _, pk := range pubkey.GetPubKeys() {
 			switch pk.(type) {
-			case *ethsecp256k1.PubKey, *ed25519.PubKey:
+			case *ethsecp256k1.PubKey, *ed25519.PubKey, *ethed25519.PubKey:
 				continue
 			default:
 				// Nested multisigs are unsupported
