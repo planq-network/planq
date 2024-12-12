@@ -3,13 +3,11 @@ package ethed25519
 import (
 	"bytes"
 	errorsmod "cosmossdk.io/errors"
-	"crypto/hmac"
 	"crypto/sha512"
 	"crypto/subtle"
 	"filippo.io/edwards25519"
+
 	"fmt"
-	"github.com/btcsuite/btcd/btcutil/hdkeychain"
-	"github.com/btcsuite/btcd/chaincfg"
 	"github.com/cosmos/cosmos-sdk/codec"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
@@ -141,6 +139,24 @@ func genPrivKey(rand io.Reader) PrivKey {
 	return PrivKey{Key: (ed25519.NewKeyFromSeed(seed))}
 }
 
+func PrivKeyFromBytes(bz []byte) (PrivKey, PubKey, error) {
+	if len(bz) == 32 {
+		h := sha512.Sum512(bz[:32])
+		scalar, err := edwards25519.NewScalar().SetBytesWithClamping(h[:32])
+		if err != nil {
+			panic("ed25519: internal error: setting scalar failed")
+		}
+		pubKey := (&edwards25519.Point{}).ScalarBaseMult(scalar)
+		bz = append(bz, pubKey.Bytes()...)
+	}
+	if len(bz) != PrivateKeySize {
+		return PrivKey{}, PubKey{}, fmt.Errorf("invalid privkey size, expected %d got %d", PrivateKeySize, len(bz))
+	}
+
+	privKey := PrivKey{Key: bz}
+	return privKey, PubKey{Key: privKey.PubKey().Bytes()}, nil
+}
+
 // GenPrivKeyFromSecret hashes the secret with SHA2, and uses
 // that 32 byte output to create the private key.
 // NOTE: secret should be the output of a KDF like bcrypt,
@@ -269,27 +285,4 @@ func Verify(publicKey ed25519.PublicKey, message, sig []byte) bool {
 	p := new(edwards25519.Point).Subtract(R, checkR) // p = R - checkR
 	p.MultByCofactor(p)
 	return p.Equal(edwards25519.NewIdentityPoint()) == 1 // p == 0
-}
-
-func NewMaster(seed []byte, net *chaincfg.Params) (*hdkeychain.ExtendedKey, error) {
-	// Per [BIP32], the seed must be in range [MinSeedBytes, MaxSeedBytes].
-	if len(seed) < hdkeychain.MinSeedBytes || len(seed) > hdkeychain.MaxSeedBytes {
-		return nil, hdkeychain.ErrInvalidSeedLen
-	}
-
-	// First take the HMAC-SHA512 of the master key and the seed data:
-	//   I = HMAC-SHA512(Key = "Bitcoin seed", Data = S)
-	hmac512 := hmac.New(sha512.New, []byte("ed25519 seed"))
-	_, _ = hmac512.Write(seed)
-	lr := hmac512.Sum(nil)
-
-	// Split "I" into two 32-byte sequences Il and Ir where:
-	//   Il = master secret key
-	//   Ir = master chain code
-	secretKey := lr[:len(lr)/2]
-	chainCode := lr[len(lr)/2:]
-	
-	parentFP := []byte{0x00, 0x00, 0x00, 0x00}
-	return hdkeychain.NewExtendedKey(net.HDPrivateKeyID[:], secretKey, chainCode,
-		parentFP, 0, 0, true), nil
 }

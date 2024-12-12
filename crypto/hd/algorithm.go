@@ -72,7 +72,7 @@ func (s ed25519Algo) Name() hd.PubKeyType {
 	return Ed25519Type
 }
 
-// Derive derives and returns the eth_secp256k1 private key for the given mnemonic and HD path.
+// Derive derives and returns the eth_ed25519 private key for the given mnemonic and HD path.
 func (s ed25519Algo) Derive() hd.DeriveFn {
 	return func(mnemonic, bip39Passphrase, path string) ([]byte, error) {
 		hdpath, err := accounts.ParseDerivationPath(path)
@@ -100,7 +100,7 @@ func (s ed25519Algo) Derive() hd.DeriveFn {
 		}
 
 		// btc-utils representation of a secp256k1 private key
-		privateKey, err := key.ECPrivKey()
+		privateKey, err := key.EDPrivKey()
 		if err != nil {
 			return nil, err
 		}
@@ -108,10 +108,8 @@ func (s ed25519Algo) Derive() hd.DeriveFn {
 		// cast private key to a convertible form (single scalar field element of secp256k1)
 		// and then load into ethcrypto private key format.
 		// TODO: add links to godocs of the two methods or implementations of them, to compare equivalency
-		privateKeyECDSA := privateKey.ToECDSA()
-		derivedKey := crypto.FromECDSA(privateKeyECDSA)
 
-		return derivedKey, nil
+		return privateKey.Bytes(), nil
 	}
 }
 
