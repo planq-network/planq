@@ -34,6 +34,11 @@ Ref: https://keepachangelog.com/en/1.0.0/
 -->
 
 # Changelog
+## [v2.0.5] - 2024-12-22
+* improve websocket performance and stability
+* bump cometbft to v0.37.14
+* bump cosmos-sdk to v0.47.15
+
 ## [v2.0.4] - 2024-10-18
 * fix state sync memory leak via iavl backport
 * fix build by downgrading ledger-cosmos-go dep
