@@ -28,7 +28,11 @@ func (suite *KeeperTestSuite) TestMigrations() {
 	}{
 		{
 			"Run Migrate3to4",
-			migrator.Migrate3to5,
+			migrator.Migrate3to4,
+		},
+		{
+			"Run Migrate4to5",
+			migrator.Migrate4to5,
 		},
 	}
 

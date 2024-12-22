@@ -382,3 +382,10 @@ func (k Keeper) AddTransientGasUsed(ctx sdk.Context, gasUsed uint64) (uint64, er
 	k.SetTransientGasUsed(ctx, result)
 	return result, nil
 }
+
+// CleanHooks resets the hooks for the EVM module
+// NOTE: Should only be used for testing purposes
+func (k *Keeper) CleanHooks() *Keeper {
+	k.hooks = nil
+	return k
+}

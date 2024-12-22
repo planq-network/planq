@@ -28,7 +28,9 @@ func (suite *KeeperTestSuite) EvmDenom() string {
 func (suite *KeeperTestSuite) Commit() {
 	var err error
 	suite.ctx, err = testutil.Commit(suite.ctx, suite.app, 0*time.Second, nil)
-	suite.Require().NoError(err)
+	if err != nil {
+		suite.Require().NoError(err)
+	}
 
 	queryHelper := baseapp.NewQueryServerTestHelper(suite.ctx, suite.app.InterfaceRegistry())
 	evmtypes.RegisterQueryServer(queryHelper, suite.app.EvmKeeper)

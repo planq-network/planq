@@ -2,6 +2,8 @@ package keeper_test
 
 import (
 	"encoding/json"
+	simutils "github.com/cosmos/cosmos-sdk/testutil/sims"
+	"github.com/planq-network/planq/v2/utils"
 	"math/big"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -20,7 +22,6 @@ import (
 	tests "github.com/planq-network/planq/v2/testutil/tx"
 	"github.com/planq-network/planq/v2/x/feemarket/types"
 
-	"cosmossdk.io/simapp"
 	dbm "github.com/cometbft/cometbft-db"
 	abci "github.com/cometbft/cometbft/abci/types"
 	"github.com/cometbft/cometbft/libs/log"
@@ -150,7 +151,7 @@ func setupTest(localMinGasPrices string) (*ethsecp256k1.PrivKey, banktypes.MsgSe
 		Denom:  s.denom,
 		Amount: amount,
 	}}
-	testutil.FundAccount(s.app.BankKeeper, s.ctx, address, initBalance)
+	testutil.FundAccount(s.ctx, s.app.BankKeeper, address, initBalance)
 
 	msg := banktypes.MsgSend{
 		FromAddress: address.String(),
@@ -168,7 +169,8 @@ func setupChain(localMinGasPricesStr string) {
 	// Initialize the app, so we can use SetMinGasPrices to set the
 	// validator-specific min-gas-prices setting
 	db := dbm.NewMemDB()
-	newapp := app.NewEthermintApp(
+	chainId := utils.TestnetChainID + "-1"
+	newapp := app.NewPlanqApp(
 		log.NewNopLogger(),
 		db,
 		nil,
@@ -177,7 +179,8 @@ func setupChain(localMinGasPricesStr string) {
 		app.DefaultNodeHome,
 		5,
 		encoding.MakeConfig(app.ModuleBasics),
-		simapp.EmptyAppOptions{},
+		simutils.NewAppOptionsWithFlagHome(app.DefaultNodeHome),
+		baseapp.SetChainID(chainId),
 		baseapp.SetMinGasPrices(localMinGasPricesStr),
 	)
 
@@ -190,7 +193,7 @@ func setupChain(localMinGasPricesStr string) {
 	// Initialize the chain
 	newapp.InitChain(
 		abci.RequestInitChain{
-			ChainId:         "ethermint_9000-1",
+			ChainId:         chainId,
 			Validators:      []abci.ValidatorUpdate{},
 			AppStateBytes:   stateBytes,
 			ConsensusParams: app.DefaultConsensusParams,
@@ -198,12 +201,12 @@ func setupChain(localMinGasPricesStr string) {
 	)
 
 	s.app = newapp
-	s.SetupApp(false)
+	s.SetupApp(false, chainId)
 }
 
 func generateKey() (*ethsecp256k1.PrivKey, sdk.AccAddress) {
 	address, priv := tests.NewAddrKey()
-	return priv.(*ethsecp256k1.PrivKey), sdk.AccAddress(address.Bytes())
+	return priv, sdk.AccAddress(address.Bytes())
 }
 
 func getNonce(addressBytes []byte) uint64 {

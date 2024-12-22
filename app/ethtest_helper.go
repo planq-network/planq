@@ -17,7 +17,9 @@ package app
 
 import (
 	"encoding/json"
+	"github.com/cosmos/cosmos-sdk/baseapp"
 	simtestutil "github.com/cosmos/cosmos-sdk/testutil/sims"
+	"github.com/planq-network/planq/v2/utils"
 	"time"
 
 	"cosmossdk.io/simapp"
@@ -65,6 +67,8 @@ func EthSetup(isCheckTx bool, patchGenesis func(*PlanqApp, simapp.GenesisState) 
 
 // EthSetupWithDB initializes a new PlanqAppApp. A Nop logger is set in PlanqAppApp.
 func EthSetupWithDB(isCheckTx bool, patchGenesis func(*PlanqApp, simapp.GenesisState) simapp.GenesisState, db dbm.DB) *PlanqApp {
+
+	chainId := utils.TestnetChainID + "-1"
 	app := NewPlanqApp(log.NewNopLogger(),
 		db,
 		nil,
@@ -73,7 +77,9 @@ func EthSetupWithDB(isCheckTx bool, patchGenesis func(*PlanqApp, simapp.GenesisS
 		DefaultNodeHome,
 		5,
 		encoding.MakeConfig(ModuleBasics),
-		simtestutil.NewAppOptionsWithFlagHome(DefaultNodeHome))
+		simtestutil.NewAppOptionsWithFlagHome(DefaultNodeHome),
+		baseapp.SetChainID(chainId))
+
 	if !isCheckTx {
 		// init chain must be called to stop deliverState from being nil
 		genesisState := NewTestGenesisState(app.AppCodec())
@@ -85,11 +91,10 @@ func EthSetupWithDB(isCheckTx bool, patchGenesis func(*PlanqApp, simapp.GenesisS
 		if err != nil {
 			panic(err)
 		}
-
 		// Initialize the chain
 		app.InitChain(
 			abci.RequestInitChain{
-				ChainId:         "evmos_9000-1",
+				ChainId:         chainId,
 				Validators:      []abci.ValidatorUpdate{},
 				ConsensusParams: DefaultConsensusParams,
 				AppStateBytes:   stateBytes,
