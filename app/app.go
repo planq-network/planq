@@ -475,6 +475,8 @@ func NewPlanqApp(
 		bApp.MsgServiceRouter(),
 	)
 
+	app.ICAHostKeeper.WithQueryRouter(app.GRPCQueryRouter())
+
 	// create host IBC module
 	icaHostIBCModule := icahost.NewIBCModule(app.ICAHostKeeper)
 
