@@ -1,6 +1,6 @@
 # argument to provide specific version of evmos node
 ARG INITIAL_VERSION
-FROM tharsishq/evmos:$INITIAL_VERSION
+FROM planq-network/planq:$INITIAL_VERSION
 
 # jq needs to perform changes of node parameters
 RUN apt-get update \ 

@@ -211,7 +211,7 @@ func (m *Manager) WaitForHeight(ctx context.Context, height int) (string, error)
 
 // GetNodeHeight calls the Evmos CLI in the current node container to get the current block height
 func (m *Manager) GetNodeHeight(ctx context.Context) (int, error) {
-	exec, err := m.CreateExec([]string{"evmosd", "q", "block"}, m.ContainerID())
+	exec, err := m.CreateExec([]string{"planqd", "q", "block"}, m.ContainerID())
 	if err != nil {
 		return 0, fmt.Errorf("create exec error: %w", err)
 	}
@@ -246,7 +246,7 @@ func (m *Manager) GetNodeHeight(ctx context.Context) (int, error) {
 // GetNodeVersion calls the Evmos CLI in the current node container to get the
 // current node version
 func (m *Manager) GetNodeVersion(ctx context.Context) (string, error) {
-	exec, err := m.CreateExec([]string{"evmosd", "version"}, m.ContainerID())
+	exec, err := m.CreateExec([]string{"planqd", "version"}, m.ContainerID())
 	if err != nil {
 		return "", fmt.Errorf("create exec error: %w", err)
 	}
