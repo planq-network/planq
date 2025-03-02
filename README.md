@@ -60,6 +60,7 @@ The following chat channels and forums are a great spot to ask questions about P
 
 - [Planq Twitter](https://twitter.com/PlanqFoundation)
 - [Planq Discord](https://discord.gg/jGTPyYmpsq)
+- [Planq YouTube](https://www.youtube.com/@PlanqNetwork)
 - [Planq Reddit](https://reddit.com/r/planq_network)
 
 ## Contributing
