@@ -11,6 +11,7 @@ LEDGER_ENABLED ?= true
 BINDIR ?= $(GOPATH)/bin
 PLANQ_BINARY = planqd
 PLANQ_DIR = planq
+COSMOS_BUILD_OPTIONS ?= rocksdb
 BUILDDIR ?= $(CURDIR)/build
 SIMAPP = ./app
 HTTPS_GIT := https://github.com/planq-network/planq.git
@@ -85,7 +86,7 @@ endif
 # handle rocksdb
 ifeq (rocksdb,$(findstring rocksdb,$(COSMOS_BUILD_OPTIONS)))
   CGO_ENABLED=1
-  BUILD_TAGS += rocksdb
+  BUILD_TAGS += rocksdb grocksdb_clean_link
   ldflags += -X github.com/cosmos/cosmos-sdk/types.DBBackend=rocksdb
 endif
 # handle boltdb
@@ -568,7 +569,7 @@ localnet-show-logstream:
 ###############################################################################
 
 PACKAGE_NAME:=github.com/planq-network/planq
-GOLANG_CROSS_VERSION  = v1.23
+GOLANG_CROSS_VERSION  = v1.24
 GOPATH ?= '$(HOME)/go'
 release-dry-run:
 	docker run \

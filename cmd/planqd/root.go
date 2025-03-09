@@ -50,6 +50,7 @@ import (
 
 	"github.com/planq-network/planq/v2/app"
 	cmdcfg "github.com/planq-network/planq/v2/cmd/config"
+	memiavlcfg "github.com/planq-network/planq/v2/store/config"
 )
 
 const (
@@ -134,6 +135,11 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 	a := appCreator{encodingConfig}
 	ethermintserver.AddCommands(rootCmd, ethermintserver.NewDefaultStartOptions(a.newApp, app.DefaultNodeHome), a.appExport, addModuleInitFlags)
 
+	changeSetCmd := ChangeSetCmd()
+	if changeSetCmd != nil {
+		rootCmd.AddCommand(changeSetCmd)
+	}
+
 	// add keybase, auxiliary RPC, query, and tx child commands
 	rootCmd.AddCommand(
 		rpc.StatusCommand(),
@@ -209,18 +215,30 @@ func txCommand() *cobra.Command {
 // initAppConfig helps to override default appConfig template and configs.
 // return "", nil if no custom configuration is required for the application.
 func initAppConfig() (string, interface{}) {
-	customAppTemplate, customAppConfig := servercfg.AppConfig(cmdcfg.BaseDenom)
+	type CustomAppConfig struct {
+		servercfg.Config
 
-	srvCfg, ok := customAppConfig.(servercfg.Config)
+		MemIAVL memiavlcfg.MemIAVLConfig `mapstructure:"memiavl"`
+	}
+
+	tpl, cfg := servercfg.AppConfig(cmdcfg.BaseDenom)
+
+	_, ok := cfg.(servercfg.Config)
+
+	customAppConfig := CustomAppConfig{
+		Config:  cfg.(servercfg.Config),
+		MemIAVL: memiavlcfg.DefaultMemIAVLConfig(),
+	}
+
 	if !ok {
 		panic(fmt.Errorf("unknown app config type %T", customAppConfig))
 	}
 
-	srvCfg.StateSync.SnapshotInterval = 1500
-	srvCfg.StateSync.SnapshotKeepRecent = 2
-	srvCfg.IAVLDisableFastNode = false
+	customAppConfig.Config.StateSync.SnapshotInterval = 1500
+	customAppConfig.Config.StateSync.SnapshotKeepRecent = 2
+	customAppConfig.Config.IAVLDisableFastNode = false
 
-	return customAppTemplate, srvCfg
+	return tpl + memiavlcfg.DefaultConfigTemplate, customAppConfig
 }
 
 type appCreator struct {

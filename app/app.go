@@ -3,19 +3,20 @@ package app
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/cockroachdb/errors"
 	"github.com/cosmos/cosmos-sdk/runtime"
 	"github.com/cosmos/cosmos-sdk/x/consensus"
+	"github.com/gorilla/mux"
 	"github.com/planq-network/planq/v2/app/keepers"
 	"github.com/planq-network/planq/v2/app/upgrades"
+	"github.com/rakyll/statik/fs"
+	"github.com/spf13/cast"
+	"golang.org/x/exp/slices"
 	"io"
 	"net/http"
 	"os"
 	"path/filepath"
 	"sort"
-
-	"github.com/gorilla/mux"
-	"github.com/rakyll/statik/fs"
-	"github.com/spf13/cast"
 
 	dbm "github.com/cometbft/cometbft-db"
 	abci "github.com/cometbft/cometbft/abci/types"
@@ -124,6 +125,7 @@ import (
 	"github.com/planq-network/planq/v2/encoding"
 	"github.com/planq-network/planq/v2/ethereum/eip712"
 	srvflags "github.com/planq-network/planq/v2/server/flags"
+	memiavlstore "github.com/planq-network/planq/v2/store"
 	ethermint "github.com/planq-network/planq/v2/types"
 	"github.com/planq-network/planq/v2/x/evm"
 	evmkeeper "github.com/planq-network/planq/v2/x/evm/keeper"
@@ -131,7 +133,6 @@ import (
 	"github.com/planq-network/planq/v2/x/feemarket"
 	feemarketkeeper "github.com/planq-network/planq/v2/x/feemarket/keeper"
 	feemarkettypes "github.com/planq-network/planq/v2/x/feemarket/types"
-
 	// unnamed import of statik for swagger UI support
 	_ "github.com/planq-network/planq/v2/client/docs/statik"
 
@@ -257,6 +258,8 @@ type PlanqApp struct {
 	// simulation manager
 	sm *module.SimulationManager
 
+	qms storetypes.MultiStore
+
 	// the configurator
 	configurator module.Configurator
 }
@@ -281,6 +284,7 @@ func NewPlanqApp(
 	appCodec := encodingConfig.Codec
 	cdc := encodingConfig.Amino
 	interfaceRegistry := encodingConfig.InterfaceRegistry
+	baseAppOptions = memiavlstore.SetupMemIAVL(logger, homePath, appOpts, false, false, baseAppOptions)
 
 	eip712.SetEncodingConfig(encodingConfig)
 	// NOTE we use custom transaction decoder that supports the sdk.Tx interface instead of sdk.StdTx
@@ -430,7 +434,7 @@ func NewPlanqApp(
 
 	app.GovKeeper = *govKeeper.SetHooks(
 		govtypes.NewMultiGovHooks(
-			// register the governance hooks
+		// register the governance hooks
 		),
 	)
 
@@ -657,6 +661,16 @@ func NewPlanqApp(
 	app.MountTransientStores(tkeys)
 	app.MountMemoryStores(memKeys)
 
+	// wire up the versiondb's `StreamingService` and `MultiStore`.
+	streamers := cast.ToStringSlice(appOpts.Get("store.streamers"))
+	if slices.Contains(streamers, "versiondb") {
+		var err error
+		app.qms, err = app.setupVersionDB(homePath, keys, tkeys, memKeys)
+		if err != nil {
+			panic(err)
+		}
+	}
+
 	// initialize BaseApp
 	app.SetInitChainer(app.InitChainer)
 	app.SetBeginBlocker(app.BeginBlocker)
@@ -670,6 +684,15 @@ func NewPlanqApp(
 	if loadLatest {
 		if err := app.LoadLatestVersion(); err != nil {
 			tmos.Exit(err.Error())
+		}
+
+		if app.qms != nil {
+			v1 := app.qms.LatestVersion()
+			v2 := app.LastBlockHeight()
+			if v1 > 0 && v1 < v2 {
+				// try to prevent gap being created in versiondb
+				tmos.Exit(fmt.Sprintf("versiondb version %d lag behind iavl version %d", v1, v2))
+			}
 		}
 	}
 
@@ -988,4 +1011,23 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(feemarkettypes.ModuleName).WithKeyTable(feemarkettypes.ParamKeyTable())
 	paramsKeeper.Subspace(erc20types.ModuleName)
 	return paramsKeeper
+}
+
+// Close will be called in graceful shutdown in start cmd
+func (app *PlanqApp) Close() error {
+	errs := []error{app.BaseApp.Close()}
+
+	// flush the versiondb
+	if closer, ok := app.qms.(io.Closer); ok {
+		errs = append(errs, closer.Close())
+	}
+
+	// mainly to flush memiavl
+	if closer, ok := app.CommitMultiStore().(io.Closer); ok {
+		errs = append(errs, closer.Close())
+	}
+
+	err := errors.Join(errs...)
+	app.Logger().Info("Application gracefully shutdown", "error", err)
+	return err
 }
