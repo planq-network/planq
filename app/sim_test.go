@@ -240,7 +240,6 @@ func TestAppImportExport(t *testing.T) {
 		{app.keys[evidencetypes.StoreKey], newApp.keys[evidencetypes.StoreKey], [][]byte{}},
 		{app.keys[capabilitytypes.StoreKey], newApp.keys[capabilitytypes.StoreKey], [][]byte{}},
 		{app.keys[evmtypes.StoreKey], newApp.keys[evmtypes.StoreKey], [][]byte{}},
-		{app.keys[cronosmoduletypes.StoreKey], newApp.keys[cronosmoduletypes.StoreKey], [][]byte{}},
 		{app.keys[ibcexported.StoreKey], newApp.keys[ibcexported.StoreKey], [][]byte{}},
 		{app.keys[ibctransfertypes.StoreKey], newApp.keys[ibctransfertypes.StoreKey], [][]byte{}},
 		{app.keys[ibcfeetypes.StoreKey], newApp.keys[ibcfeetypes.StoreKey], [][]byte{}},

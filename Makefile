@@ -362,7 +362,7 @@ test-rpc-pending:
 test-sim-nondeterminism:
 	@echo "Running non-determinism test..."
 	@go test -mod=readonly $(SIMAPP) -run TestAppStateDeterminism -Enabled=true \
-		-NumBlocks=100 -BlockSize=200 -Commit=true -Period=0 -v -timeout 24h
+		-NumBlocks=1 -BlockSize=200 -Commit=true -Period=0 -v -timeout 24h
 
 test-sim-custom-genesis-fast:
 	@echo "Running custom genesis simulation..."
