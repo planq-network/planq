@@ -1,6 +1,7 @@
 package app
 
 import (
+	"cosmossdk.io/simapp"
 	"encoding/json"
 	"fmt"
 	"github.com/cockroachdb/errors"
@@ -34,7 +35,6 @@ import (
 
 	autocliv1 "cosmossdk.io/api/cosmos/autocli/v1"
 	reflectionv1 "cosmossdk.io/api/cosmos/reflection/v1"
-	"cosmossdk.io/simapp"
 	simappparams "cosmossdk.io/simapp/params"
 	runtimeservices "github.com/cosmos/cosmos-sdk/runtime/services"
 	servertypes "github.com/cosmos/cosmos-sdk/server/types"

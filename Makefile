@@ -11,7 +11,6 @@ LEDGER_ENABLED ?= true
 BINDIR ?= $(GOPATH)/bin
 PLANQ_BINARY = planqd
 PLANQ_DIR = planq
-COSMOS_BUILD_OPTIONS ?= rocksdb
 BUILDDIR ?= $(CURDIR)/build
 SIMAPP = ./app
 HTTPS_GIT := https://github.com/planq-network/planq.git
