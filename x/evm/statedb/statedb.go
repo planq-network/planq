@@ -106,6 +106,10 @@ func NewWithParams(ctx sdk.Context, keeper Keeper, txConfig TxConfig, params evm
 	return db
 }
 
+func (s *StateDB) NativeEvents() sdk.Events {
+	return s.nativeEvents
+}
+
 // cacheMultiStore cast the multistore to *cachemulti.Store.
 // invariant: the multistore must be a `cachemulti.Store`,
 // prove: it's set in constructor and only modified in `restoreNativeState` which keeps the invariant.
@@ -127,8 +131,6 @@ func (s *StateDB) GetContext() sdk.Context {
 func (s *StateDB) AddLog(log *ethtypes.Log) {
 	s.journal.append(addLogChange{})
 
-	log.TxHash = s.txConfig.TxHash
-	log.BlockHash = s.txConfig.BlockHash
 	log.TxIndex = s.txConfig.TxIndex
 	log.Index = s.txConfig.LogIndex + uint(len(s.logs))
 	s.logs = append(s.logs, log)
