@@ -18,6 +18,7 @@ package backend
 import (
 	"encoding/json"
 	"fmt"
+	feemarkettypes "github.com/planq-network/planq/v2/x/feemarket/types"
 
 	tmrpctypes "github.com/cometbft/cometbft/rpc/core/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -113,6 +114,13 @@ func (b *Backend) TraceTransaction(hash common.Hash, config *evmtypes.TraceConfi
 		// 0 is a special value in `ContextWithHeight`
 		contextHeight = 1
 	}
+
+	// Get basefee from transaction height
+	res, err := b.queryClient.FeeMarket.Params(rpctypes.ContextWithHeight(transaction.Height), &feemarkettypes.QueryParamsRequest{})
+	if err != nil {
+		return nil, err
+	}
+	traceTxRequest.BaseFee = &res.Params.BaseFee
 	traceResult, err := b.queryClient.TraceTx(rpctypes.ContextWithHeight(contextHeight), &traceTxRequest)
 	if err != nil {
 		return nil, err
