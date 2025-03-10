@@ -219,14 +219,17 @@ func (b *Backend) FeeHistory(
 		}
 
 		oneFeeHistory := rpctypes.OneFeeHistory{}
-		err = b.processBlock(tendermintblock, &ethBlock, rewardPercentiles, tendermintBlockResult, &oneFeeHistory)
+		err = b.processBlocker(tendermintblock, &ethBlock, rewardPercentiles, tendermintBlockResult, &oneFeeHistory)
 		if err != nil {
 			return nil, err
 		}
 
 		// copy
 		thisBaseFee[index] = (*hexutil.Big)(oneFeeHistory.BaseFee)
-		thisBaseFee[index+1] = (*hexutil.Big)(oneFeeHistory.NextBaseFee)
+		// only use NextBaseFee as last item to avoid concurrent write
+		if int(index) == len(thisBaseFee)-2 {
+			thisBaseFee[index+1] = (*hexutil.Big)(oneFeeHistory.NextBaseFee)
+		}
 		thisGasUsedRatio[index] = oneFeeHistory.GasUsedRatio
 		if calculateRewards {
 			for j := 0; j < rewardCount; j++ {
