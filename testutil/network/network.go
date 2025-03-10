@@ -90,25 +90,25 @@ type Config struct {
 	InterfaceRegistry codectypes.InterfaceRegistry
 	TxConfig          client.TxConfig
 	AccountRetriever  client.AccountRetriever
-	AppConstructor    AppConstructor         // the ABCI application constructor
-	GenesisState      simsimapp.GenesisState // custom gensis state to provide
-	TimeoutCommit     time.Duration          // the consensus commitment timeout
-	AccountTokens     math.Int               // the amount of unique validator tokens (e.g. 1000node0)
-	StakingTokens     math.Int               // the amount of tokens each validator has available to stake
-	BondedTokens      math.Int               // the amount of tokens each validator stakes
-	NumValidators     int                    // the total number of validators to create and bond
-	ChainID           string                 // the network chain-id
-	BondDenom         string                 // the staking bond denomination
-	MinGasPrices      string                 // the minimum gas prices each validator will accept
-	PruningStrategy   string                 // the pruning strategy each validator will have
-	SigningAlgo       string                 // signing algorithm for keys
-	RPCAddress        string                 // RPC listen address (including port)
-	JSONRPCAddress    string                 // JSON-RPC listen address (including port)
-	APIAddress        string                 // REST API listen address (including port)
-	GRPCAddress       string                 // GRPC server listen address (including port)
-	EnableTMLogging   bool                   // enable Tendermint logging to STDOUT
-	CleanupDir        bool                   // remove base temporary directory during cleanup
-	PrintMnemonic     bool                   // print the mnemonic of first validator as log output for testing
+	AppConstructor    AppConstructor      // the ABCI application constructor
+	GenesisState      simapp.GenesisState // custom gensis state to provide
+	TimeoutCommit     time.Duration       // the consensus commitment timeout
+	AccountTokens     math.Int            // the amount of unique validator tokens (e.g. 1000node0)
+	StakingTokens     math.Int            // the amount of tokens each validator has available to stake
+	BondedTokens      math.Int            // the amount of tokens each validator stakes
+	NumValidators     int                 // the total number of validators to create and bond
+	ChainID           string              // the network chain-id
+	BondDenom         string              // the staking bond denomination
+	MinGasPrices      string              // the minimum gas prices each validator will accept
+	PruningStrategy   string              // the pruning strategy each validator will have
+	SigningAlgo       string              // signing algorithm for keys
+	RPCAddress        string              // RPC listen address (including port)
+	JSONRPCAddress    string              // JSON-RPC listen address (including port)
+	APIAddress        string              // REST API listen address (including port)
+	GRPCAddress       string              // GRPC server listen address (including port)
+	EnableTMLogging   bool                // enable Tendermint logging to STDOUT
+	CleanupDir        bool                // remove base temporary directory during cleanup
+	PrintMnemonic     bool                // print the mnemonic of first validator as log output for testing
 }
 
 // DefaultConfig returns a sane default configuration suitable for nearly all
