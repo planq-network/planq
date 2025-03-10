@@ -40,13 +40,15 @@ import (
 type EthAccountVerificationDecorator struct {
 	ak        evmtypes.AccountKeeper
 	evmKeeper EVMKeeper
+	evmDenom  string
 }
 
 // NewEthAccountVerificationDecorator creates a new EthAccountVerificationDecorator
-func NewEthAccountVerificationDecorator(ak evmtypes.AccountKeeper, ek EVMKeeper) EthAccountVerificationDecorator {
+func NewEthAccountVerificationDecorator(ak evmtypes.AccountKeeper, ek EVMKeeper, evmDenom string) EthAccountVerificationDecorator {
 	return EthAccountVerificationDecorator{
 		ak:        ak,
 		evmKeeper: ek,
+		evmDenom:  evmDenom,
 	}
 }
 
@@ -95,8 +97,8 @@ func (avd EthAccountVerificationDecorator) AnteHandle(
 			return ctx, errorsmod.Wrapf(errortypes.ErrInvalidType,
 				"the sender is not EOA: address %s, codeHash <%s>", fromAddr, acct.CodeHash)
 		}
-
-		if err := keeper.CheckSenderBalance(sdkmath.NewIntFromBigInt(acct.Balance), txData); err != nil {
+		balance := avd.evmKeeper.GetBalance(ctx, sdk.AccAddress(fromAddr.Bytes()), avd.evmDenom)
+		if err := keeper.CheckSenderBalance(sdkmath.NewIntFromBigInt(balance), txData); err != nil {
 			return ctx, errorsmod.Wrap(err, "failed to check sender balance")
 		}
 	}
@@ -203,7 +205,7 @@ func (egcd EthGasConsumeDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simula
 		if err != nil {
 			return ctx, errorsmod.Wrapf(err, "failed to verify the fees")
 		}
-		
+
 		// If the account balance is not sufficient, try to withdraw enough staking rewards
 		err = anteutils.ClaimStakingRewardsIfNecessary(ctx, egcd.bankKeeper, egcd.distributionKeeper, egcd.stakingKeeper, from, fees)
 		if err != nil {

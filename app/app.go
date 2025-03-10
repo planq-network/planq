@@ -406,11 +406,20 @@ func NewPlanqApp(
 		tkeys[feemarkettypes.TransientKey],
 		app.GetSubspace(feemarkettypes.ModuleName),
 	)
-
+	allKeys := make(map[string]storetypes.StoreKey, len(keys)+len(tkeys)+len(memKeys))
+	for k, v := range keys {
+		allKeys[k] = v
+	}
+	for k, v := range tkeys {
+		allKeys[k] = v
+	}
+	for k, v := range memKeys {
+		allKeys[k] = v
+	}
 	app.EvmKeeper = evmkeeper.NewKeeper(
 		appCodec, keys[evmtypes.StoreKey], tkeys[evmtypes.TransientKey], authtypes.NewModuleAddress(govtypes.ModuleName),
 		app.AccountKeeper, app.BankKeeper, stakingKeeper, app.FeeMarketKeeper,
-		tracer, app.GetSubspace(evmtypes.ModuleName),
+		tracer, app.GetSubspace(evmtypes.ModuleName), allKeys,
 	)
 
 	app.Erc20Keeper = erc20keeper.NewKeeper(
@@ -442,7 +451,7 @@ func NewPlanqApp(
 
 	app.GovKeeper = *govKeeper.SetHooks(
 		govtypes.NewMultiGovHooks(
-			// register the governance hooks
+		// register the governance hooks
 		),
 	)
 

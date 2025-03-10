@@ -78,7 +78,9 @@ func (options HandlerOptions) Validate() error {
 }
 
 // newEVMAnteHandler creates the default ante handler for Ethereum transactions
-func newEVMAnteHandler(options HandlerOptions) sdk.AnteHandler {
+func newEVMAnteHandler(ctx sdk.Context, options HandlerOptions) sdk.AnteHandler {
+	evmParams := options.EvmKeeper.GetParams(ctx)
+	evmDenom := evmParams.EvmDenom
 	return sdk.ChainAnteDecorators(
 		// outermost AnteDecorator. SetUpContext must be called first
 		evmante.NewEthSetUpContextDecorator(options.EvmKeeper),
@@ -88,7 +90,7 @@ func newEVMAnteHandler(options HandlerOptions) sdk.AnteHandler {
 		evmante.NewEthMinGasPriceDecorator(options.FeeMarketKeeper, options.EvmKeeper),
 		evmante.NewEthValidateBasicDecorator(options.EvmKeeper),
 		evmante.NewEthSigVerificationDecorator(options.EvmKeeper),
-		evmante.NewEthAccountVerificationDecorator(options.AccountKeeper, options.EvmKeeper),
+		evmante.NewEthAccountVerificationDecorator(options.AccountKeeper, options.EvmKeeper, evmDenom),
 		evmante.NewCanTransferDecorator(options.EvmKeeper),
 		evmante.NewEthGasConsumeDecorator(options.BankKeeper, options.DistributionKeeper, options.EvmKeeper, options.StakingKeeper, options.MaxTxGasWanted),
 		evmante.NewEthIncrementSenderSequenceDecorator(options.AccountKeeper),

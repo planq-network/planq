@@ -12,12 +12,11 @@
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the Ethermint library. If not, see https://github.com/planq-network/planq/v2/blob/main/LICENSE
+// along with the Ethermint library. If not, see https://github.com/evmos/ethermint/blob/main/LICENSE
 package statedb
 
 import (
 	"bytes"
-	"math/big"
 	"sort"
 
 	"github.com/ethereum/go-ethereum/common"
@@ -30,14 +29,12 @@ var emptyCodeHash = crypto.Keccak256(nil)
 // These objects are stored in the storage of auth module.
 type Account struct {
 	Nonce    uint64
-	Balance  *big.Int
 	CodeHash []byte
 }
 
 // NewEmptyAccount returns an empty account.
 func NewEmptyAccount() *Account {
 	return &Account{
-		Balance:  new(big.Int),
 		CodeHash: emptyCodeHash,
 	}
 }
@@ -52,9 +49,11 @@ type Storage map[common.Hash]common.Hash
 
 // SortedKeys sort the keys for deterministic iteration
 func (s Storage) SortedKeys() []common.Hash {
-	keys := make([]common.Hash, 0, len(s))
+	keys := make([]common.Hash, len(s))
+	i := 0
 	for k := range s {
-		keys = append(keys, k)
+		keys[i] = k
+		i++
 	}
 	sort.Slice(keys, func(i, j int) bool {
 		return bytes.Compare(keys[i].Bytes(), keys[j].Bytes()) < 0
@@ -66,75 +65,60 @@ func (s Storage) SortedKeys() []common.Hash {
 type stateObject struct {
 	db *StateDB
 
+	// to check the dirtiness of the account, it's nil if the account is newly created.
+	originalAccount *Account
+
 	account Account
 	code    []byte
 
 	// state storage
 	originStorage Storage
 	dirtyStorage  Storage
+	// overridden state, when not nil, replace the whole committed state,
+	// mainly to support the stateOverrides in eth_call.
+	overrideStorage Storage
 
 	address common.Address
 
 	// flags
-	dirtyCode bool
-	suicided  bool
+	suicided bool
 }
 
-// newObject creates a state object.
-func newObject(db *StateDB, address common.Address, account Account) *stateObject {
-	if account.Balance == nil {
-		account.Balance = new(big.Int)
-	}
-	if account.CodeHash == nil {
-		account.CodeHash = emptyCodeHash
+// newObject creates a state object, origAccount is nil if it's newly created.
+func newObject(db *StateDB, address common.Address, origAccount *Account) *stateObject {
+	var account Account
+	if origAccount == nil {
+		account = Account{CodeHash: emptyCodeHash}
+	} else {
+		account = *origAccount
 	}
 	return &stateObject{
-		db:            db,
-		address:       address,
-		account:       account,
-		originStorage: make(Storage),
-		dirtyStorage:  make(Storage),
+		db:              db,
+		address:         address,
+		originalAccount: origAccount,
+		account:         account,
+		originStorage:   make(Storage),
+		dirtyStorage:    make(Storage),
 	}
+}
+
+// codeDirty returns whether the codeHash is modified
+func (s *stateObject) codeDirty() bool {
+	return s.originalAccount == nil || !bytes.Equal(s.account.CodeHash, s.originalAccount.CodeHash)
+}
+
+// nonceDirty returns whether the nonce is modified
+func (s *stateObject) nonceDirty() bool {
+	return s.originalAccount == nil || s.account.Nonce != s.originalAccount.Nonce
 }
 
 // empty returns whether the account is considered empty.
 func (s *stateObject) empty() bool {
-	return s.account.Nonce == 0 && s.account.Balance.Sign() == 0 && bytes.Equal(s.account.CodeHash, emptyCodeHash)
+	return s.account.Nonce == 0 && bytes.Equal(s.account.CodeHash, emptyCodeHash)
 }
 
 func (s *stateObject) markSuicided() {
 	s.suicided = true
-}
-
-// AddBalance adds amount to s's balance.
-// It is used to add funds to the destination account of a transfer.
-func (s *stateObject) AddBalance(amount *big.Int) {
-	if amount.Sign() == 0 {
-		return
-	}
-	s.SetBalance(new(big.Int).Add(s.Balance(), amount))
-}
-
-// SubBalance removes amount from s's balance.
-// It is used to remove funds from the origin account of a transfer.
-func (s *stateObject) SubBalance(amount *big.Int) {
-	if amount.Sign() == 0 {
-		return
-	}
-	s.SetBalance(new(big.Int).Sub(s.Balance(), amount))
-}
-
-// SetBalance update account balance.
-func (s *stateObject) SetBalance(amount *big.Int) {
-	s.db.journal.append(balanceChange{
-		account: &s.address,
-		prev:    new(big.Int).Set(s.account.Balance),
-	})
-	s.setBalance(amount)
-}
-
-func (s *stateObject) setBalance(amount *big.Int) {
-	s.account.Balance = amount
 }
 
 //
@@ -179,7 +163,6 @@ func (s *stateObject) SetCode(codeHash common.Hash, code []byte) {
 func (s *stateObject) setCode(codeHash common.Hash, code []byte) {
 	s.code = code
 	s.account.CodeHash = codeHash[:]
-	s.dirtyCode = true
 }
 
 // SetCode set nonce to account
@@ -200,11 +183,6 @@ func (s *stateObject) CodeHash() []byte {
 	return s.account.CodeHash
 }
 
-// Balance returns the balance of account
-func (s *stateObject) Balance() *big.Int {
-	return s.account.Balance
-}
-
 // Nonce returns the nonce of account
 func (s *stateObject) Nonce() uint64 {
 	return s.account.Nonce
@@ -212,6 +190,13 @@ func (s *stateObject) Nonce() uint64 {
 
 // GetCommittedState query the committed state
 func (s *stateObject) GetCommittedState(key common.Hash) common.Hash {
+	if s.overrideStorage != nil {
+		if value, ok := s.overrideStorage[key]; ok {
+			return value
+		}
+		return common.Hash{}
+	}
+
 	if value, cached := s.originStorage[key]; cached {
 		return value
 	}
@@ -243,6 +228,12 @@ func (s *stateObject) SetState(key common.Hash, value common.Hash) {
 		prevalue: prev,
 	})
 	s.setState(key, value)
+}
+
+func (s *stateObject) SetStorage(storage Storage) {
+	s.overrideStorage = storage
+	s.originStorage = make(Storage)
+	s.dirtyStorage = make(Storage)
 }
 
 func (s *stateObject) setState(key, value common.Hash) {

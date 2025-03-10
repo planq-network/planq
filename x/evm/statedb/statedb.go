@@ -17,6 +17,8 @@ package statedb
 
 import (
 	"fmt"
+	"github.com/planq-network/planq/v2/store/cachemultievm"
+	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 	"math/big"
 	"sort"
 
@@ -27,6 +29,10 @@ import (
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/ethereum/go-ethereum/crypto"
 )
+
+type EventConverter = func(sdk.Event) (*ethtypes.Log, error)
+
+const StateDBContextKey = "statedb"
 
 // revision is the identifier of a version of state.
 // it consists of an auto-increment id and a journal index.
@@ -44,8 +50,9 @@ var _ vm.StateDB = &StateDB{}
 // * Contracts
 // * Accounts
 type StateDB struct {
-	keeper Keeper
-	ctx    sdk.Context
+	keeper   Keeper
+	ctx      sdk.Context
+	cacheCtx sdk.Context
 
 	// Journal of state modifications. This is the backbone of
 	// Snapshot and RevertToSnapshot.
@@ -65,19 +72,45 @@ type StateDB struct {
 
 	// Per-transaction access list
 	accessList *accessList
+
+	// Transient storage
+	transientStorage transientStorage
+
+	// events emitted by native action
+	nativeEvents sdk.Events
+
+	// handle balances natively
+	evmDenom string
+	err      error
 }
 
 // New creates a new state from a given trie.
 func New(ctx sdk.Context, keeper Keeper, txConfig TxConfig) *StateDB {
-	return &StateDB{
+	return NewWithParams(ctx, keeper, txConfig, keeper.GetParams(ctx))
+}
+
+func NewWithParams(ctx sdk.Context, keeper Keeper, txConfig TxConfig, params evmtypes.Params) *StateDB {
+	db := &StateDB{
 		keeper:       keeper,
-		ctx:          ctx,
 		stateObjects: make(map[common.Address]*stateObject),
 		journal:      newJournal(),
 		accessList:   newAccessList(),
 
 		txConfig: txConfig,
+
+		nativeEvents: sdk.Events{},
+		evmDenom:     params.EvmDenom,
 	}
+	db.ctx = ctx.WithValue(StateDBContextKey, db)
+	db.cacheCtx = db.ctx.WithMultiStore(cachemultievm.NewStore(ctx.MultiStore(), keeper.StoreKeys()))
+	return db
+}
+
+// cacheMultiStore cast the multistore to *cachemulti.Store.
+// invariant: the multistore must be a `cachemulti.Store`,
+// prove: it's set in constructor and only modified in `restoreNativeState` which keeps the invariant.
+func (s *StateDB) cacheMultiStore() cachemultievm.Store {
+	return s.cacheCtx.MultiStore().(cachemultievm.Store)
 }
 
 // Keeper returns the underlying `Keeper`
@@ -137,11 +170,7 @@ func (s *StateDB) Empty(addr common.Address) bool {
 
 // GetBalance retrieves the balance from the given address or 0 if object not found
 func (s *StateDB) GetBalance(addr common.Address) *big.Int {
-	stateObject := s.getStateObject(addr)
-	if stateObject != nil {
-		return stateObject.Balance()
-	}
-	return common.Big0
+	return s.keeper.GetBalance(s.cacheCtx, sdk.AccAddress(addr.Bytes()), s.evmDenom)
 }
 
 // GetNonce returns the nonce of account, 0 if not exists.
@@ -232,7 +261,7 @@ func (s *StateDB) getStateObject(addr common.Address) *stateObject {
 		return nil
 	}
 	// Insert into the live set
-	obj := newObject(s, addr, *account)
+	obj := newObject(s, addr, account)
 	s.setStateObject(obj)
 	return obj
 }
@@ -241,27 +270,24 @@ func (s *StateDB) getStateObject(addr common.Address) *stateObject {
 func (s *StateDB) getOrNewStateObject(addr common.Address) *stateObject {
 	stateObject := s.getStateObject(addr)
 	if stateObject == nil {
-		stateObject, _ = s.createObject(addr)
+		stateObject = s.createObject(addr)
 	}
 	return stateObject
 }
 
 // createObject creates a new state object. If there is an existing account with
 // the given address, it is overwritten and returned as the second return value.
-func (s *StateDB) createObject(addr common.Address) (newobj, prev *stateObject) {
-	prev = s.getStateObject(addr)
+func (s *StateDB) createObject(addr common.Address) *stateObject {
+	prev := s.getStateObject(addr)
 
-	newobj = newObject(s, addr, Account{})
+	newobj := newObject(s, addr, nil)
 	if prev == nil {
 		s.journal.append(createObjectChange{account: &addr})
 	} else {
 		s.journal.append(resetObjectChange{prev: prev})
 	}
 	s.setStateObject(newobj)
-	if prev != nil {
-		return newobj, prev
-	}
-	return newobj, nil
+	return newobj
 }
 
 // CreateAccount explicitly creates a state object. If a state object with the address
@@ -275,10 +301,7 @@ func (s *StateDB) createObject(addr common.Address) (newobj, prev *stateObject) 
 //
 // Carrying over the balance ensures that Ether doesn't disappear.
 func (s *StateDB) CreateAccount(addr common.Address) {
-	newObj, prev := s.createObject(addr)
-	if prev != nil {
-		newObj.setBalance(prev.account.Balance)
-	}
+	s.createObject(addr)
 }
 
 // ForEachStorage iterate the contract storage, the iteration order is not defined.
@@ -303,24 +326,83 @@ func (s *StateDB) setStateObject(object *stateObject) {
 	s.stateObjects[object.Address()] = object
 }
 
+func (s *StateDB) cloneNativeState() sdk.MultiStore {
+	return s.cacheMultiStore().Clone()
+}
+
+func (s *StateDB) restoreNativeState(ms sdk.MultiStore) {
+	manager := sdk.NewEventManager()
+	s.cacheCtx = s.cacheCtx.WithMultiStore(ms).WithEventManager(manager)
+}
+
+// ExecuteNativeAction executes native action in isolate,
+// the writes will be revert when either the native action itself fail
+// or the wrapping message call reverted.
+func (s *StateDB) ExecuteNativeAction(contract common.Address, converter EventConverter, action func(ctx sdk.Context) error) error {
+	snapshot := s.cloneNativeState()
+	eventManager := sdk.NewEventManager()
+
+	if err := action(s.cacheCtx.WithEventManager(eventManager)); err != nil {
+		s.restoreNativeState(snapshot)
+		return err
+	}
+
+	events := eventManager.Events()
+	s.emitNativeEvents(contract, converter, events)
+	s.nativeEvents = s.nativeEvents.AppendEvents(events)
+	s.journal.append(nativeChange{snapshot: snapshot, events: len(events)})
+	return nil
+}
+
+// CacheContext returns a branched state context for executing read-only native actions.
+func (s *StateDB) CacheContext() sdk.Context {
+	return s.cacheCtx.WithMultiStore(s.cloneNativeState())
+}
+
 /*
  * SETTERS
  */
 
 // AddBalance adds amount to the account associated with addr.
 func (s *StateDB) AddBalance(addr common.Address, amount *big.Int) {
-	stateObject := s.getOrNewStateObject(addr)
-	if stateObject != nil {
-		stateObject.AddBalance(amount)
+	if amount.Sign() <= 0 {
+		return
+	}
+	coins := sdk.Coins{sdk.NewCoin(s.evmDenom, sdk.NewIntFromBigInt(amount))}
+	if err := s.ExecuteNativeAction(common.Address{}, nil, func(ctx sdk.Context) error {
+		return s.keeper.AddBalance(ctx, sdk.AccAddress(addr.Bytes()), coins)
+	}); err != nil {
+		s.err = err
 	}
 }
 
 // SubBalance subtracts amount from the account associated with addr.
 func (s *StateDB) SubBalance(addr common.Address, amount *big.Int) {
-	stateObject := s.getOrNewStateObject(addr)
-	if stateObject != nil {
-		stateObject.SubBalance(amount)
+	if amount.Sign() <= 0 {
+		return
 	}
+	coins := sdk.Coins{sdk.NewCoin(s.evmDenom, sdk.NewIntFromBigInt(amount))}
+	if err := s.ExecuteNativeAction(common.Address{}, nil, func(ctx sdk.Context) error {
+		return s.keeper.SubBalance(ctx, sdk.AccAddress(addr.Bytes()), coins)
+	}); err != nil {
+		s.err = err
+	}
+}
+
+func (s *StateDB) SetBalance(addr common.Address, amount *big.Int) {
+	if err := s.ExecuteNativeAction(common.Address{}, nil, func(ctx sdk.Context) error {
+		return s.keeper.SetBalance(ctx, addr, amount)
+	}); err != nil {
+		s.err = err
+	}
+}
+
+// SetStorage replaces the entire storage for the specified account with given
+// storage. This function should only be used for debugging and the mutations
+// must be discarded afterwards.
+func (s *StateDB) SetStorage(addr common.Address, storage Storage) {
+	stateObject := s.getOrNewStateObject(addr)
+	stateObject.SetStorage(storage)
 }
 
 // SetNonce sets the nonce of account.
@@ -358,14 +440,47 @@ func (s *StateDB) Suicide(addr common.Address) bool {
 		return false
 	}
 	s.journal.append(suicideChange{
-		account:     &addr,
-		prev:        stateObject.suicided,
-		prevbalance: new(big.Int).Set(stateObject.Balance()),
+		account: &addr,
+		prev:    stateObject.suicided,
 	})
 	stateObject.markSuicided()
-	stateObject.account.Balance = new(big.Int)
+
+	// clear balance
+	balance := s.GetBalance(addr)
+	if balance.Sign() > 0 {
+		s.SubBalance(addr, balance)
+	}
 
 	return true
+}
+
+// SetTransientState sets transient storage for a given account. It
+// adds the change to the journal so that it can be rolled back
+// to its previous value if there is a revert.
+func (s *StateDB) SetTransientState(addr common.Address, key, value common.Hash) {
+	prev := s.GetTransientState(addr, key)
+	if prev == value {
+		return
+	}
+
+	s.journal.append(transientStorageChange{
+		account:  &addr,
+		key:      key,
+		prevalue: prev,
+	})
+
+	s.setTransientState(addr, key, value)
+}
+
+// setTransientState is a lower level setter for transient storage. It
+// is called during a revert to prevent modifications to the journal.
+func (s *StateDB) setTransientState(addr common.Address, key, value common.Hash) {
+	s.transientStorage.Set(addr, key, value)
+}
+
+// GetTransientState gets transient storage for a given account.
+func (s *StateDB) GetTransientState(addr common.Address, key common.Hash) common.Hash {
+	return s.transientStorage.Get(addr, key)
 }
 
 // PrepareAccessList handles the preparatory steps for executing a state transition with
@@ -453,9 +568,25 @@ func (s *StateDB) RevertToSnapshot(revid int) {
 	s.validRevisions = s.validRevisions[:idx]
 }
 
+func (s *StateDB) Error() error {
+	return s.err
+}
+
 // Commit writes the dirty states to keeper
 // the StateDB object should be discarded after committed.
 func (s *StateDB) Commit() error {
+	// if there's any errors during the execution, abort
+	if s.err != nil {
+		return s.err
+	}
+
+	// commit the native cache store first,
+	// the states managed by precompiles and the other part of StateDB must not overlap.
+	s.cacheMultiStore().Write()
+	if len(s.nativeEvents) > 0 {
+		s.ctx.EventManager().EmitEvents(s.nativeEvents)
+	}
+
 	for _, addr := range s.journal.sortedDirties() {
 		obj := s.stateObjects[addr]
 		if obj.suicided {
@@ -463,11 +594,14 @@ func (s *StateDB) Commit() error {
 				return errorsmod.Wrap(err, "failed to delete account")
 			}
 		} else {
-			if obj.code != nil && obj.dirtyCode {
+			codeDirty := obj.codeDirty()
+			if codeDirty && obj.code != nil {
 				s.keeper.SetCode(s.ctx, obj.CodeHash(), obj.code)
 			}
-			if err := s.keeper.SetAccount(s.ctx, obj.Address(), obj.account); err != nil {
-				return errorsmod.Wrap(err, "failed to set account")
+			if codeDirty || obj.nonceDirty() {
+				if err := s.keeper.SetAccount(s.ctx, obj.Address(), obj.account); err != nil {
+					return errorsmod.Wrap(err, "failed to set account")
+				}
 			}
 			for _, key := range obj.dirtyStorage.SortedKeys() {
 				value := obj.dirtyStorage[key]
@@ -480,4 +614,28 @@ func (s *StateDB) Commit() error {
 		}
 	}
 	return nil
+}
+
+func (s *StateDB) emitNativeEvents(contract common.Address, converter EventConverter, events []sdk.Event) {
+	if converter == nil {
+		return
+	}
+
+	if len(events) == 0 {
+		return
+	}
+
+	for _, event := range events {
+		log, err := converter(event)
+		if err != nil {
+			s.ctx.Logger().Error("failed to convert event", "err", err)
+			continue
+		}
+		if log == nil {
+			continue
+		}
+
+		log.Address = contract
+		s.AddLog(log)
+	}
 }
