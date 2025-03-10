@@ -42,7 +42,7 @@ type Keeper interface {
 	AddBalance(ctx sdk.Context, addr sdk.AccAddress, coins sdk.Coins) error
 	SubBalance(ctx sdk.Context, addr sdk.AccAddress, coins sdk.Coins) error
 	SetBalance(ctx sdk.Context, addr common.Address, amount *big.Int) error
-	GetBalance(ctx sdk.Context, addr sdk.AccAddress, denom string) *big.Int
+	GetBalance(ctx sdk.Context, addr common.Address) *big.Int
 
 	// Read methods
 	GetAccount(ctx sdk.Context, addr common.Address) *Account

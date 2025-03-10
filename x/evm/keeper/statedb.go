@@ -94,10 +94,16 @@ func (k *Keeper) SetAccount(ctx sdk.Context, addr common.Address, account stated
 
 	k.accountKeeper.SetAccount(ctx, acct)
 
-	k.Logger(ctx).Debug("account updated",
-		"ethereum-address", addr,
+	if err := k.SetBalance(ctx, addr, account.Balance); err != nil {
+		return err
+	}
+
+	k.Logger(ctx).Debug(
+		"account updated",
+		"ethereum-address", addr.Hex(),
 		"nonce", account.Nonce,
-		"codeHash", codeHash,
+		"codeHash", codeHash.Hex(),
+		"balance", account.Balance,
 	)
 	return nil
 }
@@ -196,7 +202,7 @@ func (k *Keeper) SubBalance(ctx sdk.Context, addr sdk.AccAddress, coins sdk.Coin
 func (k *Keeper) SetBalance(ctx sdk.Context, addr common.Address, amount *big.Int) error {
 	evmDenom := k.GetParams(ctx).EvmDenom
 	cosmosAddr := sdk.AccAddress(addr.Bytes())
-	balance := k.GetBalance(ctx, cosmosAddr, evmDenom)
+	balance := k.GetBalance(ctx, addr)
 	delta := new(big.Int).Sub(amount, balance)
 	switch delta.Sign() {
 	case 1:

@@ -17,9 +17,7 @@ package types
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/planq-network/planq/v2/x/evm/statedb"
 	evmtypes "github.com/planq-network/planq/v2/x/evm/types"
 	"math/big"
 
@@ -74,41 +72,6 @@ type RPCTransaction struct {
 
 // StateOverride is the collection of overridden accounts.
 type StateOverride map[common.Address]OverrideAccount
-
-// Apply overrides the fields of specified accounts into the given state.
-func (diff *StateOverride) Apply(db *statedb.StateDB) error {
-	if diff == nil {
-		return nil
-	}
-	for addr, account := range *diff {
-		// Override account nonce.
-		if account.Nonce != nil {
-			db.SetNonce(addr, uint64(*account.Nonce))
-		}
-		// Override account(contract) code.
-		if account.Code != nil {
-			db.SetCode(addr, *account.Code)
-		}
-		// Override account balance.
-		if account.Balance != nil {
-			db.SetBalance(addr, (*big.Int)(*account.Balance))
-		}
-		if account.State != nil && account.StateDiff != nil {
-			return fmt.Errorf("account %s has both 'state' and 'stateDiff'", addr.Hex())
-		}
-		// Replace entire state if caller requires.
-		if account.State != nil {
-			db.SetStorage(addr, *account.State)
-		}
-		// Apply state diff into specified accounts.
-		if account.StateDiff != nil {
-			for key, value := range *account.StateDiff {
-				db.SetState(addr, key, value)
-			}
-		}
-	}
-	return nil
-}
 
 // BlockOverrides is a set of header fields to override.
 type BlockOverrides struct {

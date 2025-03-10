@@ -97,7 +97,7 @@ func (avd EthAccountVerificationDecorator) AnteHandle(
 			return ctx, errorsmod.Wrapf(errortypes.ErrInvalidType,
 				"the sender is not EOA: address %s, codeHash <%s>", fromAddr, acct.CodeHash)
 		}
-		balance := avd.evmKeeper.GetBalance(ctx, sdk.AccAddress(fromAddr.Bytes()), avd.evmDenom)
+		balance := avd.evmKeeper.GetBalance(ctx, fromAddr)
 		if err := keeper.CheckSenderBalance(sdkmath.NewIntFromBigInt(balance), txData); err != nil {
 			return ctx, errorsmod.Wrap(err, "failed to check sender balance")
 		}

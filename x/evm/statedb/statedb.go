@@ -73,9 +73,6 @@ type StateDB struct {
 	// Per-transaction access list
 	accessList *accessList
 
-	// Transient storage
-	transientStorage transientStorage
-
 	// events emitted by native action
 	nativeEvents sdk.Events
 
@@ -131,6 +128,8 @@ func (s *StateDB) GetContext() sdk.Context {
 func (s *StateDB) AddLog(log *ethtypes.Log) {
 	s.journal.append(addLogChange{})
 
+	log.TxHash = s.txConfig.TxHash
+	log.BlockHash = s.txConfig.BlockHash
 	log.TxIndex = s.txConfig.TxIndex
 	log.Index = s.txConfig.LogIndex + uint(len(s.logs))
 	s.logs = append(s.logs, log)
@@ -172,7 +171,11 @@ func (s *StateDB) Empty(addr common.Address) bool {
 
 // GetBalance retrieves the balance from the given address or 0 if object not found
 func (s *StateDB) GetBalance(addr common.Address) *big.Int {
-	return s.keeper.GetBalance(s.cacheCtx, sdk.AccAddress(addr.Bytes()), s.evmDenom)
+	stateObject := s.getStateObject(addr)
+	if stateObject != nil {
+		return stateObject.Balance()
+	}
+	return common.Big0
 }
 
 // GetNonce returns the nonce of account, 0 if not exists.
@@ -263,7 +266,7 @@ func (s *StateDB) getStateObject(addr common.Address) *stateObject {
 		return nil
 	}
 	// Insert into the live set
-	obj := newObject(s, addr, account)
+	obj := newObject(s, addr, *account)
 	s.setStateObject(obj)
 	return obj
 }
@@ -272,24 +275,27 @@ func (s *StateDB) getStateObject(addr common.Address) *stateObject {
 func (s *StateDB) getOrNewStateObject(addr common.Address) *stateObject {
 	stateObject := s.getStateObject(addr)
 	if stateObject == nil {
-		stateObject = s.createObject(addr)
+		stateObject, _ = s.createObject(addr)
 	}
 	return stateObject
 }
 
 // createObject creates a new state object. If there is an existing account with
 // the given address, it is overwritten and returned as the second return value.
-func (s *StateDB) createObject(addr common.Address) *stateObject {
-	prev := s.getStateObject(addr)
+func (s *StateDB) createObject(addr common.Address) (newobj, prev *stateObject) {
+	prev = s.getStateObject(addr)
 
-	newobj := newObject(s, addr, nil)
+	newobj = newObject(s, addr, Account{})
 	if prev == nil {
 		s.journal.append(createObjectChange{account: &addr})
 	} else {
 		s.journal.append(resetObjectChange{prev: prev})
 	}
 	s.setStateObject(newobj)
-	return newobj
+	if prev != nil {
+		return newobj, prev
+	}
+	return newobj, nil
 }
 
 // CreateAccount explicitly creates a state object. If a state object with the address
@@ -303,7 +309,10 @@ func (s *StateDB) createObject(addr common.Address) *stateObject {
 //
 // Carrying over the balance ensures that Ether doesn't disappear.
 func (s *StateDB) CreateAccount(addr common.Address) {
-	s.createObject(addr)
+	newObj, prev := s.createObject(addr)
+	if prev != nil {
+		newObj.setBalance(prev.account.Balance)
+	}
 }
 
 // ForEachStorage iterate the contract storage, the iteration order is not defined.
@@ -367,44 +376,18 @@ func (s *StateDB) CacheContext() sdk.Context {
 
 // AddBalance adds amount to the account associated with addr.
 func (s *StateDB) AddBalance(addr common.Address, amount *big.Int) {
-	if amount.Sign() <= 0 {
-		return
-	}
-	coins := sdk.Coins{sdk.NewCoin(s.evmDenom, sdk.NewIntFromBigInt(amount))}
-	if err := s.ExecuteNativeAction(common.Address{}, nil, func(ctx sdk.Context) error {
-		return s.keeper.AddBalance(ctx, sdk.AccAddress(addr.Bytes()), coins)
-	}); err != nil {
-		s.err = err
+	stateObject := s.getOrNewStateObject(addr)
+	if stateObject != nil {
+		stateObject.AddBalance(amount)
 	}
 }
 
 // SubBalance subtracts amount from the account associated with addr.
 func (s *StateDB) SubBalance(addr common.Address, amount *big.Int) {
-	if amount.Sign() <= 0 {
-		return
-	}
-	coins := sdk.Coins{sdk.NewCoin(s.evmDenom, sdk.NewIntFromBigInt(amount))}
-	if err := s.ExecuteNativeAction(common.Address{}, nil, func(ctx sdk.Context) error {
-		return s.keeper.SubBalance(ctx, sdk.AccAddress(addr.Bytes()), coins)
-	}); err != nil {
-		s.err = err
-	}
-}
-
-func (s *StateDB) SetBalance(addr common.Address, amount *big.Int) {
-	if err := s.ExecuteNativeAction(common.Address{}, nil, func(ctx sdk.Context) error {
-		return s.keeper.SetBalance(ctx, addr, amount)
-	}); err != nil {
-		s.err = err
-	}
-}
-
-// SetStorage replaces the entire storage for the specified account with given
-// storage. This function should only be used for debugging and the mutations
-// must be discarded afterwards.
-func (s *StateDB) SetStorage(addr common.Address, storage Storage) {
 	stateObject := s.getOrNewStateObject(addr)
-	stateObject.SetStorage(storage)
+	if stateObject != nil {
+		stateObject.SubBalance(amount)
+	}
 }
 
 // SetNonce sets the nonce of account.
@@ -442,47 +425,14 @@ func (s *StateDB) Suicide(addr common.Address) bool {
 		return false
 	}
 	s.journal.append(suicideChange{
-		account: &addr,
-		prev:    stateObject.suicided,
+		account:     &addr,
+		prev:        stateObject.suicided,
+		prevbalance: new(big.Int).Set(stateObject.Balance()),
 	})
 	stateObject.markSuicided()
-
-	// clear balance
-	balance := s.GetBalance(addr)
-	if balance.Sign() > 0 {
-		s.SubBalance(addr, balance)
-	}
+	stateObject.account.Balance = new(big.Int)
 
 	return true
-}
-
-// SetTransientState sets transient storage for a given account. It
-// adds the change to the journal so that it can be rolled back
-// to its previous value if there is a revert.
-func (s *StateDB) SetTransientState(addr common.Address, key, value common.Hash) {
-	prev := s.GetTransientState(addr, key)
-	if prev == value {
-		return
-	}
-
-	s.journal.append(transientStorageChange{
-		account:  &addr,
-		key:      key,
-		prevalue: prev,
-	})
-
-	s.setTransientState(addr, key, value)
-}
-
-// setTransientState is a lower level setter for transient storage. It
-// is called during a revert to prevent modifications to the journal.
-func (s *StateDB) setTransientState(addr common.Address, key, value common.Hash) {
-	s.transientStorage.Set(addr, key, value)
-}
-
-// GetTransientState gets transient storage for a given account.
-func (s *StateDB) GetTransientState(addr common.Address, key common.Hash) common.Hash {
-	return s.transientStorage.Get(addr, key)
 }
 
 // PrepareAccessList handles the preparatory steps for executing a state transition with
@@ -596,14 +546,12 @@ func (s *StateDB) Commit() error {
 				return errorsmod.Wrap(err, "failed to delete account")
 			}
 		} else {
-			codeDirty := obj.codeDirty()
+			codeDirty := obj.dirtyCode
 			if codeDirty && obj.code != nil {
 				s.keeper.SetCode(s.ctx, obj.CodeHash(), obj.code)
 			}
-			if codeDirty || obj.nonceDirty() {
-				if err := s.keeper.SetAccount(s.ctx, obj.Address(), obj.account); err != nil {
-					return errorsmod.Wrap(err, "failed to set account")
-				}
+			if err := s.keeper.SetAccount(s.ctx, obj.Address(), obj.account); err != nil {
+				return errorsmod.Wrap(err, "failed to set account")
 			}
 			for _, key := range obj.dirtyStorage.SortedKeys() {
 				value := obj.dirtyStorage[key]

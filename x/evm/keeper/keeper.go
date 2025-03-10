@@ -289,25 +289,15 @@ func (k *Keeper) GetAccountWithoutBalance(ctx sdk.Context, addr common.Address) 
 	}
 }
 
-// GetAccount load nonce and codehash without balance,
-// more efficient in cases where balance is not needed.
+// GetAccount returns nil if account is not exist, returns error if it's not `EthAccountI`
 func (k *Keeper) GetAccount(ctx sdk.Context, addr common.Address) *statedb.Account {
-	cosmosAddr := sdk.AccAddress(addr.Bytes())
-	acct := k.accountKeeper.GetAccount(ctx, cosmosAddr)
+	acct := k.GetAccountWithoutBalance(ctx, addr)
 	if acct == nil {
 		return nil
 	}
 
-	codeHash := types.EmptyCodeHash
-	ethAcct, ok := acct.(ethermint.EthAccountI)
-	if ok {
-		codeHash = ethAcct.GetCodeHash().Bytes()
-	}
-
-	return &statedb.Account{
-		Nonce:    acct.GetSequence(),
-		CodeHash: codeHash,
-	}
+	acct.Balance = k.GetBalance(ctx, addr)
+	return acct
 }
 
 // GetAccountOrEmpty returns empty account if not exist, returns error if it's not `EthAccount`
@@ -319,6 +309,7 @@ func (k *Keeper) GetAccountOrEmpty(ctx sdk.Context, addr common.Address) statedb
 
 	// empty account
 	return statedb.Account{
+		Balance:  new(big.Int),
 		CodeHash: types.EmptyCodeHash,
 	}
 }
@@ -335,7 +326,7 @@ func (k *Keeper) GetNonce(ctx sdk.Context, addr common.Address) uint64 {
 }
 
 // GetEVMDenomBalance returns the balance of evm denom
-func (k *Keeper) GetEVMDenomBalance(ctx sdk.Context, addr common.Address) *big.Int {
+func (k *Keeper) GetBalance(ctx sdk.Context, addr common.Address) *big.Int {
 	cosmosAddr := sdk.AccAddress(addr.Bytes())
 	evmParams := k.GetParams(ctx)
 	evmDenom := evmParams.GetEvmDenom()
@@ -343,12 +334,8 @@ func (k *Keeper) GetEVMDenomBalance(ctx sdk.Context, addr common.Address) *big.I
 	if evmDenom == "" {
 		return big.NewInt(-1)
 	}
-	return k.GetBalance(ctx, cosmosAddr, evmDenom)
-}
-
-// GetBalance load account's balance of specified denom
-func (k *Keeper) GetBalance(ctx sdk.Context, addr sdk.AccAddress, denom string) *big.Int {
-	return k.bankKeeper.GetBalance(ctx, addr, denom).Amount.BigInt()
+	coin := k.bankKeeper.GetBalance(ctx, cosmosAddr, evmDenom)
+	return coin.Amount.BigInt()
 }
 
 // GetBaseFee returns current base fee, return values:

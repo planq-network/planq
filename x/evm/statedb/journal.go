@@ -105,6 +105,11 @@ type (
 		prevbalance *big.Int
 	}
 
+	// Changes to individual accounts.
+	balanceChange struct {
+		account *common.Address
+		prev    *big.Int
+	}
 	nonceChange struct {
 		account *common.Address
 		prev    uint64
@@ -132,10 +137,6 @@ type (
 		address *common.Address
 		slot    *common.Hash
 	}
-	transientStorageChange struct {
-		account       *common.Address
-		key, prevalue common.Hash
-	}
 )
 
 func (ch createObjectChange) Revert(s *StateDB) {
@@ -158,10 +159,19 @@ func (ch suicideChange) Revert(s *StateDB) {
 	obj := s.getStateObject(*ch.account)
 	if obj != nil {
 		obj.suicided = ch.prev
+		obj.setBalance(ch.prevbalance)
 	}
 }
 
 func (ch suicideChange) Dirtied() *common.Address {
+	return ch.account
+}
+
+func (ch balanceChange) Revert(s *StateDB) {
+	s.getStateObject(*ch.account).setBalance(ch.prev)
+}
+
+func (ch balanceChange) Dirtied() *common.Address {
 	return ch.account
 }
 
@@ -187,14 +197,6 @@ func (ch storageChange) Revert(s *StateDB) {
 
 func (ch storageChange) Dirtied() *common.Address {
 	return ch.account
-}
-
-func (ch transientStorageChange) Revert(s *StateDB) {
-	s.setTransientState(*ch.account, ch.key, ch.prevalue)
-}
-
-func (ch transientStorageChange) Dirtied() *common.Address {
-	return nil
 }
 
 func (ch refundChange) Revert(s *StateDB) {
