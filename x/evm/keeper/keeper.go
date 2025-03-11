@@ -70,8 +70,7 @@ type Keeper struct {
 	// EVM Hooks for tx post-processing
 	hooks types.EvmHooks
 	// Legacy subspace
-	ss   paramstypes.Subspace
-	keys map[string]storetypes.StoreKey
+	ss paramstypes.Subspace
 }
 
 // NewKeeper generates new evm module keeper
@@ -85,7 +84,6 @@ func NewKeeper(
 	fmk types.FeeMarketKeeper,
 	tracer string,
 	ss paramstypes.Subspace,
-	keys map[string]storetypes.StoreKey,
 ) *Keeper {
 	// ensure evm module account is set
 	if addr := ak.GetModuleAddress(types.ModuleName); addr == nil {
@@ -109,12 +107,7 @@ func NewKeeper(
 		transientKey:    transientKey,
 		tracer:          tracer,
 		ss:              ss,
-		keys:            keys,
 	}
-}
-
-func (k Keeper) StoreKeys() map[string]storetypes.StoreKey {
-	return k.keys
 }
 
 // Logger returns a module-specific logger.
@@ -289,17 +282,6 @@ func (k *Keeper) GetAccountWithoutBalance(ctx sdk.Context, addr common.Address) 
 	}
 }
 
-// GetAccount returns nil if account is not exist, returns error if it's not `EthAccountI`
-func (k *Keeper) GetAccount(ctx sdk.Context, addr common.Address) *statedb.Account {
-	acct := k.GetAccountWithoutBalance(ctx, addr)
-	if acct == nil {
-		return nil
-	}
-
-	acct.Balance = k.GetBalance(ctx, addr)
-	return acct
-}
-
 // GetAccountOrEmpty returns empty account if not exist, returns error if it's not `EthAccount`
 func (k *Keeper) GetAccountOrEmpty(ctx sdk.Context, addr common.Address) statedb.Account {
 	acct := k.GetAccount(ctx, addr)
@@ -325,7 +307,7 @@ func (k *Keeper) GetNonce(ctx sdk.Context, addr common.Address) uint64 {
 	return acct.GetSequence()
 }
 
-// GetEVMDenomBalance returns the balance of evm denom
+// GetBalance load account's balance of gas token
 func (k *Keeper) GetBalance(ctx sdk.Context, addr common.Address) *big.Int {
 	cosmosAddr := sdk.AccAddress(addr.Bytes())
 	evmParams := k.GetParams(ctx)

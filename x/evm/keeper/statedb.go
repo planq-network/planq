@@ -19,6 +19,8 @@ import (
 	"fmt"
 	"math/big"
 
+	sdkmath "cosmossdk.io/math"
+
 	errorsmod "cosmossdk.io/errors"
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -33,6 +35,17 @@ var _ statedb.Keeper = &Keeper{}
 // ----------------------------------------------------------------------------
 // StateDB Keeper implementation
 // ----------------------------------------------------------------------------
+
+// GetAccount returns nil if account is not exist, returns error if it's not `EthAccountI`
+func (k *Keeper) GetAccount(ctx sdk.Context, addr common.Address) *statedb.Account {
+	acct := k.GetAccountWithoutBalance(ctx, addr)
+	if acct == nil {
+		return nil
+	}
+
+	acct.Balance = k.GetBalance(ctx, addr)
+	return acct
+}
 
 // GetState loads contract state from database, implements `statedb.Keeper` interface.
 func (k *Keeper) GetState(ctx sdk.Context, addr common.Address, key common.Hash) common.Hash {
@@ -69,6 +82,39 @@ func (k *Keeper) ForEachStorage(ctx sdk.Context, addr common.Address, cb func(ke
 			return
 		}
 	}
+}
+
+// SetBalance update account's balance, compare with current balance first, then decide to mint or burn.
+func (k *Keeper) SetBalance(ctx sdk.Context, addr common.Address, amount *big.Int) error {
+	cosmosAddr := sdk.AccAddress(addr.Bytes())
+
+	params := k.GetParams(ctx)
+	coin := k.bankKeeper.GetBalance(ctx, cosmosAddr, params.EvmDenom)
+	balance := coin.Amount.BigInt()
+	delta := new(big.Int).Sub(amount, balance)
+	switch delta.Sign() {
+	case 1:
+		// mint
+		coins := sdk.NewCoins(sdk.NewCoin(params.EvmDenom, sdkmath.NewIntFromBigInt(delta)))
+		if err := k.bankKeeper.MintCoins(ctx, types.ModuleName, coins); err != nil {
+			return err
+		}
+		if err := k.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, cosmosAddr, coins); err != nil {
+			return err
+		}
+	case -1:
+		// burn
+		coins := sdk.NewCoins(sdk.NewCoin(params.EvmDenom, sdkmath.NewIntFromBigInt(new(big.Int).Neg(delta))))
+		if err := k.bankKeeper.SendCoinsFromAccountToModule(ctx, cosmosAddr, types.ModuleName, coins); err != nil {
+			return err
+		}
+		if err := k.bankKeeper.BurnCoins(ctx, types.ModuleName, coins); err != nil {
+			return err
+		}
+	default:
+		// not changed
+	}
+	return nil
 }
 
 // SetAccount updates nonce/balance/codeHash together.
@@ -182,36 +228,4 @@ func (k *Keeper) DeleteAccount(ctx sdk.Context, addr common.Address) error {
 	)
 
 	return nil
-}
-
-func (k *Keeper) AddBalance(ctx sdk.Context, addr sdk.AccAddress, coins sdk.Coins) error {
-	if err := k.bankKeeper.MintCoins(ctx, types.ModuleName, coins); err != nil {
-		return err
-	}
-	return k.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, addr, coins)
-}
-
-func (k *Keeper) SubBalance(ctx sdk.Context, addr sdk.AccAddress, coins sdk.Coins) error {
-	if err := k.bankKeeper.SendCoinsFromAccountToModule(ctx, addr, types.ModuleName, coins); err != nil {
-		return err
-	}
-	return k.bankKeeper.BurnCoins(ctx, types.ModuleName, coins)
-}
-
-// SetBalance reset the account's balance, mainly used by unit tests
-func (k *Keeper) SetBalance(ctx sdk.Context, addr common.Address, amount *big.Int) error {
-	evmDenom := k.GetParams(ctx).EvmDenom
-	cosmosAddr := sdk.AccAddress(addr.Bytes())
-	balance := k.GetBalance(ctx, addr)
-	delta := new(big.Int).Sub(amount, balance)
-	switch delta.Sign() {
-	case 1:
-		coins := sdk.NewCoins(sdk.NewCoin(evmDenom, sdk.NewIntFromBigInt(delta)))
-		return k.AddBalance(ctx, cosmosAddr, coins)
-	case -1:
-		coins := sdk.NewCoins(sdk.NewCoin(evmDenom, sdk.NewIntFromBigInt(new(big.Int).Abs(delta))))
-		return k.SubBalance(ctx, cosmosAddr, coins)
-	default:
-		return nil
-	}
 }
