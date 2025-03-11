@@ -181,6 +181,7 @@ func (s *stateObject) SetCode(codeHash common.Hash, code []byte) {
 func (s *stateObject) setCode(codeHash common.Hash, code []byte) {
 	s.code = code
 	s.account.CodeHash = codeHash[:]
+	s.dirtyCode = true
 }
 
 // SetCode set nonce to account
