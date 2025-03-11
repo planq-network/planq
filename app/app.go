@@ -13,6 +13,7 @@ import (
 	"github.com/planq-network/planq/v2/app/keepers"
 	"github.com/planq-network/planq/v2/app/upgrades"
 	"github.com/planq-network/planq/v2/app/upgrades/v2_1"
+	"golang.org/x/exp/slices"
 	"io"
 	"net/http"
 	"os"
