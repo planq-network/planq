@@ -394,6 +394,11 @@ func (k Keeper) EstimateGas(c context.Context, req *types.EthCallRequest) (*type
 // executes the given message in the provided environment. The return value will
 // be tracer dependent.
 func (k Keeper) TraceTx(c context.Context, req *types.QueryTraceTxRequest) (*types.QueryTraceTxResponse, error) {
+	var baseFee *big.Int
+	if req != nil && req.BaseFee != nil {
+		baseFee = big.NewInt(req.BaseFee.Int64())
+	}
+
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "empty request")
 	}
@@ -420,6 +425,9 @@ func (k Keeper) TraceTx(c context.Context, req *types.QueryTraceTxRequest) (*typ
 	cfg, err := k.EVMConfig(ctx, GetProposerAddress(ctx, req.ProposerAddress), chainID)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to load evm config: %s", err.Error())
+	}
+	if baseFee != nil {
+		cfg.BaseFee = baseFee
 	}
 	signer := ethtypes.MakeSigner(cfg.ChainConfig, big.NewInt(ctx.BlockHeight()))
 

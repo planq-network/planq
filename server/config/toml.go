@@ -95,6 +95,9 @@ metrics-address = "{{ .JSONRPC.MetricsAddress }}"
 # Upgrade height for fix of revert gas refund logic when transaction reverted.
 fix-revert-gas-refund-height = {{ .JSONRPC.FixRevertGasRefundHeight }}
 
+# AllowIndexerGap allow block gap for the custom transaction indexer for the EVM (ethereum transactions).
+allow-indexer-gap = {{ .JSONRPC.AllowIndexerGap }}
+
 ###############################################################################
 ###                             TLS Configuration                           ###
 ###############################################################################
