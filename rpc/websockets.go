@@ -20,6 +20,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	"io"
 	"math/big"
 	"net"
@@ -417,7 +418,7 @@ func (api *pubSubAPI) subscribeNewHeads(wsConn *wsConn, subID rpc.ID) (pubsub.Un
 					continue
 				}
 
-				header := types.EthHeaderFromTendermint(data.Header, ethtypes.Bloom{}, baseFee)
+				header := types.EthHeaderFromTendermint(data.Header, ethtypes.Bloom{}, baseFee, sdk.AccAddress(data.Header.ProposerAddress))
 
 				// write to ws conn
 				res := &SubscriptionNotification{

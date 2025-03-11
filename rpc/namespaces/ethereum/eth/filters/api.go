@@ -18,6 +18,7 @@ package filters
 import (
 	"context"
 	"fmt"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	"sync"
 	"time"
 
@@ -59,7 +60,6 @@ type Backend interface {
 	GetLogs(blockHash common.Hash) ([][]*ethtypes.Log, error)
 	GetLogsByHeight(*int64) ([][]*ethtypes.Log, error)
 	BlockBloom(blockRes *coretypes.ResultBlockResults) (ethtypes.Bloom, error)
-
 	BloomStatus() (uint64, uint64)
 
 	RPCFilterCap() int32
@@ -357,9 +357,8 @@ func (api *PublicFilterAPI) NewHeads(ctx context.Context) (*rpc.Subscription, er
 				}
 
 				baseFee := types.BaseFeeFromEvents(data.ResultBeginBlock.Events)
-
 				// TODO: fetch bloom from events
-				header := types.EthHeaderFromTendermint(data.Header, ethtypes.Bloom{}, baseFee)
+				header := types.EthHeaderFromTendermint(data.Header, ethtypes.Bloom{}, baseFee, sdk.AccAddress(data.Header.ProposerAddress))
 				_ = notifier.Notify(rpcSub.ID, header)
 			case <-rpcSub.Err():
 				headersSub.Unsubscribe(api.events)
