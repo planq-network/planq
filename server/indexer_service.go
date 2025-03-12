@@ -24,14 +24,17 @@ import (
 	rpcclient "github.com/cometbft/cometbft/rpc/client"
 	ctypes "github.com/cometbft/cometbft/rpc/core/types"
 	"github.com/cometbft/cometbft/types"
+
 	ethermint "github.com/planq-network/planq/v2/types"
 )
 
 const (
-	ServiceName         = "EVMIndexerService"
+	ServiceName = "EVMIndexerService"
+
 	NewBlockWaitTimeout = 60 * time.Second
-	// https://github.com/cometbft/cometbft/blob/v0.37.4/rpc/core/env.go#L193
-	NotFoundErr          = "is not available"
+
+	NotFoundErr = "is not available"
+
 	ErrorBackoffDuration = 1 * time.Second
 )
 
@@ -103,17 +106,19 @@ func (eis *EVMIndexerService) OnStart() error {
 		if !eis.allowGap {
 			panic("Block gap detected, please recover the missing data")
 		}
+
 		// to avoid infinite failed to fetch block error when lastBlock is smaller than earliest
 		lastBlock = status.SyncInfo.EarliestBlockHeight
 	}
 	// to avoid height must be greater than 0 error
-
 	if lastBlock <= 0 {
 		lastBlock = 1
 	}
+
 	for {
 		if latestBlock <= lastBlock {
 			// nothing to index. wait for signal of new block
+
 			select {
 			case <-newBlockSignal:
 			case <-time.After(NewBlockWaitTimeout):

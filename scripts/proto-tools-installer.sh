@@ -142,7 +142,7 @@ f_install_clang_format() {
     esac
 }
 
-f_ensure_tools
+
 f_ensure_dirs
 f_install_protoc
 f_install_buf
