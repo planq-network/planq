@@ -34,6 +34,18 @@ Ref: https://keepachangelog.com/en/1.0.0/
 -->
 
 # Changelog
+## [v2.1.1] - 2025-03-12
+* Add Memiavl and Versiondb
+* Improve eth_FeeHistory performance by A LOT
+* Add auto recover to ante handler
+* Fix incorrect gas price when tracing tx
+
+## [v2.1.0] - 2025-02-28
+* Bump cosmos sdk to v0.47.16 to fix [GHSA-x5vx-95h7-rv4p](https://github.com/cosmos/cosmos-sdk/security/advisories/GHSA-x5vx-95h7-rv4p), cometbft to v0.37.15 to mitigate [ASA-2025-001](https://github.com/cometbft/cometbft/security/advisories/GHSA-22qq-3xwm-r5x4)
+* Bump ibc-go to v7.9.2 to mitigate [ASA-2025-004](https://github.com/cosmos/ibc-go/security/advisories/GHSA-jg6f-48ff-5xrw)
+* Added ibc packet forwarding middleware for ibc transfers
+* Fixes reading of allow unprotected txs from app.toml
+
 ## [v2.0.5] - 2024-12-22
 * improve websocket performance and stability
 * bump cometbft to v0.37.14
