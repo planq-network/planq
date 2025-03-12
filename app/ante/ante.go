@@ -1,6 +1,11 @@
 package ante
 
 import (
+	errorsmod "cosmossdk.io/errors"
+	"fmt"
+	tmlog "github.com/cometbft/cometbft/libs/log"
+	"runtime/debug"
+
 	sdkerrors "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
@@ -16,7 +21,7 @@ func NewAnteHandler(options HandlerOptions) sdk.AnteHandler {
 		ctx sdk.Context, tx sdk.Tx, sim bool,
 	) (newCtx sdk.Context, err error) {
 		var anteHandler sdk.AnteHandler
-
+		defer Recover(ctx.Logger(), &err)
 		txWithExtensions, ok := tx.(authante.HasExtensionOptionsTx)
 		if ok {
 			opts := txWithExtensions.GetExtensionOptions()
@@ -51,5 +56,24 @@ func NewAnteHandler(options HandlerOptions) sdk.AnteHandler {
 		}
 
 		return anteHandler(ctx, tx, sim)
+	}
+}
+
+func Recover(logger tmlog.Logger, err *error) {
+	if r := recover(); r != nil {
+		*err = errorsmod.Wrapf(errortypes.ErrPanic, "%v", r)
+
+		if e, ok := r.(error); ok {
+			logger.Error(
+				"ante handler panicked",
+				"error", e,
+				"stack trace", string(debug.Stack()),
+			)
+		} else {
+			logger.Error(
+				"ante handler panicked",
+				"recover", fmt.Sprintf("%v", r),
+			)
+		}
 	}
 }
