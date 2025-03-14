@@ -21,7 +21,7 @@ require (
 	github.com/cosmos/go-bip39 v1.0.0
 	github.com/cosmos/gogoproto v1.7.0
 	github.com/cosmos/ibc-apps/middleware/packet-forward-middleware/v7 v7.3.0
-	github.com/cosmos/ibc-go/v7 v7.9.2
+	github.com/cosmos/ibc-go/v7 v7.10.0
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc
 	github.com/ethereum/go-ethereum v1.10.26
 	github.com/gogo/protobuf v1.3.2
@@ -257,7 +257,7 @@ replace (
 	github.com/btcsuite/btcd => github.com/btcsuite/btcd v0.23.4
 
 	github.com/cosmos/iavl => github.com/planq-network/iavl v0.21.0-alpha.1.0.20241018082450-05a752de1caa
-	github.com/ethereum/go-ethereum => github.com/planq-network/go-ethereum v1.10.26-deepcopy-jump-table
+	github.com/ethereum/go-ethereum => github.com/planq-network/go-ethereum v1.10.27-0.20250314120903-8da4fff01ca9
 	// Fix upstream GHSA-h395-qcrw-5vmq vulnerability.
 	// TODO Remove it: https://github.com/cosmos/cosmos-sdk/issues/10409
 	github.com/gin-gonic/gin => github.com/gin-gonic/gin v1.9.1
