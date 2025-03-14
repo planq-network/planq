@@ -99,7 +99,7 @@ func (suite *AnteTestSuite) TestNewEthAccountVerificationDecorator() {
 
 	for _, tc := range testCases {
 		suite.Run(tc.name, func() {
-			vmdb = testutil.NewStateDB(suite.ctx, suite.app.EvmKeeper)
+			vmdb = testutil.NewStateDB(suite.ctx, *suite.app.EvmKeeper)
 			tc.malleate()
 			suite.Require().NoError(vmdb.Commit())
 
@@ -432,7 +432,7 @@ func (suite *AnteTestSuite) TestEthGasConsumeDecorator() {
 		suite.Run(tc.name, func() {
 			cacheCtx, _ := suite.ctx.CacheContext()
 			// Create new stateDB for each test case from the cached context
-			vmdb = testutil.NewStateDB(cacheCtx, suite.app.EvmKeeper)
+			vmdb = testutil.NewStateDB(cacheCtx, *suite.app.EvmKeeper)
 			cacheCtx = tc.malleate(cacheCtx)
 			suite.Require().NoError(vmdb.Commit())
 
@@ -517,7 +517,7 @@ func (suite *AnteTestSuite) TestCanTransferDecorator() {
 
 	for _, tc := range testCases {
 		suite.Run(tc.name, func() {
-			vmdb = testutil.NewStateDB(suite.ctx, suite.app.EvmKeeper)
+			vmdb = testutil.NewStateDB(suite.ctx, *suite.app.EvmKeeper)
 			tc.malleate()
 			suite.Require().NoError(vmdb.Commit())
 

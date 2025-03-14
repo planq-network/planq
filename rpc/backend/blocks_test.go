@@ -835,7 +835,7 @@ func (suite *BackendTestSuite) TestBlockBloom() {
 					{
 						Type: evmtypes.EventTypeBlockBloom,
 						Attributes: []types.EventAttribute{
-							{Key: []byte(evmtypes.AttributeKeyEthereumTxHash)},
+							{Key: (evmtypes.AttributeKeyEthereumTxHash)},
 						},
 					},
 				},
@@ -850,7 +850,7 @@ func (suite *BackendTestSuite) TestBlockBloom() {
 					{
 						Type: evmtypes.EventTypeBlockBloom,
 						Attributes: []types.EventAttribute{
-							{Key: []byte(bAttributeKeyEthereumBloom)},
+							{Key: evmtypes.AttributeKeyEthereumBloom},
 						},
 					},
 				},
@@ -1282,7 +1282,7 @@ func (suite *BackendTestSuite) TestHeaderByNumber() {
 			header, err := suite.backend.HeaderByNumber(tc.blockNumber)
 
 			if tc.expPass {
-				expHeader := ethrpc.EthHeaderFromTendermint(expResultBlock.Block.Header, ethtypes.Bloom{}, tc.baseFee)
+				expHeader := ethrpc.EthHeaderFromTendermint(expResultBlock.Block.Header, ethtypes.Bloom{}, tc.baseFee, sdk.AccAddress(expResultBlock.Block.Header.ProposerAddress))
 				suite.Require().NoError(err)
 				suite.Require().Equal(expHeader, header)
 			} else {
@@ -1392,7 +1392,7 @@ func (suite *BackendTestSuite) TestHeaderByHash() {
 			header, err := suite.backend.HeaderByHash(tc.hash)
 
 			if tc.expPass {
-				expHeader := ethrpc.EthHeaderFromTendermint(expResultBlock.Block.Header, ethtypes.Bloom{}, tc.baseFee)
+				expHeader := ethrpc.EthHeaderFromTendermint(expResultBlock.Block.Header, ethtypes.Bloom{}, tc.baseFee, sdk.AccAddress(expResultBlock.Block.Header.ProposerAddress))
 				suite.Require().NoError(err)
 				suite.Require().Equal(expHeader, header)
 			} else {
@@ -1454,6 +1454,7 @@ func (suite *BackendTestSuite) TestEthBlockByNumber() {
 					emptyBlock.Header,
 					ethtypes.Bloom{},
 					sdk.NewInt(1).BigInt(),
+					sdk.AccAddress(emptyBlock.Header.ProposerAddress),
 				),
 				[]*ethtypes.Transaction{},
 				nil,
@@ -1480,6 +1481,7 @@ func (suite *BackendTestSuite) TestEthBlockByNumber() {
 					emptyBlock.Header,
 					ethtypes.Bloom{},
 					sdk.NewInt(1).BigInt(),
+					sdk.AccAddress(emptyBlock.Header.ProposerAddress),
 				),
 				[]*ethtypes.Transaction{msgEthereumTx.AsTransaction()},
 				nil,
@@ -1544,6 +1546,7 @@ func (suite *BackendTestSuite) TestEthBlockFromTendermintBlock() {
 					emptyBlock.Header,
 					ethtypes.Bloom{},
 					sdk.NewInt(1).BigInt(),
+					sdk.AccAddress(emptyBlock.Header.ProposerAddress),
 				),
 				[]*ethtypes.Transaction{},
 				nil,
@@ -1565,7 +1568,7 @@ func (suite *BackendTestSuite) TestEthBlockFromTendermintBlock() {
 					{
 						Type: evmtypes.EventTypeBlockBloom,
 						Attributes: []types.EventAttribute{
-							{Key: []byte(bAttributeKeyEthereumBloom)},
+							{Key: evmtypes.AttributeKeyEthereumBloom},
 						},
 					},
 				},
@@ -1579,6 +1582,7 @@ func (suite *BackendTestSuite) TestEthBlockFromTendermintBlock() {
 					emptyBlock.Header,
 					ethtypes.Bloom{},
 					sdk.NewInt(1).BigInt(),
+					sdk.AccAddress(emptyBlock.Header.ProposerAddress),
 				),
 				[]*ethtypes.Transaction{msgEthereumTx.AsTransaction()},
 				nil,
