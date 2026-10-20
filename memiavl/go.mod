@@ -1,8 +1,6 @@
 module github.com/planq-network/planq/v2/memiavl
 
-go 1.22
-
-toolchain go1.22.0
+go 1.24
 
 require (
 	github.com/alitto/pond v1.8.3
@@ -34,7 +32,7 @@ require (
 	github.com/google/btree v1.1.3 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/jmhodges/levigo v1.0.0 // indirect
-	github.com/klauspost/compress v1.17.9 // indirect
+	github.com/klauspost/compress v1.18.7 // indirect
 	github.com/kr/pretty v0.3.1 // indirect
 	github.com/linxGnu/grocksdb v1.9.3 // indirect
 	github.com/onsi/gomega v1.20.0 // indirect
@@ -54,6 +52,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace (
-	github.com/cosmos/iavl => github.com/planq-network/iavl v0.21.0-alpha.1.0.20241018082450-05a752de1caa
-	)
+replace github.com/cosmos/iavl => github.com/planq-network/iavl v0.21.0-alpha.1.0.20241018082450-05a752de1caa
